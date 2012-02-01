@@ -3,6 +3,7 @@
 *.db
 *.log
 *.swp
+*~
 ve
 build
 lib
