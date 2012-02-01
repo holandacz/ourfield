@@ -1,0 +1,13 @@
+{% load i18n %}
+{% if profile.name %}<h3>{{ profile.name }}</h3>{% endif %}
+<div class="row">
+	{% if profile.about or profile.website %}
+	<div class="span6">
+		<h4>About me:</h4>
+	    <ul class="unstyled">
+	    </ul>
+	</div>
+	{% endif %}
+
+</div>
+	

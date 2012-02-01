@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load meta_tags %}
+
+<footer>
+        <ul id="footermenu" class="unstyled">
+        {% page_links 'f' %}
+        </ul>
+
+		<div id="google_translate_element" class="input"></div><script>
+		function googleTranslateElementInit() {
+		  new google.translate.TranslateElement({
+		    pageLanguage: 'en',
+		    includedLanguages: 'ht,pt,es',
+		    autoDisplay: false,
+		    layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+		  }, 'google_translate_element');
+		}
+		</script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</footer>
