@@ -17,3 +17,5 @@ private
 
 local_settings.py
 *.wp*
+geos_c.dll
+wingdbstub.py*

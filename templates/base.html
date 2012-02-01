@@ -7,6 +7,7 @@
   <head>
     <meta charset="utf-8">
     <title>{% block head_title_base %}{% if SITE_NAME %}{{ SITE_NAME }} : {% endif %}{% block head_title %}{% endblock %}{% endblock %}</title>
+    <meta name="google-site-verification" content="oB3hws_5si8mFSfJyMfrUwOY-dZ3eX_IwN70mvZRbME" />
     <meta name="description" content="">
     <meta name="author" content="OrgTec">
 
@@ -31,10 +32,10 @@
     
     
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
+    <link rel="apple-touch-icon" href="{{ STATIC_URL }}apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}apple-touch-icon-114x114.png">
 
     {% block extra_head_base %}{% endblock %}
 

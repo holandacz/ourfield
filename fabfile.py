@@ -59,7 +59,7 @@ def update_remote():
         run('python manage.py collectstatic -v0 --noinput')
          
 def restart(): 
-    sudo('supervisorctl restart flt')
+    sudo('supervisorctl restart ourfield')
     sudo('/etc/init.d/nginx restart')
          
 # def deploy(push_code=False): 

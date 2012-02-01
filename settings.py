@@ -54,7 +54,7 @@ ADMINS = [
 ]
 
 MANAGERS = ADMINS
-
+SITE_NAME = "OurField"
 
 DATABASES = {
     'default': {
