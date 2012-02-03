@@ -220,9 +220,9 @@ INSTALLED_APPS = [
     "django.contrib.comments",
 
 	# ratings
-	"djangoratings",
+	#"djangoratings",
 
-    "participation",
+    #"participation",
     "home",
     "en",
     'common',
