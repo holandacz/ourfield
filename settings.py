@@ -140,6 +140,7 @@ MIDDLEWARE_CLASSES = [
     "pinax.apps.account.middleware.LocaleMiddleware",
     "linaro_django_pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
+    'flatpages_plus.middleware.FlatpageFallbackMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -177,8 +178,10 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.humanize",
-    #'django.contrib.gis',
+    'django.contrib.gis',
     "django_extensions",
+    "taggit", #https://github.com/alex/django-taggit
+    "flatpages_plus", #https://github.com/danawoodman/django-flatpages-plus
     
     "pinax.templatetags",
     
