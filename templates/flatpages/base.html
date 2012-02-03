@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load markup %}
+
+
+{% block body %}
+    {{ flatpage.content|markdown }}
+{% endblock %}

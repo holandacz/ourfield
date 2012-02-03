@@ -4,16 +4,16 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block head_title_base %}{% if SITE_NAME %}{{ SITE_NAME }} : {% endif %}{% block head_title %}{% endblock %}{% endblock %}</title>
-    <meta name="google-site-verification" content="oB3hws_5si8mFSfJyMfrUwOY-dZ3eX_IwN70mvZRbME" />
-    <meta name="description" content="">
-    <meta name="author" content="OrgTec">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block head_title_base %}{% if SITE_NAME %}{{ SITE_NAME }} : {% endif %}{% block head_title %}{% endblock %}{% endblock %}</title>
+        <meta name="google-site-verification" content="oB3hws_5si8mFSfJyMfrUwOY-dZ3eX_IwN70mvZRbME" />
+        <meta name="description" content="">
+        <meta name="author" content="OrgTec">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
     <!-- Le styles -->
@@ -22,15 +22,15 @@
     <link href="{{ STATIC_URL }}css/base.css" rel="stylesheet">
     {% block extra_head_css %}{% endblock %}
     {% endcompress %}
-    
+
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&amp;sensor=false&amp;language=en"></script>
 
     {% compress css %}
     {% block extra_head_js %}{% endblock %}
     {% endcompress %}
     <script src="{{ STATIC_URL }}js/map.js" type="text/javascript"></script> 
-    
-    
+
+
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
     <link rel="apple-touch-icon" href="{{ STATIC_URL }}apple-touch-icon.png">
@@ -39,21 +39,21 @@
 
     {% block extra_head_base %}{% endblock %}
 
-  </head>
+    </head>
 
-  <body onload="{% block body_onload %}{% endblock %}">
+    <body onload="{% block body_onload %}{% endblock %}">
 
     {% get_topbar_content %}
     <!-- /topbar -->
 
     <div class="container">
 
-      {% block body %}asdfasdfadsasdf{% endblock %}
-      <!-- /body -->
-       
-      <!-- /footer -->
+    {% block body %}{% endblock %}
+    <!-- /body -->
 
-    </div> <!-- /container -->
+    <!-- /footer -->
+    {% include "_footer.html" %}
+</div> <!-- /container -->
 
     {% compress js %}
     <!-- Bootstrap dependencies -->
@@ -64,5 +64,5 @@
         {% block extra_body %}{% endblock %}
     {% endblock %}
     {% endcompress %}
-  </body>
+</body>
 </html>

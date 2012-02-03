@@ -140,7 +140,8 @@ MIDDLEWARE_CLASSES = [
     "pinax.apps.account.middleware.LocaleMiddleware",
     "linaro_django_pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
-    'flatpages_plus.middleware.FlatpageFallbackMiddleware',
+    #'flatpages_plus.middleware.FlatpageFallbackMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -177,12 +178,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
+    'django.contrib.markup',
     "django.contrib.humanize",
+    "django.contrib.flatpages",
     'django.contrib.gis',
     "django_extensions",
     
-    "taggit", #https://github.com/alex/django-taggit
-    "flatpages_plus", #https://github.com/danawoodman/django-flatpages-plus
+    #"taggit", #https://github.com/alex/django-taggit
+    #"flatpages_plus", #https://github.com/danawoodman/django-flatpages-plus
     
     "pinax.templatetags",
     
@@ -192,6 +195,7 @@ INSTALLED_APPS = [
     "compressor",
     "debug_toolbar",
     "djboss",
+    "flatblocks",
     "mailer",
     "uni_form",
     "django_openid",
@@ -218,7 +222,6 @@ INSTALLED_APPS = [
 	# ratings
 	"djangoratings",
 
-    # interactivesomerville
     "participation",
     "home",
     "en",

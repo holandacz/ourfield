@@ -37,6 +37,7 @@ wsgiref==0.1.2
 django-ratings==0.3.6
 html2text               # Convert HTML to Markdown-formatted text, https://github.com/aaronsw/html2text
 django_extensions       # shell_plus
+django-flatblocks
 
 #specify commands in individual apps and then run them using the djboss command-line interface
 -e git://github.com/zacharyvoase/django-boss.git#egg=django-boss
