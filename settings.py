@@ -195,7 +195,6 @@ INSTALLED_APPS = [
     "compressor",
     "debug_toolbar",
     #"djboss",
-    "flatblocks",
     "mailer",
     "uni_form",
     "django_openid",
@@ -223,6 +222,7 @@ INSTALLED_APPS = [
 	#"djangoratings",
 
     #"participation",
+    "flatblocks",
     "home",
     "en",
     'common',
