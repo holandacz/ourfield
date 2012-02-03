@@ -194,7 +194,7 @@ INSTALLED_APPS = [
     "staticfiles",
     "compressor",
     "debug_toolbar",
-    "djboss",
+    #"djboss",
     "flatblocks",
     "mailer",
     "uni_form",
@@ -202,7 +202,7 @@ INSTALLED_APPS = [
     "timezones",
     "emailconfirmation",
     "announcements",
-    "linaro_django_pagination",
+    #"linaro_django_pagination",
     "idios",
     "south",
     
@@ -217,7 +217,7 @@ INSTALLED_APPS = [
     "oembed",
 
     # comments
-    "django.contrib.comments",
+    #"django.contrib.comments",
 
 	# ratings
 	#"djangoratings",
