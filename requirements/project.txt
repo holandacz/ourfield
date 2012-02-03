@@ -22,7 +22,12 @@ PIL==1.1.7
 
 South==0.7.3
 django-model-utils==1.0.0
-Markdown==2.0.3
+
+ElementTree # for markdown
+# http://freewisdom.org/projects/python-markdown
+-e git://github.com/waylan/Python-Markdown.git#egg=Python-Markdown
+#Markdown==2.0.3
+
 textile==2.1.5
 docutils==0.7
 wsgiref==0.1.2
