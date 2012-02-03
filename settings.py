@@ -180,6 +180,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     'django.contrib.gis',
     "django_extensions",
+    
     "taggit", #https://github.com/alex/django-taggit
     "flatpages_plus", #https://github.com/danawoodman/django-flatpages-plus
     
