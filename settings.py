@@ -205,6 +205,7 @@ INSTALLED_APPS = [
     "idios",
     "south",
     
+    
     # Pinax
     "pinax.apps.account",
     "pinax.apps.signup_codes",
