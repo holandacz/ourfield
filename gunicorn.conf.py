@@ -6,7 +6,7 @@ loglevel = "info"        # The level at which to log
 pidfile = "gunicorn.pid" # Path to a PID file
 workers = 2              # Number of workers to initialize
 umask = 0                # Umask to set when daemonizing
-user = www-data          # Change process owner to user
+user = "www-data"        # Change process owner to user
 group = None             # Change process group to group
 
 def after_fork(server, worker):
