@@ -227,6 +227,7 @@ INSTALLED_APPS = [
     "home",
     "en",
     'common',
+    "common.templatetags",
     "core",
     "current_user",
     "boundaries",
@@ -279,6 +280,7 @@ PAGINATION_DISPLAY_DISABLED_NEXT_LINK = True
 PAGINATION_DEFAULT_PAGINATION = 5
 PAGINATION_DEFAULT_WINDOW = 2
 
+GOOGLE_ANALYTICS_CODE = ""
 
 LOGS_ROOT = os.path.join(PROJECT_ROOT, '_logs')
 if not os.path.exists(LOGS_ROOT):

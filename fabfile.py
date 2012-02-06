@@ -44,6 +44,30 @@ from fabric.contrib.console import confirm
 
 
 
+# see: http://blog.tplus1.com/index.php/2010/12/31/how-to-restart-a-gunicorn-server-from-vim/
+def reload_code():
+    with cd(fab['PROJECT_ROOT']):
+        sudo('kill -HUP `cat gunicorn.pid`')
+        
+def start_gunicorn():
+    with cd(fab['PROJECT_ROOT']):
+        sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
+
+def stop_gunicorn():
+    with cd(fab['PROJECT_ROOT']):
+        sudo('kill `cat gunicorn.pid`')
+
+
+
+def sync_db():
+    with cd(fab['PROJECT_ROOT']):
+        run('python manage.py syncdb')
+
+
+def reload_nginx_conf():
+    sudo('/etc/init.d/nginx check')
+    sudo('/etc/init.d/nginx reload')
+
 #@run_once 
 def commit(msg): 
     with cd(os.path.abspath(os.path.dirname(__file__))): 
