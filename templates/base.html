@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load home_tags %}
 {% load googleanalytics %}
+{% load flatblock_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,9 +67,9 @@
             {% block extra_body %}{% endblock %}
         {% endblock %}
         {% if user.is_staff %}
-            {% load flatblock_tags %}
             {% flatblock "clicky" %}
         {% endif %}
+        {% flatblock "JotForms" %}
     {% endcompress %}
     
     
