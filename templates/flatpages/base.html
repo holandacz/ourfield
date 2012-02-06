@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% block extra_head_css %}
+    <link href="{{ STATIC_URL }}css/code.css" rel="stylesheet">
+{% endblock %}
+
 {% load markup %}
 
-
 {% block body %}
-    {{ flatpage.content|markdown }}
+    {{ flatpage.content|markdown:'safe,codehilite' }}
 {% endblock %}

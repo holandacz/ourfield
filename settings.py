@@ -5,6 +5,10 @@ import posixpath
 import socket
 import pinax
 
+# This is a work around for: Pygments
+import PIL.Image
+sys.modules['Image'] = PIL.Image
+
 PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
