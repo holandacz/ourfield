@@ -34,6 +34,7 @@ wsgiref==0.1.2
 -e git://github.com/worldcompany/djangoembed.git#egg=djangoembed
 -e git://github.com/alex/django-taggit.git#egg=django-taggit
 -e git://github.com/danawoodman/django-flatpages-plus.git#egg=django-flatpages-plus
+-e git://github.com/zacharyvoase/django-boss.git#egg=django-boss
 django-ratings==0.3.6
 html2text               # Convert HTML to Markdown-formatted text, https://github.com/aaronsw/html2text
 django_extensions       # shell_plus

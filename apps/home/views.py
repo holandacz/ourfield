@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from boundaries.views import get_polys
 from en.views import get_enpts
+#import wingdbstub
 
 def home(request):
 	""" Homepage """

@@ -41,7 +41,7 @@ class ENNote(MyModel):
     
     def ParseDetails(self):
 	import re
-	import html2text # pip install html2text
+	#import html2text # pip install html2text
 	
 	enml = self.content
 	#contenttxt = html2text.html2text(enml.decode('us-ascii','ignore')).decode('utf-8','replace')

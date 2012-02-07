@@ -230,6 +230,7 @@ INSTALLED_APPS = [
     "flatblocks",
     "home",
     "en",
+    "places",
     'common',
     "common.templatetags",
     "core",
