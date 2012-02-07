@@ -1,4 +1,5 @@
-import wingdbstub
+# -*- coding: utf-8 -*-
+#import wingdbstub
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from current_user import registration
