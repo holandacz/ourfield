@@ -47,7 +47,8 @@ class Place(MyModel):
 	if self.googlemapurl:
 	    import re
 	    # look for ll=9.999107,-84.106216 like string for lat/long
-	    reobj = re.compile(r"[&;]ll=(?P<latitude>[\-0-9.]+),(?P<longitude>[\-0-9.]+)")
+	    # http://maps.google.com/maps?hl=en&ll=10.001479,-84.134258&spn=0.001751,0.002682&t=h&vpsrc=6&z=19
+	    reobj = re.compile(r"[&;\?]ll=(?P<latitude>[\-0-9.]+),(?P<longitude>[\-0-9.]+)")
 	    match = reobj.search(self.googlemapurl)
 	    if match:
 		latitude = float(match.group("latitude"))
