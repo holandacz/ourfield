@@ -48,42 +48,6 @@ flt.createBasemap = function (mapdiv) {
                 { lightness: 10 },
                 { saturation: -95 }
             ]
-        },{
-            featureType: "transit",
-            elementType: "all",
-            stylers: [
-                { visibility: "off" }
-            ]
-        },{
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [
-                { hue: "#d70000" },
-                { visibility: "simplified" },
-                { lightness: 10 },
-                { saturation: -95 }
-            ]
-        },{
-            featureType: "road",
-            elementType: "labels",
-            stylers: [
-                { visibility: "off" }
-            ]
-        },{
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [
-                { visibility: "on" },
-                { hue: "#0091ff" },
-                { lightness: 30 },
-                { saturation: -100 }
-            ]
-        },{
-            featureType: "water",
-            elementType: "labels",
-            stylers: [
-                { visibility: "off" }
-            ]
         }
     ];
 
@@ -116,8 +80,12 @@ flt.createBasemap = function (mapdiv) {
             new google.maps.Point(0,0),
             new google.maps.Point(16,37)
         ),
-        // station icon
-        'dot': new google.maps.MarkerImage(flt.static_url + 'img/isicons/dot.png',
+        'dot_red': new google.maps.MarkerImage(flt.static_url + 'img/isicons/dot_red.png',
+            new google.maps.Size(6,6),
+            new google.maps.Point(0,0),
+            new google.maps.Point(3,6)
+        ),
+        'dot_green': new google.maps.MarkerImage(flt.static_url + 'img/isicons/dot_green.png',
             new google.maps.Size(6,6),
             new google.maps.Point(0,0),
             new google.maps.Point(3,6)
@@ -174,7 +142,7 @@ flt.createEnMarker = function (options) {
         map: flt.map,
         title: options.title,
         //shadow: flt.icons['shadow'],
-        icon: flt.icons['dot'],
+        icon: flt.icons['dot_red'],
         zIndex: 0
     });
 }
@@ -193,6 +161,20 @@ flt.createPoly = function (options) {
         map: flt.map
     });
 }
+
+// render places
+flt.createPlaceMarker = function (options) {
+    var s_ll = new google.maps.LatLng(options.lat,options.lon);
+    var s_marker = new google.maps.Marker({
+        position: s_ll, 
+        map: flt.map,
+        title: options.title,
+        //shadow: flt.icons['shadow'],
+        icon: flt.icons['dot_green'],
+        zIndex: 0
+    });
+}
+
 
 // requires 3rd party infobubble lib http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/
 flt.createInfoBubble = function (type, marker, contentstring) {

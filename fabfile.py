@@ -91,8 +91,10 @@ def deploy(msg="No Msg"):
     #if push_code: 
         #commit_code() 
     commit(msg)
-    update_remote() 
-    #restart()     
+    update_remote()
+    #restart()
+    print "Perhaps:"
+    print "fab reload_code"
    
          
 def pushpull():

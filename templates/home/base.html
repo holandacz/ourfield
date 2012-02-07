@@ -63,6 +63,15 @@
 		'lon': {{ enpt.point.y }},
 	});
     {% endfor %}
+    
+    // add en markers
+    {% for placept in placepts %}
+	flt.createPlaceMarker({
+		'title': '{{ placept }}',
+		'lat': {{ placept.point.x }},
+		'lon': {{ placept.point.y }},
+	});
+    {% endfor %}
 		
 });
 

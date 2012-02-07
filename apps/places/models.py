@@ -61,15 +61,17 @@ class Place(MyModel):
 	    
     @property
     def full_name(self):
-        ret = u't'
+        ret = u'p'
+	ret += str(self.id)
         if self.provinceno:
+            ret += ' t'
             ret += str(self.provinceno).zfill(3) 
             ret += '-'
         if self.cantonno: # canton
             ret += str(self.cantonno).zfill(2) 
             ret += '-'
         if self.districtno:
-            ret += str(self.districtno).zfill(3) 
+            ret += str(self.districtno).zfill(3)
         if self.districtname:
             ret += ' '
             ret += self.districtname
