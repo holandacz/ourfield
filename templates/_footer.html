@@ -1,12 +1,5 @@
 {% load i18n %}
-{% load meta_tags %}
-
-
-
-<footer>
-    <ul id="footermenu" class="unstyled">
-        <li>&copy;2012 <a href="http://orgtec.com/">OrgTec</a></li>
-        <li><a href="/about/">About OurField</a></li>
-        <li><a href="http://form.jotform.com/form/20354418780">Contact Us</a></li>
-    </ul>
-</footer>
+<div class="legal">
+    {% trans '&copy; 2012 <a href="http://orgtec.com/">OrgTec</a>' %} | 
+    {% trans '<a href="http://form.jotform.com/form/20354418780">Contact Us</a>' %}
+</div>

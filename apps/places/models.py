@@ -6,19 +6,21 @@ from current_user import registration
 from django_extensions.db.models import TimeStampedModel
 from current_user.models import CurrentUserField
 from core.models import MyModel
+from tastypie.models import create_api_key
 
+models.signals.post_save.connect(create_api_key, sender=User)
 
 class Place(MyModel):
     isgeocoded = models.BooleanField("GeoCoded?", )
     isconfirmed = models.BooleanField("Confirmed?",)
     googlemapurl = models.CharField("Google Map URL", max_length=255, blank=True)
     point = models.PointField("LatLng", default='POINT(0 0)')
-    
+
     owner =  CurrentUserField(blank=True, related_name = "flt_place_owner", default=1)
     modifier = CurrentUserField(blank=True, related_name = "flt_place_modifier", default=1)
-    
+
     name = models.CharField("Name", max_length=128, null=True, blank=True)
-    
+
     provinceno = models.PositiveIntegerField("Province No", null=True, blank=True)
     cantonno = models.PositiveIntegerField("Canton No", null=True, blank=True)
     districtno = models.PositiveIntegerField("District No", null=True, blank=True)
@@ -26,44 +28,44 @@ class Place(MyModel):
     sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
     blockno = models.PositiveIntegerField("Block No", null=True, blank=True)
     pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
-    
+
     houseno = models.CharField("House No", max_length=32, null=True, blank=True)
     districtname = models.CharField("District Name", max_length=32, null=True, blank=True)
     directions = models.CharField("Directions", max_length=255, null=True, blank=True)
-    
+
     number = models.PositiveIntegerField("Number", null=True, blank=True)
     geo_name_id = models.PositiveIntegerField("GEO Name ID", null=True, blank=True)
-    
+
     postalcode = models.CharField("Zip Code", max_length=32, null=True, blank=True)
-    
+
     notes = models.TextField("Notes", null=True, blank=True)
-    
+
     objects = models.GeoManager()
 
     def ParseDetails(self):
-	from django.contrib.gis.geos import Point
-	latitude = 0.0
-	longitude = 0.0
-	if self.googlemapurl:
-	    import re
-	    # look for ll=9.999107,-84.106216 like string for lat/long
-	    # http://maps.google.com/maps?hl=en&ll=10.001479,-84.134258&spn=0.001751,0.002682&t=h&vpsrc=6&z=19
-	    reobj = re.compile(r"[&;\?]ll=(?P<latitude>[\-0-9.]+),(?P<longitude>[\-0-9.]+)")
-	    match = reobj.search(self.googlemapurl)
-	    if match:
-		latitude = float(match.group("latitude"))
-		longitude = float(match.group("longitude"))
-		
-		from django.contrib.gis.geos import Point
-		self.point = Point(latitude, longitude)
-	    
-	self.point = Point(latitude, longitude)
-	self.isgeocoded = True if (self.point.y and self.point.x) else False
-	    
+        from django.contrib.gis.geos import Point
+        latitude = 0.0
+        longitude = 0.0
+        if self.googlemapurl:
+            import re
+            # look for ll=9.999107,-84.106216 like string for lat/long
+            # http://maps.google.com/maps?hl=en&ll=10.001479,-84.134258&spn=0.001751,0.002682&t=h&vpsrc=6&z=19
+            reobj = re.compile(r"[&;\?]ll=(?P<latitude>[\-0-9.]+),(?P<longitude>[\-0-9.]+)")
+            match = reobj.search(self.googlemapurl)
+            if match:
+                latitude = float(match.group("latitude"))
+                longitude = float(match.group("longitude"))
+
+                from django.contrib.gis.geos import Point
+                self.point = Point(latitude, longitude)
+
+        self.point = Point(latitude, longitude)
+        self.isgeocoded = True if (self.point.y and self.point.x) else False
+
     @property
     def full_name(self):
         ret = u'p'
-	ret += str(self.id)
+        ret += str(self.id)
         if self.provinceno:
             ret += ' t'
             ret += str(self.provinceno).zfill(3) 
@@ -88,26 +90,23 @@ class Place(MyModel):
         if self.pointno:
             ret += ' p'
             ret += str(self.pointno).zfill(2)
-            
+
         return ret
-    
+
     class Meta:
-        #app_label = u'boundaries'
-        db_table = u'flt_places'        
-        # db_table = u'flt_boundaries_test'        
+        db_table = u'of_places'               
         #unique_together = ("boundary_type", "name", "number", "code"),
         verbose_name_plural = "places"
         permissions = (
             ('access_places','Access to Places'), 
-                       )
-    
-    def save(self, *args, **kw):
-	self.ParseDetails()
-        super(Place, self).save(*args, **kw)
-        
+        )
+
+    #def save(self, *args, **kw):
+        #self.ParseDetails()
+        #super(Place, self).save(*args, **kw)
+
     def type(self):
         return u'place'
-    
+
     def __unicode__(self):
         return self.full_name
- 

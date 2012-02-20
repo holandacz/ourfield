@@ -1,0 +1,21 @@
+{
+ "folders": [
+  {
+   "path": "/C/Users/Larry/__prjs/ourfield/scripts/coffee"
+  }, 
+  {
+   "path": "/C/Users/Larry/__prjs/ourfield/static/js"
+  }, 
+  {
+   "folder_exclude_patterns": [
+    "/C/Users/Larry/__prjs/ourfield", 
+    "ve", 
+    "_logs"
+   ], 
+   "path": "/C/Users/Larry/__prjs/ourfield"
+  }, 
+  {
+   "path": "/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example"
+  }
+ ]
+}

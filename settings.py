@@ -1,49 +1,16 @@
 # -*- coding: utf-8 -*-
-import sys
+# Django settings for basic pinax project.
+
 import os.path
 import posixpath
-import socket
-import pinax
 
-# This is a work around for: Pygments
-import PIL.Image
-sys.modules['Image'] = PIL.Image
-
-PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-sys.path.append(os.path.join(PROJECT_ROOT, "parts"))
-
-# fabric settings
-FABRIC = {
-    'live': {
-        'HOSTS': ['host.com'],
-        'WEB_USER': 'www-data',
-        'ADMIN_USER': 'admin',
-        'PROJECT_ROOT': '/srv/x/ourfield',
-    }
-}
-
-EVERNOTE_SANDBOX = True
-
-# trying to get a clean windows virtual env
-PRODUCTION_SERVERS = ['xc',]
-if socket.gethostname() in PRODUCTION_SERVERS:
-    PRODUCTION = True
-    sys.path.append(FABRIC['live']['PROJECT_ROOT'])
-else:
-    PRODUCTION = False
-    
-DEBUG = not PRODUCTION
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # tells Pinax to serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
-
-
-# tells Pinax to use the default theme
-PINAX_THEME = "default"
-
 
 # django-compressor is turned off by default due to deployment overhead for
 # most users. See <URL> for more information
@@ -58,18 +25,18 @@ ADMINS = [
 ]
 
 MANAGERS = ADMINS
-SITE_NAME = "OurField"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.mysql',
-        'NAME': "",
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '', 
-        'PORT': '',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3", # Add "postgresql_psycopg2", "postgresql", "mysql", "sqlite3" or "oracle".
+        "NAME": "dev.db",                       # Or path to database file if using sqlite3.
+        "USER": "",                             # Not used with sqlite3.
+        "PASSWORD": "",                         # Not used with sqlite3.
+        "HOST": "",                             # Set to empty string for localhost. Not used with sqlite3.
+        "PORT": "",                             # Set to empty string for default. Not used with sqlite3.
     }
 }
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -91,10 +58,13 @@ USE_I18N = True
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "site_media", "media")
 
+# couldn't get this to work
+# CAFE_ROOT = os.path.join(PROJECT_ROOT, "static", "js")
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = "/media/"
+MEDIA_URL = "/site_media/media"
+DEBUG_TOOLBAR_MEDIA_URL = MEDIA_URL
 
 # Absolute path to the directory that holds static files like app media.
 # Example: "/home/media/media.lawrence.com/apps/"
@@ -102,12 +72,11 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, "site_media", "static")
 
 # URL that handles the static files like app media.
 # Example: "http://media.lawrence.com"
-STATIC_URL = "/static/"
+STATIC_URL = "/site_media/static/"
 
 # Additional directories which hold static files
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, "static"),
-    os.path.join(PINAX_ROOT, "themes", PINAX_THEME, "static"),
 ]
 
 STATICFILES_FINDERS = [
@@ -126,7 +95,7 @@ ADMIN_MEDIA_PREFIX = posixpath.join(STATIC_URL, "admin/")
 COMPRESS_OUTPUT_DIR = "cache"
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = "!ugpp=ej+j_!_dcgau^y@c(q-o!t74)kr7n=*p(jf4c4&svkxh"
+SECRET_KEY = "t#alp6mgus%3q6#zjpmj!ejqx+f*hzh(m+)kx&e_x!j7pjc-#*"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = [
@@ -142,18 +111,15 @@ MIDDLEWARE_CLASSES = [
     "django_openid.consumer.SessionConsumer",
     "django.contrib.messages.middleware.MessageMiddleware",
     "pinax.apps.account.middleware.LocaleMiddleware",
-    "linaro_django_pagination.middleware.PaginationMiddleware",
+    "pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
-    'flatpages_plus.middleware.FlatpageFallbackMiddleware',
-    #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "ourfield.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
-    os.path.join(PINAX_ROOT, "themes", PINAX_THEME, "templates"),
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -182,62 +148,46 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
-    'django.contrib.markup',
     "django.contrib.humanize",
-    #"django.contrib.flatpages",
-    'django.contrib.gis',
     "django_extensions",
-    
-    "taggit", #https://github.com/alex/django-taggit
-    "flatpages_plus", #https://github.com/danawoodman/django-flatpages-plus
     
     "pinax.templatetags",
     
+    # theme
+    "pinax_theme_bootstrap",
+    
     # external
     "notification", # must be first
+    "tastypie",
     "staticfiles",
+    #"coffeescript",
     "compressor",
+    #"cafe",
     "debug_toolbar",
-    "djboss",
     "mailer",
-    "uni_form",
     "django_openid",
     "timezones",
     "emailconfirmation",
     "announcements",
-    #"linaro_django_pagination",
+    "pagination",
     "idios",
-    "south",
-    
+    "metron",
     
     # Pinax
     "pinax.apps.account",
     "pinax.apps.signup_codes",
-    "pinax.apps.analytics",
     
     # project
-    "meta",
+    "about",
+    "map",
     "profiles",
-    "oembed",
-
-    # comments
-    #"django.contrib.comments",
-
-	# ratings
-	#"djangoratings",
-
-    #"participation",
-    "flatblocks",
-    "home",
-    "en",
-    "places",
     'common',
     "common.templatetags",
     "core",
-    "current_user",
-    "boundaries",
-    'gunicorn',
-
+    "current_user",    
+    "places",
+    #"api",
+    #"tweets",
 ]
 
 FIXTURE_DIRS = [
@@ -256,17 +206,19 @@ AUTH_PROFILE_MODULE = "profiles.Profile"
 NOTIFICATION_LANGUAGE_MODULE = "account.Account"
 
 ACCOUNT_OPEN_SIGNUP = True
-ACCOUNT_REQUIRED_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = True
-ACCOUNT_EMAIL_AUTHENTICATION = True
-ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = True
+ACCOUNT_USE_OPENID = False
+ACCOUNT_REQUIRED_EMAIL = False
+ACCOUNT_EMAIL_VERIFICATION = False
+ACCOUNT_EMAIL_AUTHENTICATION = False
+ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
 
 AUTHENTICATION_BACKENDS = [
     "pinax.apps.account.auth_backends.AuthenticationBackend",
 ]
 
 LOGIN_URL = "/account/login/" # @@@ any way this can be a url name?
-LOGIN_REDIRECT_URLNAME = "home"
+LOGIN_REDIRECT_URLNAME = "what_next"
+LOGOUT_REDIRECT_URLNAME = "home"
 
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
@@ -275,81 +227,7 @@ DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
 
-# pagination settings
-# http://packages.python.org/linaro-django-pagination/usage.html#custom-pagination-templates
-
-PAGINATION_PREVIOUS_LINK_DECORATOR = '&larr;&nbsp;'
-PAGINATION_NEXT_LINK_DECORATOR = '&nbsp;&rarr;'
-PAGINATION_DISPLAY_DISABLED_PREVIOUS_LINK = True
-PAGINATION_DISPLAY_DISABLED_NEXT_LINK = True
-PAGINATION_DEFAULT_PAGINATION = 5
-PAGINATION_DEFAULT_WINDOW = 2
-
-GOOGLE_ANALYTICS_CODE = ""
-
-LOGS_ROOT = os.path.join(PROJECT_ROOT, '_logs')
-if not os.path.exists(LOGS_ROOT):
-    try:
-        os.mkdir(LOGS_ROOT)
-    except:
-        pass
-    
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {
-            #'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-            'format': '%(levelname)s %(asctime)s %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'file':{
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(LOGS_ROOT, 'debug.log'),
-        },
-        'debug': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler', # set the logging class to log to a file
-            'formatter': 'verbose',         # define the formatter to associate
-            'filename': os.path.join(LOGS_ROOT, 'debug.log')  # log file
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'logview.debug': {               # define another logger
-            'handlers': ['debug'],  # associate a different handler
-            'level': 'DEBUG',                 # specify the logging level
-            'propagate': True,
-        },  
-    }
-}
-
-if EVERNOTE_SANDBOX:
-    EVERNOTE_HOST = "sandbox.evernote.com" 
-    EVERNOTE_CONSUMER_KEY = ''
-    EVERNOTE_CONSUMER_SECRET = ''
-    EVERNOTE_USER = ''
-    EVERNOTE_PW = ''
-else:
-    EVERNOTE_HOST = "evernote.com"
-    EVERNOTE_CONSUMER_KEY = ''
-    EVERNOTE_CONSUMER_SECRET = ''
-    EVERNOTE_USER = ''
-    EVERNOTE_PW = ''
-
+# COFFEE_PARAMS = "-cp"
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
@@ -357,3 +235,4 @@ try:
     from local_settings import *
 except ImportError:
     pass
+

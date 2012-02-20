@@ -1,0 +1,51 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+{% load mustache %}
+{% load straight_include %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load map_tags %}
+
+{% block head_title %}{% trans "Map" %}{% endblock %}
+
+{% block extra_style %}
+<link href="{% static "css/map.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" />
+    <script src="{% static "js/underscore-min.js" %}" />
+    <script src="{% static "js/backbone-min.js" %}" />
+    <script src="{% static "js/backbone-tastypie.js" %}" />
+    <script src="{% static "js/ICanHaz.min.js" %}" />
+{% endblock %}
+
+{% block body %}
+
+<div class="map-container map16">
+    <div id="map-canvas"></div>
+</div>
+    
+
+
+{% endblock %}
+
+{% block extra_body %}
+<script type="text/javascript" src="{% static "js/underscore-min.js" %}"></script>
+<script type="text/javascript" src="{% static "js/backbone.js" %}"></script>
+<script type="text/javascript" src="{% static "js/app.js" %}"></script>
+<script type="text/javascript" src="{% static "js/routes.js" %}"></script>
+
+<script type="text/javascript">
+	zoom = {{zoom}};
+	ll = "{{ll}}";
+	app = new MapView(ll, zoom);
+</script>
+
+
+
+
+
+{% endblock %}

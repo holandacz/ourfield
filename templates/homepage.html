@@ -1,176 +1,62 @@
-{% extends "base.html" %}
-
-{% load participation_tags %}
-{% load pagination_tags %}
+{% extends "banner_base.html" %}
 {% load i18n %}
+{% load ifsetting_tag %}
 
-{% block head_title %}{% blocktrans %}Welcome!{% endblocktrans %}{% endblock %}
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
 
-{% block extra_head_js %}{% include "_map_scripts.html" %}{% endblock %}
+{% block body_class %}home{% endblock %}
 
-{% block body %}
-  <!-- Main hero unit for a primary marketing message or call to action -->
-  <div class="hero-unit">
-    <div class="hero_media"><iframe width="452" height="230" src="http://www.youtube.com/embed/7gaOciO-WcI?rel=0" frameborder="0" allowfullscreen></iframe></div>
-    <p>Connecting Somerville community members to each other and to the <br>Green Line Extension planning process.</p>
-    <ul class="unstyled">
-      <li class="sm_icon"><a href="http://www.facebook.com/interactivesomerville" title="Like us on Facebook!"><img src="{{ STATIC_URL }}img/icon-facebook.png" alt="Facebook icon" /></a></li>
-      <li class="sm_icon"><a href="https://twitter.com/#!/i_Somerville" title="Follow us on Twitter!"><img src="{{ STATIC_URL }}img/icon-twitter.png" alt="Twitter icon" /></a></li>
-      <li class="sm_icon"><a href="http://www.flickr.com/photos/interactivesomerville/" title="See our Fotos on Flickr!"><img src="{{ STATIC_URL }}img/icon-flickr.png" alt="Flickr icon" /></a></li>
-      <li class="sm_icon"><a href="http://www.youtube.com/interactsomerville" title="Watch our Videos on YouTube!"><img src="{{ STATIC_URL }}img/icon-youtube.png" alt="YouTube icon" /></a></li>
+{% block banner %}
+    <h1>{% trans "Welcome to OurField" %}</h1>
+    <p>
+        {% blocktrans %}
+        <b>OurField</b> is an <a href="http://www.webopedia.com/TERM/O/open_source.html">open-source</a> 
+        <a href="https://github.com/LarryEitel/ourfield/">project</a> of particular interest to individuals 
+        and groups engaged in volunteer activities that are organized into geographic <i>fields</i> or territories.
+        {% endblocktrans %}
+    </p>
+    <h2>Note: This project is in early stages of development.</h2>
+    <p>
+        {% blocktrans %}
+        Are you a professional website developer? Please <a href="http://form.jotform.com/form/20354418780">drop us a line</a> to see where you can be of assistance.
+        To keep tabs on the status of this project, please "<a href="https://www.facebook.com/pages/ourfieldorg/184455028323371">Like</a>" this project on our Facebook <a href="https://www.facebook.com/pages/ourfieldorg/184455028323371">Page</a>. Thank you for your interest.
+        {% endblocktrans %}
+    </p>
+    
+    {% if user.is_authenticated %}
+        {% url what_next as what_next_url %}
+        <p class="what_next">{% blocktrans %}Wondering <a href="{{ what_next_url }}" class="btn primary large">What Next</a>?{% endblocktrans %}</p>
+    {% else %}
+        {% url acct_login as login_url %}
+        {% ifsetting ACCOUNT_OPEN_SIGNUP %}
+            {% url acct_signup as signup_url %}
+            <p>{% blocktrans %}You can <a href="{{ login_url }}" class="btn">Log In</a> or <a href="{{ signup_url }}" class="btn primary">Sign Up</a> to try out the site.{% endblocktrans %}</p>
+        {% else %}
+            <p>{% blocktrans %}You can <a href="{{ login_url }}" class="btn primary large">Log In</a> to try out the site.{% endblocktrans %}</p>
+        {% endifsetting %}
+    {% endif %}
+{% endblock %}
+
+{% block column-1 %}
+    <h2>Development</h2>
+    <p>Follow along or participate in the development of this project.</p>
+    <p><a class="btn" href="#">View details &raquo;</a></p>
+    <!--
+    <ul>
+        <li><a href="https://github.com/LarryEitel/ourfield">github project</a></li>
+        <li><a href="https://github.com/LarryEitel/ourfield/issues">Issues</a></li>
     </ul>
-  </div>
+    -->
+{% endblock %}
 
-  <div class="row" id="activity-stream-header">
-    <div class="span12">
-      <h2>Recent Community Activity</h2>
-    </div>
-    <div id="explore-map-container" class="span4">
-      <a class="btn primary" id="explore-button" href="{% url participation.views.map_page %}">Explore large map</a>
-    </div>
-  </div>
-  <div class="row">
-    <div id="activity-stream" class="span6">
-      <ul class="unstyled">
-      {% autopaginate activities 7 %}
-      {% for activity in activities %}
-      {% get_activity activity %}
-      {% endfor %}
-      </ul>
-      {% paginate %}
-    </div>
-    <div class="span10">
-      <div class="map_container"><div id="map" class="map10"></div></div>
-      <div class="row" id="map-tools">
-        <div class="span4">
-          <p id="station-search-result"></p>
-        </div>
-        <div id="map-search" class="span6">
-          <div class="input">
-            <input class="" id="user_address" name="user_address" type="text" placeholder="Enter your address here">
-            <button id="find_station" class="btn">Search</button>
-          </div>
-        </div>
-      </div>
-   </div>
-  </div>  
-{% endblock %}     
+{% block column-2 %}
+    <h2>Roadmap</h2>
+    <p>Where are we and where are we heading?</p>
+    <p><a class="btn" href="#">View details &raquo;</a></p>
+{% endblock %}
 
-{% block extra_body %}
-<script type="text/javascript" src="{{ STATIC_URL }}css/bootstrap/js/bootstrap-twipsy.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-     
-      // media url
-      greenline.static_url = '{{ STATIC_URL }}';
-      
-      // basemap
-      greenline.createBasemap('map');
-      
-      // zoom and center
-      greenline.map.setOptions({
-        zoom: 13,
-        center: new google.maps.LatLng(42.395, -71.11)
-      });
-      
-      // add station markers
-      {% for station in stations %}
-      greenline.createStationMarker({
-        'title': '{{ station.name }}',
-        'lat': {{ station.geometry.y }},
-        'lon': {{ station.geometry.x }},
-        'desc': '{{ station.desc|truncatewords:30 }}',
-        'url': '{{ station.get_absolute_url }}'
-      });
-      {% endfor %}
-      // add greenline
-      {% for line in lines %}
-      greenline.createGreenline({
-        'points': '{{ line.encoded.points|fixbackslash }}',
-        'levels': '{{ line.encoded.levels }}',
-        'zoomFactor': {{ line.encoded.zoomFactor }},
-        'numLevels': {{ line.encoded.numLevels }}
-      })
-      {% endfor %}
-      
-      // find my station area form
-      $('#find_station').bind('click', function() {
-        getStation ();
-      });
-      $('#user_address').bind('keypress', function(e) {
-        // 'enter'
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if (e.keyCode==13) getStation ();
-      });
-      
-      // add activities to map
-      for (var key in greenline.activities) {
-        var activity = greenline.activities[key];
-        var activity_marker = new google.maps.Marker({
-          position: new google.maps.LatLng(activity['lat'], activity['lon']), 
-          map: greenline.map,
-          title: activity['title'],
-          shadow: greenline.icons['shadow'],
-          icon: greenline.icons[activity.itemtype],
-          zIndex: 1
-        });
-        greenline.createInfoBubble('activity', activity_marker, '<div class="infobubble"><span class="title">' + activity['title'] + '</span><p>' + activity['desc'] + '<br><a href="' + activity['url'] + '">Join the discussion!</a></p></div>');
-      }
-      
-      // find closest station for entered address
-      function getStation () {
-        
-        var geocoder = new google.maps.Geocoder();
-        var address = $('#user_address').val();
-        
-        geocoder.geocode( { 'address': address }, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            
-            var user_address_ll = results[0].geometry.location;
-            // bounds allows a nice 'zoom to extent'
-            var user_bounds = new google.maps.LatLngBounds(user_address_ll);
-            var user_address_icon = new google.maps.MarkerImage('{{ STATIC_URL }}img/isicons/location.png',
-              new google.maps.Size(32,37),
-              new google.maps.Point(0,0),
-              new google.maps.Point(16,37)
-            );
-            // remove previous marker if user tries multiple times
-            if (greenline.user_address_marker) greenline.user_address_marker.setMap(null);
-            // add new marker
-            greenline.user_address_marker = new google.maps.Marker({
-              position: user_address_ll, 
-              map: greenline.map,
-              title: "Your Address",
-              shadow: greenline.icons.shadow,
-              icon: user_address_icon
-            });
-            
-            // get nearest station
-            $.get("/getstation/", { 
-                'lat': user_address_ll.lat(), 
-                'lng': user_address_ll.lng()
-              },
-              function(station){
-                $('#station-search-result').html('<strong><a href="' + station.url + '" title="' + station.name + '"> '+ station.name + '</a></strong> is your closest station.<br>Click to find out more!');
-                
-                var user_station_ll = new google.maps.LatLng(station.lat,station.lng);
-                user_bounds.extend(user_station_ll);
-                
-                // zoom and center map, with minimum zoom level
-                greenline.map.fitBounds(user_bounds);
-                if ( greenline.map.getZoom() > 15 ) greenline.map.setZoom(15); // min zoom
-                
-              }, "json");
-            
-          } else {
-            $('#station-search-result').html('<strong>Sorry, we couldn\'t find your address.</strong>');
-          }
-        });
-      }
-      // tooltip
-      $(".sm_icon a").twipsy({
-        placement: "below"
-      });
-    });
-</script>
+{% block column-3 %}
+    <h2>Tips</h2>
+    <p>A collection of tips and techniques.</p>
+    <p><a class="btn" href="#">View details &raquo;</a></p>
 {% endblock %}
