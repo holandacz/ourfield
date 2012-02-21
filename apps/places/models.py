@@ -101,9 +101,10 @@ class Place(MyModel):
             ('access_places','Access to Places'), 
         )
 
-    #def save(self, *args, **kw):
+    def save(self, *args, **kw):
         #self.ParseDetails()
-        #super(Place, self).save(*args, **kw)
+        self.isgeocoded = True if (self.point.y and self.point.x) else False
+        super(Place, self).save(*args, **kw)
 
     def type(self):
         return u'place'

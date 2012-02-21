@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block extra_script %}
-	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false" />
     <script>
       API = "{% url api_dispatch_list api_name="v1" resource_name="place" %}";
       {% if data %}
@@ -22,24 +21,57 @@
 {% endblock %}
 
 {% block body %}
-	<div class="map-container map16"><div id="map-canvas" /></div>
+  <div id="map">
+    <div class="container">
+      <div class="map-container map16">
+          <div id="place-types">Places:&nbsp;
+            <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
+          </div>
+        <div id="map-canvas">
+        </div>
+      </div>
+    </div><!-- container -->
+  </div>
 {% endblock %}
 
 {% block extra_body %}
 
-<script src="{% static "js/underscore-min.js" %}" /></script>
-<script src="{% static "js/backbone-min.js" %}" /></script>
-<script src="{% static "js/backbone-tastypie.js" %}" /></script>
+<script type="text/javascript" src="{% static "js/jquery-1.7.1.min.js" %}"></script>
+<script type="text/javascript" src="{% static "js/underscore.js" %}"></script>
+<script type="text/javascript" src="{% static "js/json2.js" %}"></script>
+<script type="text/javascript" src="{% static "js/backbone.js" %}"></script>
+<script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-<script type="text/javascript" src="{% static "js/models.js" %}" /></script>
-
-<script type="text/javascript" src="{% static "js/app.js" %}" /></script>
+<script type="text/javascript" src="{% static "js/models.js" %}"></script>
+<script type="text/javascript" src="{% static "js/app.js" %}"></script>
 
 <script type="text/javascript">
-	zoom = {{zoom}};
-	center = "{{center}}";
-	app = new MapView(center, zoom);
-	x = 0;
-</script>
+    zoom = 10; //{{zoom}}
+    center = "10.001025,-84.134588"; //"{{center}}"
 
+    var appData = new AppData({
+      zoom: 16,
+      center: "10.001025,-84.134588"
+    });
+
+    var placeTypes = new PlaceTypes();
+    placeTypes.add({id: 1, name: "school"});
+    placeTypes.add({id: 2, name: "business"});
+
+    var app = new MapView({
+      el: '#map',
+      model: appData,
+      collection: placeTypes,
+      title: "This is a title"
+    });
+
+    // placeTypes.get(1).show();
+    // placeTypes.get(2).show();
+
+    //places.fetch();
+
+    x = 0;
+</script>
+	
 {% endblock %}

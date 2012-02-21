@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-# places/api.py
+# en/api.py
 from django.contrib.auth.models import User
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import DjangoAuthorization
 
 from tastypie.resources import ModelResource
-from models import Place
+from models import ENNote
 
-# curl http://localhost/api/v1/place/660/?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295;format=json
+# curl http://localhost/api/v1/en/1/?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295;format=json
 class ApiKeyPlusWebAuthentication(ApiKeyAuthentication):
 	def is_authenticated(self, request, **kwargs):
 	    if request.user.is_authenticated():
@@ -22,11 +22,11 @@ class ApiKeyPlusWebAuthentication(ApiKeyAuthentication):
 	    else:
 	        return super(ApiKeyPlusWebAuthentication, self).get_identifier(request)
 
-class PlaceResource(ModelResource):
+class ENNoteResource(ModelResource):
     class Meta:
         # queryset = Place.objects.all()
-        queryset = Place.objects.filter(isgeocoded = True)
-        resource_name = 'place'        
+        queryset = ENNote.objects.filter(geocoded = True)
+        resource_name = 'en'        
         allowed_methods = ["get", "post", "put", "delete"]
         excludes = ['isgeocoded', 'googlemapurl', 'geo_name_id']
         authentication = ApiKeyPlusWebAuthentication()

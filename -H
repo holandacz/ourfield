@@ -1,7 +1,0 @@
-HTTP/1.0 401 UNAUTHORIZED
-Date: Wed, 15 Feb 2012 19:28:39 GMT
-Server: WSGIServer/0.1 Python/2.7.2
-Vary: Accept-Language, Cookie
-Content-Type: text/html; charset=utf-8
-Content-Language: en-us
-

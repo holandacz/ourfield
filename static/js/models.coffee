@@ -1,38 +1,80 @@
 
-# MODELS
+CR = "10.001025 -84.134588" # no space between
 
-CR = "10.001025,-84.134588" # no space between
+@DefaultParams =
+  username: "larry"
+  api_key: "d65af2857fc77e4ce56299e53f6858178dfab295"
+  format: "json"
 
-AppData = Backbone.Model.extend(defaults:
-  center: CR # center lat lng
-  zoom: 12 # zoom level
-)
+class @AppData extends Backbone.Model
+  defaults:
+    center: CR
+    zoom: 16
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+
+  initialize: (attributes) ->
+    ll = attributes.center.split(',')
+    @set('centerLat', ll[0])
+    @set('centerLng', ll[1])
 
 # A place has a location
-class Place extends Backbone.Model
-    idAttribute: "id"
-
+class @Place extends Backbone.Model
     # Fear the XSS.
     escapedJson: ->
         return json =
             id: @get "id"
 
+    initialize: (attributes) ->
+      match = attributes.point?.match(/(\-?\d+(?:\.\d+)?)\s(\-?\d+(?:\.\d+)?)/)
+      if match?
+        @set('lat', match[1])
+        @set('lng', match[2])
 
-window.AppData = AppData
-  
-# # A place has a location
-# class Place extends Backbone.Model
-#   idAttribute: "id"
+      params = {}
+      params = $.param(_.defaults(params, DefaultParams))
+      if @has('resource_uri')
+        @url = @get('resource_uri') + "?#{params}"
 
-#   # Fear the XSS.
-#   escapedJson: ->
-#     return json =
-#       place: @escape "place"
-#       id: @get "id"
+      @bind 'change', @recalcPoint
 
+    recalcPoint: =>
+      lat = @get('lat')
+      lng = @get('lng')
+      @set('point', "POINT(#{lat} #{lng})")
 
-# class PlaceList extends Backbone.Collection
-#   url: "/places/place"
-#   model: Place
+    toJSON: ->
+      id: @id
+      point: @get('point')
 
+class @Places extends Backbone.Collection
+  model: Place
 
+  show: ->
+    @trigger 'show'
+    @each (place) => place.trigger 'show'
+
+  hide: ->
+    @trigger 'hide'
+    @each (place) => place.trigger 'hide'
+
+class @PlaceType extends Backbone.Model
+  idAttribute: 'id'
+
+  initialize: ->
+    @places = new Places()
+
+    params = {}
+    params = $.param(_.defaults(params, DefaultParams))
+    @places.url = "/api/v1/place/?#{params}"
+    #?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295
+
+  show: ->
+    @trigger 'show'
+    @places.show()
+
+  hide: ->
+    @trigger 'hide'
+    @places.hide()
+
+class @PlaceTypes extends Backbone.Collection
+  model: PlaceType

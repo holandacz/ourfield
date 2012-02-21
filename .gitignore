@@ -4,8 +4,10 @@
 *.log
 *.swp
 *~
+.idea
 ve
 build
+fixtures
 lib
 include
 Lib

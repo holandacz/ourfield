@@ -1,78 +1,122 @@
 _.templateSettings = interpolate: /\{\{(.+?)\}\}/g
 
 
-class MapView extends Backbone.View
-  constructor: (center, zoom) ->
-    @map = null
-    @model = null
-    @center = center
-    @zoom = zoom
-    @markers = []
-    super("MapView")
+
+class @MapView extends Backbone.View
+  events:
+    'click input[type="checkbox"]': '_togglePlaceType'
 
   initialize: ->
-    @appData = new AppData()
-    @map = null
+    @render()
 
-    # if no zoom was passed, used AppData default zoom level
-    if @zoom == 0
-      @zoom = @appData.get("zoom")
 
-    if @center == ""
-      @center = @appData.get("center").split ","
+  render: ->
+    @map = new google.maps.Map @$('#map-canvas').get(0),
+      zoom: @model.get('zoom')
+      center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))
+      mapTypeId: @model.get('mapTypeId')
+
+
+    google.maps.event.addListener @map, "click", (event) =>
+      lat = event.latLng.lat()
+      lng = event.latLng.lng()
+      @collection.get(1).places.create(point: "POINT (#{lat} #{lng})")
+
+      # window.placeTypes.models[0].places.add({id:3, point: 'POINT (10.001 -84.134)'})
+      # make into a function: @addPlace(event)
+
+    # google.maps.event.addListener @map, "click", => @addPlace()
+    # location: event.latLng
+    # centered: false
+
+
+
+    @collection.each (placeType) =>
+      new PlaceTypeView(model: placeType, collection: placeType.places, map: @map)
+
+    @$('input[type="checkbox"]:checked').each (index, el) =>
+      model = @collection.get($(el).val())
+      model.show()
+
+
+
+  _togglePlaceType: (e) ->
+    inputEl = @$(e.target)
+    model = @collection.get(inputEl.val())
+    if inputEl.is(":checked")
+      model.show()
     else
-      @center = @center.split ","
+      model.hide()
 
-    defaults =
-      mapId: "map-canvas"
-      # center: new google.maps.LatLng(@center[0], @center[1])
-      center: @center
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-      zoom: @zoom
+class @PlaceTypeView extends Backbone.View
+  initialize: ->
+    @map = @options.map
+    @model.bind 'show', @show
+    @model.bind 'hide', @hide
+    @render()
 
-    @options = $.extend defaults, @options
-    
-    # # Bind 'this' to this object in event callbacks.
-    # _.bindAll @, "addAll", "addOne", "render", "remove"
+  render: ->
+    @placesView = new PlacesView(collection: @collection, map: @map)
 
-    @initMap()
-    @addmarker()
+  show: =>
+    @collection.fetch()
 
-  addmarker: ->
-    center = new google.maps.LatLng(@options.center[0], @options.center[1])
+  hide: =>
 
-    marker = new google.maps.Marker(
-      position: center
-      map: @map
+class @PlacesView extends Backbone.View
+  initialize: ->
+    @map = @options.map
+    @placeItemViews = []
+    @collection.bind 'add', @addPlaceItemView
+    @collection.bind 'reset', @render
+    @render() if @collection.length > 0
+
+  render: =>
+    _.each @placeItemViews, (placeItemView) =>
+      placeItemView.hide()
+    @collection.each @addPlaceItemView
+
+  addPlaceItemView: (place) =>
+    @placeItemViews.push(new PlaceItemView(model: place, map: @map))
+
+class @PlaceItemView extends Backbone.View
+  initialize: ->
+    @map = @options.map
+    @model.bind 'show', @show
+    @model.bind 'hide', @hide
+    @model.bind 'change', @persist
+    @render()
+
+  render: ->
+    @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
+    @marker = new google.maps.Marker(
+      position: @position
       draggable: true
       animation: google.maps.Animation.DROP
-      title: center.lat() + "," + center.lng()
+      title: @position.lat() + "," + @position.lng()
     )
-    google.maps.event.addListener marker, "dragend", (event) -> 
-        $.post "/places/post_test/", 
-          id: 660
-          lat: marker.position.Pa
-          lng: marker.position.Qa
-          (data) -> $('body').append "Successfully posted to the page."
 
-    @markers.push marker
-    @map.setCenter center
+    google.maps.event.addListener @marker, "dragend", @dragend
 
-    this
+    @show()
 
-  initMap: ->
-    mapOptions =
-      zoom: @options.zoom
-      center: new google.maps.LatLng(@options.center[0], @options.center[1]) 
-      mapTypeId: @options.mapTypeId
-      # panControlOptions:
-      #   position: google.maps.ControlPosition.RIGHT_TOP
-      # zoomControlOptions:
-      #   position: google.maps.ControlPosition.RIGHT_TOP
+  dragend: =>
+    console.log 'PlaceItemView#dragend'
+    # need to emulate Post for testing
 
-    mapEl = document.getElementById @options.mapId
-    @map = new google.maps.Map mapEl, mapOptions
+    @model.set(lat:  @marker.position.Qa, lng: @marker.position.Ra) 
 
+    # $.post "/places/post_test/", 
+    #   id: @model.id
+    #   lat: @marker.position.Pa
+    #   lng: @marker.position.Qa
+    #   (data) -> $('body').append "Successfully posted to the page."
 
-window.MapView = MapView
+  show: =>
+    @marker.setMap(@map)
 
+  hide: =>
+    @marker.setMap(null)
+
+  persist: =>
+    @model.save()

@@ -186,6 +186,7 @@ INSTALLED_APPS = [
     "core",
     "current_user",    
     "places",
+    "en",
     #"api",
     #"tweets",
 ]

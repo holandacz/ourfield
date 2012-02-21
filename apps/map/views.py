@@ -2,6 +2,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 from places.views import get_pts as get_placepts
+from en.views import get_pts as get_enpts
 #import wingdbstub
 
 def index(request):
@@ -21,7 +22,8 @@ def index(request):
 
     polys = None
     enpts = None
-    placepts = get_placepts()
+    placepts = None
+    # placepts = get_placepts()
     context = {
         'center' : request.GET.get('ll', ""),
         'zoom' : request.GET.get('z', 0),

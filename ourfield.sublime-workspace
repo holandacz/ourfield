@@ -16,50 +16,99 @@
 	"buffers":
 	[
 		{
-			"file": "apps/tweets/views.py",
+			"file": "static/js/app.coffee",
 			"settings":
 			{
-				"buffer_size": 856,
+				"buffer_size": 3057,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/_extjs/ext-4.0.7-gpl/index.html",
+			"file": "static/js/models.coffee",
 			"settings":
 			{
-				"buffer_size": 5262,
+				"buffer_size": 1586,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "curl -d \"id=660&lat=333&lng=222&username=larry&api_key=d65af2857fc77e4ce56299e53f6858178dfab295\" http://localhost/places/post_test/\n\ncurl -d \"id=660;username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295\" http://x/api/v1/place/\n\n\n\n\ncurl -H \"Authorization: ApiKey larry:d65af2857fc77e4ce56299e53f6858178dfab295\" http://x/api/v1/place/660/\n\n\n\nddd\n\ncurl http://localhost/api/v1/place/660/?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295;format=json\n\n\n\n-d \"username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295\" HTTP POST data (h) => ( H )\n\n\ncurl -H \"Authorization: ApiKey larry:d65af2857fc77e4ce56299e53f6858178dfab295;format=json\" http://x/api/v1/place/\n\ncurl http://x/api/v1/place/params = $.param(\n  format: 'json'\n  username: USERNAME,\n  api_key: API_KEY\n)\n\n.url = \"/something/something?#{params}\"\n[2/21/12 2:24:34 AM] Umair Siddique: 410 691 264",
+			"settings":
+			{
+				"buffer_size": 882,
+				"line_ending": "Windows",
+				"name": "curl -d \"id=660&lat=333&lng=222&username=larry&api"
+			}
+		},
+		{
+			"file": "templates/map/base.html",
+			"settings":
+			{
+				"buffer_size": 2215,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "apps/tweets/urls.py",
+			"file": "apps/places/models.py",
 			"settings":
 			{
-				"buffer_size": 461,
+				"buffer_size": 4337,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "apps/tweets/api.py_",
+			"file": "apps/places/api.py",
 			"settings":
 			{
-				"buffer_size": 1082,
+				"buffer_size": 1296,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "apps/tweets/models.py",
+			"file": "/C/Users/Larry/__prjs/ourfield_2/apps/en/views.py",
 			"settings":
 			{
-				"buffer_size": 312,
+				"buffer_size": 2116,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "templates/tweets/index.html",
+			"file": "apps/en/models.py",
 			"settings":
 			{
-				"buffer_size": 1384,
+				"buffer_size": 4236,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "apps/map/views.py",
+			"settings":
+			{
+				"buffer_size": 938,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "apps/en/views.py",
+			"settings":
+			{
+				"buffer_size": 2116,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "apps/en/api.py",
+			"settings":
+			{
+				"buffer_size": 1285,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "apps/en/urls.py",
+			"settings":
+			{
+				"buffer_size": 490,
 				"line_ending": "Windows"
 			}
 		},
@@ -67,7 +116,7 @@
 			"file": "urls.py",
 			"settings":
 			{
-				"buffer_size": 1381,
+				"buffer_size": 1558,
 				"line_ending": "Unix"
 			}
 		}
@@ -78,6 +127,10 @@
 		"height": 392.0,
 		"selected_items":
 		[
+			[
+				":w",
+				":w - Save"
+			],
 			[
 				"pack	",
 				"Package Control: Install Package"
@@ -139,7 +192,7 @@
 				"Set Syntax: Markdown"
 			]
 		],
-		"width": 536.0
+		"width": 528.0
 	},
 	"console":
 	{
@@ -156,19 +209,84 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Larry/__prjs/ourfield/urls.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/urls.py",
+		"/C/Users/Larry/__prjs/ourfield_2/apps/en/urls.py",
+		"/C/Users/Larry/__prjs/ourfield_2/apps/en/note.py",
+		"/C/Users/Larry/__prjs/ourfield_2/apps/en/models.py",
 		"/C/Users/Larry/__prjs/ourfield/settings.py",
-		"/C/Users/Larry/__prjs/ourfield/static/js/tweets.coffee",
+		"/C/Users/Larry/__prjs/ourfield_2/apps/home/views.py",
+		"/C/Users/Larry/__prjs/z_others/_b/index.html",
+		"/C/Users/Larry/__prjs/ourfield/.idea/workspace.xml",
+		"/C/Users/Larry/__prjs/ourfield/.gitignore",
+		"/C/Users/Larry/__prjs/ourfield/fixtures/initial_data.json",
+		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
+		"/C/Users/Larry/__prjs/ourfield/templates/site_base.html",
+		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/templates/theme_base.html",
+		"/C/Users/Larry/__prjs/ourfield/static/js/models.js",
+		"/C/Users/Larry/__prjs/ourfield/static/js/app.js",
+		"/C/Users/Larry/__prjs/z_others/_b/javascripts/models.coffee",
+		"/C/Users/Larry/__prjs/z_others/Python-Webserver/webserver.py",
+		"/C/Users/Larry/__prjs/ourfield/wc.bat",
+		"/C/Users/Larry/__prjs/z_others/_b/javascripts/app.coffee",
+		"/C/Users/Larry/__prjs/ourfield/urls.py",
+		"/C/Users/Larry/My Dropbox/OurField Umair/larry_django/ourfield/apps/places/api.py",
+		"/C/Users/Larry/My Dropbox/OurField Umair/larry_django/ourfield/apps/places/models.py",
+		"/C/Users/Larry/__prjs/z_others/mapx/js/app.js",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/app_last.coffee",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/app_save.coffee",
+		"/C/Users/Larry/__prjs/z_others/_b/javascripts/example_map.coffee",
+		"/C/Users/Larry/__prjs/z_others/_b/javascripts/markers.coffee",
+		"/C/Users/Larry/My Dropbox/OurField Umair/larry_django/ourfield/urls.py",
+		"/C/Users/Larry/__prjs/z_others/memento/public/js/map.coffee",
+		"/C/Users/Larry/__prjs/z_others/memento/app.coffee",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/static/js/backbone-tastypie.js",
+		"/C/Users/Larry/__prjs/z_others/Django-Backbone-Playground/static/js/app.js",
+		"/C/Users/Larry/__prjs/z_others/_b/robots.txt",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/map.js.coffee",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/SideBarEnhancements/Open With/Side Bar.sublime-menu",
+		"/C/Users/Larry/__prjs/z_others/memento/models.coffee",
+		"/C/Users/Larry/__prjs/z_others/Koffeeban/app/assets/javascripts/controllers/lanes-controller.js.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/js/_models_try.coffee",
+		"/C/Users/Larry/__prjs/z_others/_b/javascripts/backbone-tastypie.js",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
+		"/C/Users/Larry/__prjs/z_others/backbone-skeleton_2/index.html",
+		"/C/Users/Larry/__prjs/z_others/_b/web_server.coffee",
+		"/C/Users/Larry/__prjs/z_others/_b/coffee.bat",
+		"/C/Users/Larry/__prjs/z_others/_b/javascripts/app.js",
+		"/C/Users/Larry/__prjs/z_others/Python-Webserver/config.ini",
+		"/C/Users/Larry/__prjs/z_others/_b/javascripts/jquery-1.7.1.min.js",
+		"/C/Users/Larry/__prjs/ourfield/static/js/models.coffee",
+		"/C/Users/Larry/__prjs/z_others/_b/stylesheets/map.css",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/models.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
+		"/C/Users/Larry/__prjs/z_others/_b/wc.bat",
+		"/C/Users/Larry/__prjs/z_others/Koffeeban/app/assets/javascripts/models/cards.js.coffee",
+		"/C/Users/Larry/__prjs/z_others/Koffeeban/app/assets/javascripts/application.js",
+		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
+		"/C/Users/Larry/__prjs/z_others/memento/public/js/underscore.js",
+		"/C/Users/Larry/My Dropbox/__TempOurField/urls.py",
+		"/C/Users/Larry/Desktop/example.com   Map.htm",
+		"/C/Users/Larry/__prjs/ourfield/templates/tweets/index.html",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/tweets.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/js/routes.coffee",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/base__.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/homepage.html",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/routes.coffee",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/base_2.html",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/urls.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/tweets/views.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/tweets/api.py_",
+		"/C/Users/Larry/__prjs/ourfield/apps/api/views.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/tweets/urls.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/api/models.py",
+		"/C/_extjs/ext-4.0.7-gpl/index.html",
+		"/C/Users/Larry/__prjs/ourfield/apps/tweets/models.py",
+		"/C/Users/Larry/__prjs/ourfield/static/js/tweets.coffee",
 		"/C/Users/Larry/__prjs/ourfield/apps/tweets/api.py",
 		"/C/Users/Larry/__prjs/ourfield/static/js/tweets.js",
 		"/C/Users/Larry/__prjs/ourfield/coffee.bat",
 		"/C/Users/Larry/__prjs/ourfield/static/js/test.coffee",
-		"/C/Users/Larry/__prjs/ourfield/templates/homepage.html",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
-		"/C/Users/Larry/__prjs/ourfield/templates/tweets/index.html",
 		"/C/Users/Larry/__prjs/ourfield/requirements/project.txt",
-		"/C/Users/Larry/__prjs/ourfield/wc.bat",
 		"/C/Users/Larry/__prjs/ourfield/static/js/libs/backbone-tastypie.js",
 		"/C/Users/Larry/__prjs/ourfield/requirements/base.txt",
 		"/C/Users/Larry/__prjs/ourfield/scripts/windows/syncdb.bat",
@@ -185,22 +303,14 @@
 		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/local_settings.py",
 		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/rs.bat",
 		"/C/Users/Larry/__prjs/z_others/cham/src/public/js/script.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/js/app.js",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/routes.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/js/routes.js",
-		"/C/Users/Larry/__prjs/z_others/memento/public/js/map.coffee",
 		"/C/Users/Larry/autostart_console.bat",
 		"/C/Users/Larry/__prjs/ourfield/activate.bat",
-		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/base_2.html",
 		"/C/Users/Larry/__prjs/z_others/mapx/coffee/app.coffee",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/app_save.coffee",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/views.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/models.py",
 		"/C/Users/Larry/__prjs/ourfield/static/js/map_.js",
 		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/map.coffee",
 		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/map_2.coffee",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/urls.py",
 		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/mapnew.coffee",
 		"/C/Users/Larry/__prjs/ourfield/apps/current_user/models.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/map/api.py",
@@ -226,64 +336,7 @@
 		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/JSON.sublime-settings",
 		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/node.sublime-build",
 		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/.sublime-build",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2__/Installed Packages/Package Control.sublime-package",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2__/Packages/Package Control/messages/1.3.0.txt",
-		"/C/Users/Larry/__prjs/z_others/memento/routes.coffee",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2__/Packages/User/Global.sublime-settings",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Delete Line.sublime-macro",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Global.sublime-settings",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
-		"/C/Program Files/Sublime Text 2/Pristine Packages/HTML.sublime-package",
-		"/C/Users/Larry/__prjs/z_others/memento/README.txt",
-		"/C/Users/Larry/__prjs/z_others/memento/georss.coffee",
-		"/C/Users/Larry/__prjs/z_others/memento/models.coffee",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/README.md",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/CarreteraDetailView.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/CarreteraView.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/templates/carreteras/base_carreteras.html",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/templates/carreteras/index.html",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/TramoView.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/AppView.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/app.js",
-		"/C/Users/Larry/__prjs/z_others/mapx/index.html",
-		"/C/Users/Larry/__prjs/z_others/memento/app.coffee",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/src/highway-maps/carreteras/fixtures/users.json",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/src/highway-maps/carreteras/fixtures/test.json",
-		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/controllers/SearchController.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/Carretera.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/CarreteraList.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/CarreteraDetail.js",
-		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/Tramo.js",
-		"/C/Users/Larry/__prjs/ourfield/static/js/underscore-min.js",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/map.js.coffee",
-		"/C/Users/Larry/__prjs/z_others/mapx/js/app.js",
-		"/C/Users/Larry/__prjs/z_others/mapx/css/style.css",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/bootstrap.coffee",
-		"/C/node/w.js",
-		"/C/Users/Larry/__prjs/z_others/NodeJS-Server/lib/server.js",
-		"/C/Users/Larry/__prjs/z_others/NodeJS-Server/lib/logs/index.js",
-		"/C/Users/Larry/__prjs/ourfield/static/js/map.js",
-		"/C/Users/Larry/__prjs/z_others/mapx/wc.bat",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Python/Python.sublime-build",
-		"/C/Program Files/Sublime Text 2/PackageSetup.py",
-		"/C/Users/Larry/__prjs/z_others/mapx/js/app_2.js",
-		"/C/Program Files/Sublime Text 2/sublime_plugin.py",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/bootstrap.js.coffee",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/views/application/index.html.erb",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/zone.js.coffee",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/test.coffee",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/CoffeeScript/Commands/CoffeeScript.sublime-build",
-		"/C/Users/Larry/__prjs/ourfield/static/js/debug_controls.js",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/controllers/application_controller.rb",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/scale_controls.js.coffee",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/date_slider.js.coffee",
-		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/controller.js.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/js/bootstrap.js",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Base File.sublime-settings",
-		"/C/Users/Larry/__prjs/ourfield/ourfield.sublime-project",
-		"/C/Users/Larry/.config/sublime-text-2/Packages/User/CoffeeScript.sublime-build"
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2__/Installed Packages/Package Control.sublime-package"
 	],
 	"find":
 	{
@@ -294,6 +347,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			"C:\\Users\\Larry\\__prjs\\ourfield\\scripts",
 			"C:\\Users\\Larry\\__prjs\\z_others\\memento",
 			"C:\\Users\\Larry\\__prjs\\ourfield\\apps",
 			"C:\\Users\\Larry\\AppData\\Roaming\\Sublime Text 2\\Packages\\Terminal",
@@ -306,6 +360,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"addListener",
+			"click",
+			"getPosition",
+			"listen",
+			"lon",
+			"readOnlyHtml",
+			"handleAction",
+			"marker",
+			"Marker",
+			"\\",
+			"ll",
+			"z",
+			"position",
+			"zoom",
+			"AppData",
+			"model",
+			"google",
 			"urlRoot",
 			"root",
 			"tweet_resource",
@@ -346,6 +417,12 @@
 		"regex": false,
 		"replace_history":
 		[
+			"lng",
+			"place",
+			"Place",
+			"/",
+			"center",
+			"zoom",
 			"tweet_resource",
 			"AppView",
 			"places",
@@ -362,22 +439,199 @@
 	"groups":
 	[
 		{
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "apps/tweets/views.py",
+					"file": "static/js/app.coffee",
 					"settings":
 					{
-						"buffer_size": 856,
+						"buffer_size": 3057,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								265,
-								265
+								202,
+								202
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1261.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "static/js/models.coffee",
+					"settings":
+					{
+						"buffer_size": 1586,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								847,
+								847
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 253.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 882,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								459,
+								471
+							]
+						],
+						"settings":
+						{
+							"auto_name": "curl -d \"id=660&lat=333&lng=222&username=larry&api",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "templates/map/base.html",
+					"settings":
+					{
+						"buffer_size": 2215,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1053,
+								1053
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 576.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "apps/places/models.py",
+					"settings":
+					{
+						"buffer_size": 4337,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								515,
+								515
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 18.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "apps/places/api.py",
+					"settings":
+					{
+						"buffer_size": 1296,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								293,
+								293
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 8,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/Users/Larry/__prjs/ourfield_2/apps/en/views.py",
+					"settings":
+					{
+						"buffer_size": 2116,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								519,
+								519
 							]
 						],
 						"settings":
@@ -395,26 +649,26 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/C/_extjs/ext-4.0.7-gpl/index.html",
+					"buffer": 7,
+					"file": "apps/en/models.py",
 					"settings":
 					{
-						"buffer_size": 5262,
+						"buffer_size": 4236,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1869,
-								1869
+								428,
+								434
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -425,111 +679,27 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "apps/tweets/urls.py",
+					"buffer": 8,
+					"file": "apps/map/views.py",
 					"settings":
 					{
-						"buffer_size": 461,
+						"buffer_size": 938,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								461,
-								461
+								569,
+								569
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "apps/tweets/api.py_",
-					"settings":
-					{
-						"buffer_size": 1082,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								852,
-								893
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "apps/tweets/models.py",
-					"settings":
-					{
-						"buffer_size": 312,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								74,
-								74
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "templates/tweets/index.html",
-					"settings":
-					{
-						"buffer_size": 1384,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								812,
-								812
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -539,19 +709,105 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "urls.py",
+					"buffer": 9,
+					"file": "apps/en/views.py",
 					"settings":
 					{
-						"buffer_size": 1381,
+						"buffer_size": 2116,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								534,
-								612
+								482,
+								482
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "apps/en/api.py",
+					"settings":
+					{
+						"buffer_size": 1285,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								924,
+								924
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "apps/en/urls.py",
+					"settings":
+					{
+						"buffer_size": 490,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								489,
+								489
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "urls.py",
+					"settings":
+					{
+						"buffer_size": 1558,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								687,
+								687
 							]
 						],
 						"settings":
@@ -635,6 +891,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 296.0,
+	"side_bar_width": 252.0,
 	"status_bar_visible": true
 }

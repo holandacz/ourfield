@@ -3,11 +3,12 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from tastypie.api import Api
 from places.api import PlaceResource
+from en.api import ENNoteResource
 #from tweets.api import TweetResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(PlaceResource())
-#v1_api.register(TweetResource())
+v1_api.register(ENNoteResource())
 
 
 from django.contrib import admin
@@ -28,6 +29,7 @@ urlpatterns = patterns("",
     url(r"^about/", include("about.urls")),
     url(r"^map/", include("map.urls")),
     url(r"^places/", include("places.urls")),
+    url(r"^en/", include("en.urls")),
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/", include(PinaxConsumer().urls)),
     url(r"^profiles/", include("idios.urls")),
