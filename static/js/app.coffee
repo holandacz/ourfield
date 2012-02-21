@@ -5,6 +5,7 @@ _.templateSettings = interpolate: /\{\{(.+?)\}\}/g
 class @MapView extends Backbone.View
   events:
     'click input[type="checkbox"]': '_togglePlaceType'
+    'click button#add-place': '_addPlace'
 
   initialize: ->
     @render()
@@ -17,10 +18,6 @@ class @MapView extends Backbone.View
       mapTypeId: @model.get('mapTypeId')
 
 
-    google.maps.event.addListener @map, "click", (event) =>
-      lat = event.latLng.lat()
-      lng = event.latLng.lng()
-      @collection.get(1).places.create(point: "POINT (#{lat} #{lng})")
 
       # window.placeTypes.models[0].places.add({id:3, point: 'POINT (10.001 -84.134)'})
       # make into a function: @addPlace(event)
@@ -47,6 +44,13 @@ class @MapView extends Backbone.View
       model.show()
     else
       model.hide()
+
+  _addPlace: (e) ->
+    console.log "_addPlace", e
+    lat = @map.getCenter().lat()
+    lng = @map.getCenter().lng()
+    @collection.get(1).places.create(point: "POINT (#{lat} #{lng})")
+
 
 class @PlaceTypeView extends Backbone.View
   initialize: ->
@@ -97,6 +101,7 @@ class @PlaceItemView extends Backbone.View
     )
 
     google.maps.event.addListener @marker, "dragend", @dragend
+    google.maps.event.addListener @marker, "click", @click
 
     @show()
 
@@ -120,3 +125,6 @@ class @PlaceItemView extends Backbone.View
 
   persist: =>
     @model.save()
+
+  click: =>
+    console.log "PlaceItemView#click"

@@ -11,7 +11,7 @@
     username: "larry",
     api_key: "d65af2857fc77e4ce56299e53f6858178dfab295",
     format: "json",
-    limit: 0
+    limit: 5
   };
 
   this.AppData = (function(_super) {
@@ -83,7 +83,6 @@
 
     Place.prototype.toJSON = function() {
       return {
-        id: this.id,
         point: this.get('point')
       };
     };

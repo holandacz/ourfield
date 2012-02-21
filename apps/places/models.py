@@ -112,7 +112,7 @@ class Place(MyModel):
 
     def save(self, *args, **kw):
         #self.ParseDetails()
-        self.isgeocoded = True if (self.point.y and self.point.x) else False
+        self.geocoded = True if (self.point.y and self.point.x) else False
         super(Place, self).save(*args, **kw)
 
     def type(self):

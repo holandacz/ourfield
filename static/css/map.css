@@ -1,7 +1,5 @@
 /* Map */
 .map-container {
-    width: 400px;
-    height: 400px;   
     padding: 4px;
     border: 1px solid #ddd;
     -webkit-border-radius: 4px;
@@ -32,3 +30,10 @@
 #place-types input, #place-types label {
     display: inline;
 }
+
+
+
+img[src$="transparent.png"].gmnoprint { display:none; visibility:hidden; }
+img[src$="crosshair.gif"].gmnoprint { display:none; visibility:hidden; }
+#gv_center_coordinates { display:none; visibility:hidden; }
+#gv_measurement_icon { display:none; visibility:hidden; }

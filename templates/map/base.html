@@ -27,8 +27,36 @@
           <div id="place-types">Places:&nbsp;
             <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
           </div>
+          <div><button id="add-place">Add Place</button></div>
         <div id="map-canvas">
+
+
+          <div id="gv_center_container" style="display: block; position: absolute; left: 4px; bottom: 40px; ">
+              <table style="cursor:crosshair; filter:alpha(opacity=80); -moz-opacity:0.80; opacity:0.80;"
+              cellspacing="0" cellpadding="0" border="0">
+                  <tbody>
+                      <tr valign="middle">
+                          <td>
+                              <div id="gv_center_coordinates" class="gv_center_coordinates" onclick="GV_Toggle('gv_crosshair'); gv_crosshair_temporarily_hidden = false;"
+                              title="Click here to turn center crosshair on or off">Center:
+                                  <span id="center_coordinate_pair">38.61687,-107.66602</span>
+                              </div>
+                          </td>
+                          <td>
+                              <div id="gv_measurement_icon" style="display:block; width:23px; height:15px; margin-left:3px; cursor:pointer;">
+                                  <a href="javascript:void(0);" onclick="GV_Place_Measurement_Tools();"
+                                  title="Click here for measurement tools" style="cursor:pointer;">
+                                  <img src="{% static "img/map/ruler.gif" %}" width="23" height="13" border="0" vspace="1" class="gmnoprint"></a>
+                              </div>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+
+
         </div>
+
       </div>
     </div><!-- container -->
   </div>

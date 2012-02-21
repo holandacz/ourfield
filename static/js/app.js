@@ -19,7 +19,8 @@
     }
 
     MapView.prototype.events = {
-      'click input[type="checkbox"]': '_togglePlaceType'
+      'click input[type="checkbox"]': '_togglePlaceType',
+      'click button#add-place': '_addPlace'
     };
 
     MapView.prototype.initialize = function() {
@@ -32,14 +33,6 @@
         zoom: this.model.get('zoom'),
         center: new google.maps.LatLng(this.model.get('centerLat'), this.model.get('centerLng')),
         mapTypeId: this.model.get('mapTypeId')
-      });
-      google.maps.event.addListener(this.map, "click", function(event) {
-        var lat, lng;
-        lat = event.latLng.lat();
-        lng = event.latLng.lng();
-        return _this.collection.get(1).places.create({
-          point: "POINT (" + lat + " " + lng + ")"
-        });
       });
       this.collection.each(function(placeType) {
         return new PlaceTypeView({
@@ -64,6 +57,16 @@
       } else {
         return model.hide();
       }
+    };
+
+    MapView.prototype._addPlace = function(e) {
+      var lat, lng;
+      console.log("_addPlace", e);
+      lat = this.map.getCenter().lat();
+      lng = this.map.getCenter().lng();
+      return this.collection.get(1).places.create({
+        point: "POINT (" + lat + " " + lng + ")"
+      });
     };
 
     return MapView;
@@ -154,6 +157,8 @@
     PlaceItemView.name = 'PlaceItemView';
 
     function PlaceItemView() {
+      this.click = __bind(this.click, this);
+
       this.persist = __bind(this.persist, this);
 
       this.hide = __bind(this.hide, this);
@@ -181,6 +186,7 @@
         title: this.position.lat() + "," + this.position.lng()
       });
       google.maps.event.addListener(this.marker, "dragend", this.dragend);
+      google.maps.event.addListener(this.marker, "click", this.click);
       return this.show();
     };
 
@@ -202,6 +208,10 @@
 
     PlaceItemView.prototype.persist = function() {
       return this.model.save();
+    };
+
+    PlaceItemView.prototype.click = function() {
+      return console.log("PlaceItemView#click");
     };
 
     return PlaceItemView;
