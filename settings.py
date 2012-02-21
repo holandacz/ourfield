@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-# Django settings for basic pinax project.
-
+import sys
 import os.path
 import posixpath
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+# for evernote and thrift
+sys.path.append(os.path.join(PROJECT_ROOT, "parts"))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

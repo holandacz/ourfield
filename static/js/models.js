@@ -10,7 +10,8 @@
   this.DefaultParams = {
     username: "larry",
     api_key: "d65af2857fc77e4ce56299e53f6858178dfab295",
-    format: "json"
+    format: "json",
+    limit: 0
   };
 
   this.AppData = (function(_super) {

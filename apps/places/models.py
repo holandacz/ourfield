@@ -11,8 +11,14 @@ from tastypie.models import create_api_key
 models.signals.post_save.connect(create_api_key, sender=User)
 
 class Place(MyModel):
-    isgeocoded = models.BooleanField("GeoCoded?", )
-    isconfirmed = models.BooleanField("Confirmed?",)
+    placetype_id = models.IntegerField("Place Type ID", null=True, blank=True)
+    sourcetype = models.CharField("Source Type", max_length=16, null=True, blank=True)
+    source_id = models.IntegerField("Source ID", null=True, blank=True)
+    geocoded = models.BooleanField("GeoCoded?", )
+    multiunit = models.BooleanField("MultiUnit?", )
+    residential = models.BooleanField("Residential?", )
+    confirmed = models.BooleanField("Confirmed?",)
+    deleted = models.BooleanField("Deleted?",)
     googlemapurl = models.CharField("Google Map URL", max_length=255, blank=True)
     point = models.PointField("LatLng", default='POINT(0 0)')
 
@@ -35,10 +41,13 @@ class Place(MyModel):
 
     number = models.PositiveIntegerField("Number", null=True, blank=True)
     geo_name_id = models.PositiveIntegerField("GEO Name ID", null=True, blank=True)
+    interestlevel = models.IntegerField("Interest Level", null=True, blank=True)
+    religiousaffiliation = models.CharField("Religious Affiliation", max_length=32, null=True, blank=True)
 
     postalcode = models.CharField("Zip Code", max_length=32, null=True, blank=True)
 
     notes = models.TextField("Notes", null=True, blank=True)
+    noteshtml = models.TextField("Notes HTML", null=True, blank=True)
 
     objects = models.GeoManager()
 
