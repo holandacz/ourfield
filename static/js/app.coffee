@@ -1,7 +1,3 @@
-_.templateSettings = interpolate: /\{\{(.+?)\}\}/g
-
-
-
 class @MapView extends Backbone.View
   events:
     'click input[type="checkbox"]': '_togglePlaceType'
@@ -93,12 +89,15 @@ class @PlaceItemView extends Backbone.View
 
   render: ->
     @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
+
     @marker = new google.maps.Marker(
       position: @position
       draggable: true
       animation: google.maps.Animation.DROP
       title: @position.lat() + "," + @position.lng()
     )
+
+    @infoWindow = new InfoWindow(map: @map, marker: @marker, model: @model)
 
     google.maps.event.addListener @marker, "dragend", @dragend
     google.maps.event.addListener @marker, "click", @click
@@ -107,15 +106,7 @@ class @PlaceItemView extends Backbone.View
 
   dragend: =>
     console.log 'PlaceItemView#dragend'
-    # need to emulate Post for testing
-
     @model.set(lat:  @marker.position.Qa, lng: @marker.position.Ra) 
-
-    # $.post "/places/post_test/", 
-    #   id: @model.id
-    #   lat: @marker.position.Pa
-    #   lng: @marker.position.Qa
-    #   (data) -> $('body').append "Successfully posted to the page."
 
   show: =>
     @marker.setMap(@map)
@@ -128,3 +119,34 @@ class @PlaceItemView extends Backbone.View
 
   click: =>
     console.log "PlaceItemView#click"
+    @infoWindow.show()
+
+class @InfoWindow extends Backbone.View
+  template: _.template($('#info-window-template').html())
+
+  events:
+    'click button.edit': '_edit'
+
+  initialize: ->
+    @map = @options.map
+    @marker = @options.marker
+    @htmlId = _.uniqueId('info-window-')
+    @render()
+
+  render: ->
+    @window = new google.maps.InfoWindow
+      maxWidth: 200
+    google.maps.event.addListener @window, 'domready', @domReady
+
+  show: ->
+    @window.setContent(@template(model: @model, html_id: @htmlId))
+    @window.open(@map, @marker)
+
+  hide: ->
+    @window.close()
+
+  domReady: =>
+    @setElement($('#' + @htmlId))
+
+  _edit: ->
+    console.log "I am editing now!"

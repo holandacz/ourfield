@@ -71,6 +71,13 @@
 <script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 
+<script type="text/template" id="info-window-template">
+  <div id="<%= html_id %>">
+    <h2>Place name.</h2>
+    <div><button class="edit">Edit</button></div>
+  </div>
+</script>
+
 <script type="text/javascript" src="{% static "js/models.js" %}"></script>
 <script type="text/javascript" src="{% static "js/app.js" %}"></script>
 
@@ -87,11 +94,13 @@
     placeTypes.add({id: 1, name: "school"});
     placeTypes.add({id: 2, name: "business"});
 
-    var app = new MapView({
-      el: '#map',
-      model: appData,
-      collection: placeTypes,
-      title: "This is a title"
+    $(function() {
+      var app = new MapView({
+        el: '#map',
+        model: appData,
+        collection: placeTypes,
+        title: "This is a title"
+      });
     });
 
     // placeTypes.get(1).show();
