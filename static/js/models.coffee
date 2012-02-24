@@ -5,7 +5,7 @@ CR = "10.001025 -84.134588" # no space between
   username: "larry"
   api_key: "d65af2857fc77e4ce56299e53f6858178dfab295"
   format: "json"
-  limit: 5
+  limit: 0
 
 class @AppData extends Backbone.Model
   defaults:

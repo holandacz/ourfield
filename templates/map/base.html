@@ -8,138 +8,145 @@
 {% block head_title %}{% trans "Map" %}{% endblock %}
 
 {% block extra_style %}
-	<link href="{% static "css/map.css" %}" rel="stylesheet" />
+  {% if user.is_authenticated %}
+	 <link href="{% static "css/map.css" %}" rel="stylesheet" />
+  {% endif %}
 {% endblock %}
 
 {% block extra_script %}
+  {% if user.is_authenticated %}
     <script>
       API = "{% url api_dispatch_list api_name="v1" resource_name="place" %}";
       {% if data %}
       	app = {loaded: true};
       {% endif %}
     </script>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
-  <div id="map">
-    <div class="container">
-      <div class="map-container map16">
-          <div id="place-types">Places:&nbsp;
-            <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
+  {% if user.is_authenticated %}
+    <div id="map">
+      <div class="container">
+        <div class="map-container map16">
+            <div id="place-types">Places:&nbsp;
+              <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
+            </div>
+            <div><button id="add-place">Add Place</button></div>
+          <div id="map-canvas">
+            <div id="gv_center_container" style="display: block; position: absolute; left: 4px; bottom: 40px; ">
+                <table style="cursor:crosshair; filter:alpha(opacity=80); -moz-opacity:0.80; opacity:0.80;"
+                cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr valign="middle">
+                            <td>
+                                <div id="gv_center_coordinates" class="gv_center_coordinates" onclick="GV_Toggle('gv_crosshair'); gv_crosshair_temporarily_hidden = false;"
+                                title="Click here to turn center crosshair on or off">Center:
+                                    <span id="center_coordinate_pair">38.61687,-107.66602</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div id="gv_measurement_icon" style="display:block; width:23px; height:15px; margin-left:3px; cursor:pointer;">
+                                    <a href="javascript:void(0);" onclick="GV_Place_Measurement_Tools();"
+                                    title="Click here for measurement tools" style="cursor:pointer;">
+                                    <img src="{% static "img/map/ruler.gif" %}" width="23" height="13" border="0" vspace="1" class="gmnoprint"></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
           </div>
-          <div><button id="add-place">Add Place</button></div>
-        <div id="map-canvas">
-
-
-          <div id="gv_center_container" style="display: block; position: absolute; left: 4px; bottom: 40px; ">
-              <table style="cursor:crosshair; filter:alpha(opacity=80); -moz-opacity:0.80; opacity:0.80;"
-              cellspacing="0" cellpadding="0" border="0">
-                  <tbody>
-                      <tr valign="middle">
-                          <td>
-                              <div id="gv_center_coordinates" class="gv_center_coordinates" onclick="GV_Toggle('gv_crosshair'); gv_crosshair_temporarily_hidden = false;"
-                              title="Click here to turn center crosshair on or off">Center:
-                                  <span id="center_coordinate_pair">38.61687,-107.66602</span>
-                              </div>
-                          </td>
-                          <td>
-                              <div id="gv_measurement_icon" style="display:block; width:23px; height:15px; margin-left:3px; cursor:pointer;">
-                                  <a href="javascript:void(0);" onclick="GV_Place_Measurement_Tools();"
-                                  title="Click here for measurement tools" style="cursor:pointer;">
-                                  <img src="{% static "img/map/ruler.gif" %}" width="23" height="13" border="0" vspace="1" class="gmnoprint"></a>
-                              </div>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-
 
         </div>
-
-      </div>
-    </div><!-- container -->
-  </div>
+      </div><!-- container -->
+    </div>
+  {% endif %}
 {% endblock %}
 
+
 {% block extra_body %}
+  {% if user.is_authenticated %}
+    <script type="text/javascript" src="{% static "bootstrap/js/bootstrap-modal.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/underscore.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/json2.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/backbone.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-<script type="text/javascript" src="{% static "bootstrap/js/bootstrap-modal.js" %}"></script>
-<script type="text/javascript" src="{% static "js/underscore.js" %}"></script>
-<script type="text/javascript" src="{% static "js/json2.js" %}"></script>
-<script type="text/javascript" src="{% static "js/backbone.js" %}"></script>
-<script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
-<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
-
-<script type="text/template" id="info-window-template">
-  <div id="<%= id %>">
-    <h2><%= model.id %></h2>
-    <div>
-      <%= model.get('notes') %>
-    </div>
-    <div>
-      <button class="edit">Edit</button>
-    </div>
-  </div>
-</script>
-
-<script type="text/template" id="edit-info-window-template">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal" >&times;</a>
-    <h3>Edit Place</h3>
-  </div>
-
-  <div class="modal-body">
-    <form class="form-horizontal">
-      <fieldset>
-        <div class="control-group">
-          <label class="control-label">Notes</label>
-          <div class="controls">
-            <textarea class="input-xlarge"><%= model.get('notes') %></textarea>
-            <p class="help-block">Leave notes for this place.</p>
-          </div>
+    <script type="text/template" id="info-window-template">
+      <div id="<%= id %>">
+        <h2><%= model.id %></h2>
+        <div>
+          <%= model.get('notes') %>
         </div>
-      </fieldset>
-    </form>
-  </div>
+        <div>
+          <button class="edit">Edit</button>
+        </div>
+      </div>
+    </script>
 
-  <div class="modal-footer">
-    <a href="#" class="save btn btn-primary">Save changes</a>
-    <a href="#" class="btn" data-dismiss="modal" >Close</a>
-  </div>
-</script>
+    <script type="text/template" id="edit-info-window-template">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal" >&times;</a>
+        <h3>Edit Place</h3>
+      </div>
 
-<script type="text/javascript" src="{% static "js/models.js" %}"></script>
-<script type="text/javascript" src="{% static "js/app.js" %}"></script>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label">Notes</label>
+              <div class="controls">
+                <textarea class="input-xlarge"><%= model.get('notes') %></textarea>
+                <p class="help-block">Leave notes for this place.</p>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
 
-<script type="text/javascript">
-    zoom = 10; //{{zoom}}
-    center = "10.001025,-84.134588"; //"{{center}}"
+      <div class="modal-footer">
+        <a href="#" class="save btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal" >Close</a>
+      </div>
+    </script>
 
-    var appData = new AppData({
-      zoom: 16,
-      center: "10.001025,-84.134588"
-    });
+    <script type="text/javascript" src="{% static "js/models.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/app.js" %}"></script>
 
-    var placeTypes = new PlaceTypes();
-    placeTypes.add({id: 1, name: "school"});
-    placeTypes.add({id: 2, name: "business"});
+    <script type="text/javascript">
+        zoom = 10; //{{zoom}}
+        center = "10.001025,-84.134588"; //"{{center}}"
 
-    $(function() {
-      var app = new MapView({
-        el: '#map',
-        model: appData,
-        collection: placeTypes,
-        title: "This is a title"
-      });
-    });
+        var appData = new AppData({
+          userid: {{ user.id }},
+          username: "{{ user.username }",
+          zoom: 16,
+          center: "10.001025,-84.134588"
+        });
 
-    // placeTypes.get(1).show();
-    // placeTypes.get(2).show();
+        var placeTypes = new PlaceTypes();
+        placeTypes.add({id: 1, name: "school"});
+        placeTypes.add({id: 2, name: "business"});
 
-    //places.fetch();
+        $(function() {
+          var app = new MapView({
+            el: '#map',
+            model: appData,
+            collection: placeTypes,
+            title: "This is a title"
+          });
+        });
 
-    x = 0;
-</script>
+        // placeTypes.get(1).show();
+        // placeTypes.get(2).show();
 
+        //places.fetch();
+
+        x = 0;
+    </script>
+  {% endif %}
 {% endblock %}

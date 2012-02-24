@@ -25,6 +25,7 @@ def index(request):
     placepts = None
     # placepts = get_placepts()
     context = {
+        'user' : request.user,
         'center' : request.GET.get('ll', ""),
         'zoom' : request.GET.get('z', 0),
         'polys' : polys,
