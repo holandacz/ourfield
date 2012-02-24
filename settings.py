@@ -191,7 +191,7 @@ INSTALLED_APPS = [
     "en",
     #"api",
     #"tweets",
-    #"gunicorn",
+    "gunicorn",
 ]
 
 FIXTURE_DIRS = [
