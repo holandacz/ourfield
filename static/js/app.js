@@ -1,5 +1,6 @@
 (function() {
-  var __hasProp = Object.prototype.hasOwnProperty,
+  var EditInfoWindow,
+    __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -143,7 +144,6 @@
 
     function PlaceItemView() {
       this.click = __bind(this.click, this);
-      this.persist = __bind(this.persist, this);
       this.hide = __bind(this.hide, this);
       this.show = __bind(this.show, this);
       this.dragend = __bind(this.dragend, this);
@@ -154,7 +154,6 @@
       this.map = this.options.map;
       this.model.bind('show', this.show);
       this.model.bind('hide', this.hide);
-      this.model.bind('change', this.persist);
       return this.render();
     };
 
@@ -177,11 +176,11 @@
     };
 
     PlaceItemView.prototype.dragend = function() {
-      console.log('PlaceItemView#dragend');
-      return this.model.set({
-        lat: this.marker.position.Qa,
-        lng: this.marker.position.Ra
+      this.model.set({
+        lat: this.marker.position.lat(),
+        lng: this.marker.position.lng()
       });
+      return this.model.save();
     };
 
     PlaceItemView.prototype.show = function() {
@@ -190,10 +189,6 @@
 
     PlaceItemView.prototype.hide = function() {
       return this.marker.setMap(null);
-    };
-
-    PlaceItemView.prototype.persist = function() {
-      return this.model.save();
     };
 
     PlaceItemView.prototype.click = function() {
@@ -223,22 +218,22 @@
     InfoWindow.prototype.initialize = function() {
       this.map = this.options.map;
       this.marker = this.options.marker;
-      this.htmlId = _.uniqueId('info-window-');
       return this.render();
     };
 
     InfoWindow.prototype.render = function() {
       this.window = new google.maps.InfoWindow({
-        maxWidth: 200
+        maxWidth: 350
       });
       return google.maps.event.addListener(this.window, 'domready', this.domReady);
     };
 
     InfoWindow.prototype.show = function() {
-      this.window.setContent(this.template({
-        model: this.model,
-        html_id: this.htmlId
-      }));
+      this.templateParams = {
+        id: _.uniqueId('info-window-'),
+        model: this.model
+      };
+      this.window.setContent(this.template(this.templateParams));
       return this.window.open(this.map, this.marker);
     };
 
@@ -247,14 +242,54 @@
     };
 
     InfoWindow.prototype.domReady = function() {
-      return this.setElement($('#' + this.htmlId));
+      return this.setElement($('#' + this.templateParams.id));
     };
 
     InfoWindow.prototype._edit = function() {
-      return console.log("I am editing now!");
+      return this.editInfoWindow = new EditInfoWindow({
+        model: this.model
+      });
     };
 
     return InfoWindow;
+
+  })(Backbone.View);
+
+  EditInfoWindow = (function(_super) {
+
+    __extends(EditInfoWindow, _super);
+
+    function EditInfoWindow() {
+      EditInfoWindow.__super__.constructor.apply(this, arguments);
+    }
+
+    EditInfoWindow.prototype.template = _.template($('#edit-info-window-template').html());
+
+    EditInfoWindow.prototype.className = 'modal';
+
+    EditInfoWindow.prototype.events = {
+      'click a.save': '_save'
+    };
+
+    EditInfoWindow.prototype.initialize = function() {
+      return this.render();
+    };
+
+    EditInfoWindow.prototype.render = function() {
+      this.$el.html(this.template({
+        model: this.model
+      }));
+      return this.$el.modal('show');
+    };
+
+    EditInfoWindow.prototype._save = function() {
+      this.model.set({
+        notes: this.$('textarea').val()
+      });
+      return this.model.save();
+    };
+
+    return EditInfoWindow;
 
   })(Backbone.View);
 

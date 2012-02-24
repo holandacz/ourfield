@@ -84,7 +84,6 @@ class @PlaceItemView extends Backbone.View
     @map = @options.map
     @model.bind 'show', @show
     @model.bind 'hide', @hide
-    @model.bind 'change', @persist
     @render()
 
   render: ->
@@ -105,17 +104,14 @@ class @PlaceItemView extends Backbone.View
     @show()
 
   dragend: =>
-    console.log 'PlaceItemView#dragend'
-    @model.set(lat:  @marker.position.Qa, lng: @marker.position.Ra) 
+    @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())
+    @model.save()
 
   show: =>
     @marker.setMap(@map)
 
   hide: =>
     @marker.setMap(null)
-
-  persist: =>
-    @model.save()
 
   click: =>
     console.log "PlaceItemView#click"
@@ -130,23 +126,45 @@ class @InfoWindow extends Backbone.View
   initialize: ->
     @map = @options.map
     @marker = @options.marker
-    @htmlId = _.uniqueId('info-window-')
     @render()
 
   render: ->
     @window = new google.maps.InfoWindow
-      maxWidth: 200
+      maxWidth: 350
     google.maps.event.addListener @window, 'domready', @domReady
 
   show: ->
-    @window.setContent(@template(model: @model, html_id: @htmlId))
+    @templateParams =
+      id: _.uniqueId('info-window-')
+      model: @model
+    @window.setContent(@template(@templateParams))
     @window.open(@map, @marker)
 
   hide: ->
     @window.close()
 
   domReady: =>
-    @setElement($('#' + @htmlId))
+    @setElement($('#' + @templateParams.id))
 
   _edit: ->
-    console.log "I am editing now!"
+    @editInfoWindow = new EditInfoWindow(model: @model)
+
+class EditInfoWindow extends Backbone.View
+  template: _.template($('#edit-info-window-template').html())
+
+  className: 'modal'
+
+  events:
+    'click a.save': '_save'
+
+  initialize: ->
+    @render()
+
+  render: ->
+    @$el.html(@template(model: @model))
+    @$el.modal('show')
+
+  _save: ->
+    @model.set
+      notes: @$('textarea').val()
+    @model.save()

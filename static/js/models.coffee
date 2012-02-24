@@ -20,6 +20,9 @@ class @AppData extends Backbone.Model
 
 # A place has a location
 class @Place extends Backbone.Model
+    defaults:
+      notes: ''
+
     # Fear the XSS.
     escapedJson: ->
         return json =
@@ -39,12 +42,14 @@ class @Place extends Backbone.Model
       @bind 'change', @recalcPoint
 
     recalcPoint: =>
-      lat = @get('lat')
-      lng = @get('lng')
-      @set('point', "POINT(#{lat} #{lng})")
+      if @hasChanged('lat') or @hasChanged('lng')
+        lat = @get('lat')
+        lng = @get('lng')
+        @set('point', "POINT(#{lat} #{lng})")
 
     toJSON: ->
       point: @get('point')
+      notes: @get('notes')
 
 class @Places extends Backbone.Collection
   model: Place

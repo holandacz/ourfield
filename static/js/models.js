@@ -47,6 +47,10 @@
       Place.__super__.constructor.apply(this, arguments);
     }
 
+    Place.prototype.defaults = {
+      notes: ''
+    };
+
     Place.prototype.escapedJson = function() {
       var json;
       return json = {
@@ -71,14 +75,17 @@
 
     Place.prototype.recalcPoint = function() {
       var lat, lng;
-      lat = this.get('lat');
-      lng = this.get('lng');
-      return this.set('point', "POINT(" + lat + " " + lng + ")");
+      if (this.hasChanged('lat') || this.hasChanged('lng')) {
+        lat = this.get('lat');
+        lng = this.get('lng');
+        return this.set('point', "POINT(" + lat + " " + lng + ")");
+      }
     };
 
     Place.prototype.toJSON = function() {
       return {
-        point: this.get('point')
+        point: this.get('point'),
+        notes: this.get('notes')
       };
     };
 
