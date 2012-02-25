@@ -31,18 +31,21 @@
         center: new google.maps.LatLng(this.model.get('centerLat'), this.model.get('centerLng')),
         mapTypeId: this.model.get('mapTypeId')
       });
-      this.collection.each(function(placeType) {
-        return new PlaceTypeView({
-          model: placeType,
-          collection: placeType.places,
-          map: _this.map
+      this.userid = this.model.get('userid');
+      if (this.userid > 0) {
+        this.collection.each(function(placeType) {
+          return new PlaceTypeView({
+            model: placeType,
+            collection: placeType.places,
+            map: _this.map
+          });
         });
-      });
-      return this.$('input[type="checkbox"]:checked').each(function(index, el) {
-        var model;
-        model = _this.collection.get($(el).val());
-        return model.show();
-      });
+        return this.$('input[type="checkbox"]:checked').each(function(index, el) {
+          var model;
+          model = _this.collection.get($(el).val());
+          return model.show();
+        });
+      }
     };
 
     MapView.prototype._togglePlaceType = function(e) {

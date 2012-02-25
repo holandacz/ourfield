@@ -13,6 +13,8 @@ class @MapView extends Backbone.View
       center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))
       mapTypeId: @model.get('mapTypeId')
 
+    @userid = @model.get('userid')
+
 
 
       # window.placeTypes.models[0].places.add({id:3, point: 'POINT (10.001 -84.134)'})
@@ -22,14 +24,13 @@ class @MapView extends Backbone.View
     # location: event.latLng
     # centered: false
 
+    if @userid > 0
+      @collection.each (placeType) =>
+        new PlaceTypeView(model: placeType, collection: placeType.places, map: @map)
 
-
-    @collection.each (placeType) =>
-      new PlaceTypeView(model: placeType, collection: placeType.places, map: @map)
-
-    @$('input[type="checkbox"]:checked').each (index, el) =>
-      model = @collection.get($(el).val())
-      model.show()
+      @$('input[type="checkbox"]:checked').each (index, el) =>
+        model = @collection.get($(el).val())
+        model.show()
 
 
 
