@@ -1,6 +1,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
+from tastypie.models import ApiKey 
 from places.views import get_pts as get_placepts
 from en.views import get_pts as get_enpts
 #import wingdbstub
@@ -24,8 +25,23 @@ def index(request):
     enpts = None
     placepts = None
     # placepts = get_placepts()
+    
+    # grab tastypie api_key for current user
+    # QUESTION: way to send json blog of current user to js app?
+    api_key = usergroups = ''
+    userisstaff = userissuperuser = 0
+    if request.user.is_authenticated():
+        api_key = ApiKey.objects.get(id=request.user.id)
+        usergroups = ','.join([group.name for group in usergroups])
+        userisstaff = 1 if user.is_staff else 0
+        userissuperuser = 1 if user.is_superuser else 0
+        
     context = {
         'user' : request.user,
+        'usergroups' : usergroups,
+        'userisstaff' : userisstaff,
+        'userissuperuser' : userissuperuser,
+        'api_key' : api_key,
         'center' : request.GET.get('ll', ""),
         'zoom' : request.GET.get('z', 0),
         'polys' : polys,

@@ -171,6 +171,7 @@
       this.map = this.options.map;
       this.model.bind('show', this.show);
       this.model.bind('hide', this.hide);
+      this.model.bind('sync', this.show);
       return this.render();
     };
 
@@ -225,6 +226,8 @@
 
     function InfoWindow() {
       this.domReady = __bind(this.domReady, this);
+
+      this.show = __bind(this.show, this);
       return InfoWindow.__super__.constructor.apply(this, arguments);
     }
 

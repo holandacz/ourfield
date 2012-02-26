@@ -85,6 +85,9 @@ class @PlaceItemView extends Backbone.View
     @map = @options.map
     @model.bind 'show', @show
     @model.bind 'hide', @hide
+
+    # LWE added to try to refresh inforwindow
+    @model.bind 'sync', @show
     @render()
 
   render: ->
@@ -134,7 +137,8 @@ class @InfoWindow extends Backbone.View
       maxWidth: 350
     google.maps.event.addListener @window, 'domready', @domReady
 
-  show: ->
+  # LWE changed from - to = to try to refresh inforwindow
+  show: =>
     @templateParams =
       id: _.uniqueId('info-window-')
       model: @model

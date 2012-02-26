@@ -114,12 +114,20 @@
       zoom = 10; //{{zoom}}
       center = "10.001025,-84.134588"; //"{{center}}"
 
+
       var appData = new AppData({
         userid: {{ user.id|default_if_none:0 }},
         username: "{{ user.username|default_if_none:"" }}",
         zoom: 16,
         center: "10.001025,-84.134588"
       });
+
+      DefaultParams.userid = {{ user.id|default_if_none:0 }}
+      DefaultParams.username = "{{ user.username|default_if_none:"" }}"
+      DefaultParams.usergroups = "{{ user.usergroups }}"
+      DefaultParams.userisstaff = {{ userisstaff }}
+      DefaultParams.userissuperuser = {{ userissuperuser }}
+      DefaultParams.api_key = "{{ api_key }}"
 
       var placeTypes = new PlaceTypes();
       placeTypes.add({id: 1, name: "school"});
