@@ -97,7 +97,7 @@ class @PlaceItemView extends Backbone.View
       position: @position
       draggable: true
       animation: google.maps.Animation.DROP
-      title: @position.lat() + "," + @position.lng()
+      title: @model.get('id') + " - " + @model.get('notes')
     )
 
     @infoWindow = new InfoWindow(map: @map, marker: @marker, model: @model)

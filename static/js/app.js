@@ -181,7 +181,7 @@
         position: this.position,
         draggable: true,
         animation: google.maps.Animation.DROP,
-        title: this.position.lat() + "," + this.position.lng()
+        title: this.model.get('id') + " - " + this.model.get('notes')
       });
       this.infoWindow = new InfoWindow({
         map: this.map,
