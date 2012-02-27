@@ -176,12 +176,30 @@
     };
 
     PlaceItemView.prototype.render = function() {
+      var title;
       this.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
+      title = 'P' + this.model.get('id');
+      if (this.model.get('blockno')) title += " - B" + this.model.get('blockno');
+      if (this.model.get('houseno')) {
+        title += " - HOUSE NO: " + this.model.get('houseno');
+      }
+      if (this.model.get('description')) {
+        title += "\n\n" + "DESCRIPTION: \n" + this.model.get('description');
+      }
+      if (this.model.get('persons')) {
+        title += "\n\n" + "PERSONS: \n" + this.model.get('persons');
+      }
+      if (this.model.get('actions')) {
+        title += "\n\n" + "ACTIONS: \n" + this.model.get('actions');
+      }
+      if (this.model.get('notes')) {
+        title += "\n\n" + "NOTES: \n" + this.model.get('notes');
+      }
       this.marker = new google.maps.Marker({
         position: this.position,
         draggable: true,
         animation: google.maps.Animation.DROP,
-        title: this.model.get('id') + " - " + this.model.get('notes')
+        title: title
       });
       this.infoWindow = new InfoWindow({
         map: this.map,

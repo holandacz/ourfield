@@ -93,11 +93,32 @@ class @PlaceItemView extends Backbone.View
   render: ->
     @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
 
+    title = 'P' + @model.get('id')
+    if @model.get('blockno')
+      title += " - B" + @model.get('blockno')
+
+    if @model.get('houseno')
+      title += " - HOUSE NO: " + @model.get('houseno')
+
+    if @model.get('description')
+      title += "\n\n" + "DESCRIPTION: \n" + @model.get('description')
+
+    if @model.get('persons')
+      title += "\n\n" + "PERSONS: \n" + @model.get('persons')
+
+    if @model.get('actions')
+      title += "\n\n" + "ACTIONS: \n" + @model.get('actions')
+
+    if @model.get('notes')
+      title += "\n\n" + "NOTES: \n" + @model.get('notes')
+
+
+
     @marker = new google.maps.Marker(
       position: @position
       draggable: true
       animation: google.maps.Animation.DROP
-      title: @model.get('id') + " - " + @model.get('notes')
+      title: title
     )
 
     @infoWindow = new InfoWindow(map: @map, marker: @marker, model: @model)
