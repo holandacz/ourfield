@@ -32,12 +32,13 @@ class Place(MyModel):
     districtno = models.PositiveIntegerField("District No", null=True, blank=True)
     territoryno = models.CharField("Territory No", max_length=6, null=True, blank=True)
     sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
-    blockno = models.PositiveIntegerField("Block No", null=True, blank=True)
+    blockno = models.CharField("Block No", max_length=32, null=True, blank=True)
     pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
 
     houseno = models.CharField("House No", max_length=32, null=True, blank=True)
     districtname = models.CharField("District Name", max_length=32, null=True, blank=True)
     directions = models.CharField("Directions", max_length=255, null=True, blank=True)
+    description = models.CharField("Description", max_length=255, null=True, blank=True)
 
     number = models.PositiveIntegerField("Number", null=True, blank=True)
     geo_name_id = models.PositiveIntegerField("GEO Name ID", null=True, blank=True)
@@ -46,6 +47,7 @@ class Place(MyModel):
 
     postalcode = models.CharField("Zip Code", max_length=32, null=True, blank=True)
 
+    actions = models.TextField("Actions", null=True, blank=True)
     notes = models.TextField("Notes", null=True, blank=True)
     noteshtml = models.TextField("Notes HTML", null=True, blank=True)
 
