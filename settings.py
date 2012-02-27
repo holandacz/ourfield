@@ -166,6 +166,7 @@ INSTALLED_APPS = [
     "compressor",
     #"cafe",
     "debug_toolbar",
+    "djboss",
     "mailer",
     "django_openid",
     "timezones",
@@ -210,11 +211,11 @@ AUTH_PROFILE_MODULE = "profiles.Profile"
 NOTIFICATION_LANGUAGE_MODULE = "account.Account"
 
 ACCOUNT_OPEN_SIGNUP = True
-ACCOUNT_USE_OPENID = False
-ACCOUNT_REQUIRED_EMAIL = False
-ACCOUNT_EMAIL_VERIFICATION = False
-ACCOUNT_EMAIL_AUTHENTICATION = False
-ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
+ACCOUNT_REQUIRED_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = True
+ACCOUNT_EMAIL_AUTHENTICATION = True
+ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = True
+
 
 AUTHENTICATION_BACKENDS = [
     "pinax.apps.account.auth_backends.AuthenticationBackend",

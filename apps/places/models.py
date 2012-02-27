@@ -30,7 +30,7 @@ class Place(MyModel):
     provinceno = models.PositiveIntegerField("Province No", null=True, blank=True)
     cantonno = models.PositiveIntegerField("Canton No", null=True, blank=True)
     districtno = models.PositiveIntegerField("District No", null=True, blank=True)
-    territoryno = models.PositiveIntegerField("Territory No", null=True, blank=True)
+    territoryno = models.CharField("Territory No", max_length=6, null=True, blank=True)
     sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
     blockno = models.PositiveIntegerField("Block No", null=True, blank=True)
     pointno = models.PositiveIntegerField("Point No", null=True, blank=True)

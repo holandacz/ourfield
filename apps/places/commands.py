@@ -4,6 +4,71 @@ from djboss.commands import *
 # a copy of this file should be copied to djboss app dir
 import wingdbstub
 
+@command
+@argument('howmany', type=int, help="How many notes to list. 0 for all.")   
+def places_html2text(args):
+    """Convert html to text and put into notes field."""
+    import html2text
+    #from BeautifulSoup import BeautifulSoup
+    
+
+    howmany = 0 if args.howmany <= 0 else args.howmany
+    from places.models import Place
+
+    # only records that have data in noteshtml
+    placeslist = Place.objects.filter(noteshtml__isnull=False)
+    #placeslist = Place.objects.all()
+    if howmany > 0:
+	placeslist = placeslist[:howmany]
+	
+    for place in placeslist:
+	print place.id
+	
+	mkhtml = html2text.HTML2Text()
+	mkhtml.ignore_links = False    	
+	text = mkhtml.handle(place.noteshtml)
+	text = text.strip()
+	text = text.replace('\n\n', '\n')
+	place.notes = text
+	place.save()
+    
+	x = 0
+
+
+@command
+@argument('howmany', type=int, help="How many notes to list. 0 for all.")   
+def places_strip_enml(args):
+    """Strip ENML from noteshtml."""
+    import re
+    
+    howmany = 0 if args.howmany <= 0 else args.howmany
+    from places.models import Place
+
+    # only records that have data in noteshtml
+    placeslist = Place.objects.filter(noteshtml__isnull=False)
+    #placeslist = Place.objects.all()
+    if howmany > 0:
+	placeslist = placeslist[:howmany]
+	
+    for place in placeslist:
+	if 'DOCTYPE en-note' in place.noteshtml:
+	    #reobj = re.compile(r"^.*?<en-note.*?>\s*(?P<html>.*?)\s*<\?xml.*?>", re.DOTALL)
+	    reobj = re.compile(r"^.*?<en-note.*?>[\rn]*(?P<html>.*?)[\\rn]*</en-note>", re.DOTALL)
+	    match = reobj.search(place.noteshtml)
+	    # cases where enml is empty
+	    if match:
+	    
+		html = match.group("html").strip() 
+		place.noteshtml = html
+		place.save()
+		print place.id;
+	    
+		x = 0
+    
+
+    
+
+
 # Load all XLS house data
 @command
 @argument('howmany', type=int, help="How many to load. 0 for all.")    
