@@ -4,8 +4,8 @@ from places.models import Place
 
 #class PlaceAdmin(admin.OSMGeoAdmin):
 class PlaceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'provinceno', 'cantonno', 'districtno', 'districtname', 'territoryno', 'sortno', 'blockno', 'pointno', 'directions', 'geocoded', 'confirmed', 'deleted')
-    list_filter = ('sourcetype', 'provinceno', 'cantonno', 'districtno', 'districtname', 'territoryno', 'geocoded', 'confirmed', 'deleted')
+    list_display = ('id', 'territoryno', 'sortno', 'provinceno', 'cantonno', 'districtno', 'districtname', 'blockno', 'pointno', 'directions', 'geocoded', 'confirmed', 'deleted')
+    list_filter = ('territoryno', 'sourcetype', 'provinceno', 'cantonno', 'districtno', 'districtname', 'geocoded', 'confirmed', 'deleted')
     ordering = ('provinceno', 'cantonno', 'districtno', 'territoryno', 'sortno')    
     #options = {
         #'layers': ['google.streets', 'google.hybrid'],

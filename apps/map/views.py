@@ -33,8 +33,8 @@ def index(request):
     if request.user.is_authenticated():
         api_key = ApiKey.objects.get(id=request.user.id)
         usergroups = ','.join([group.name for group in usergroups])
-        userisstaff = 1 if user.is_staff else 0
-        userissuperuser = 1 if user.is_superuser else 0
+        userisstaff = 1 if request.user.is_staff else 0
+        userissuperuser = 1 if request.user.is_superuser else 0
         
     context = {
         'user' : request.user,
