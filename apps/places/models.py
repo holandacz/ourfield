@@ -89,7 +89,7 @@ class Place(MyModel):
             ret += self.districtname
         if self.territoryno:
             ret += '-'
-            ret += str(self.territoryno)
+            ret += self.territoryno
         if self.sortno:
             ret += ' '
             ret += str(self.sortno).zfill(4)
