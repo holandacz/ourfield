@@ -100,7 +100,7 @@ class Place(MyModel):
             ret += str(self.sortno).zfill(4)
         if self.blockno:
             ret += ' b'
-            ret += str(self.blockno).zfill(3)
+            ret += self.blockno
         if self.pointno:
             ret += ' p'
             ret += str(self.pointno).zfill(2)
