@@ -11,13 +11,26 @@ from tastypie.models import create_api_key
 models.signals.post_save.connect(create_api_key, sender=User)
 
 class Place(MyModel):
+    confirmed = models.BooleanField("Confirmed?",)
+    territoryno = models.CharField("Territory No", max_length=6, null=True, blank=True)
+    sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
+    blockno = models.CharField("Block No", max_length=32, null=True, blank=True)
+    pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
+    houseno = models.CharField("House No", max_length=32, null=True, blank=True)
+    persons = models.TextField("Persons", null=True, blank=True)
+    interestlevel = models.IntegerField("Interest Level", null=True, blank=True)
+    actions = models.TextField("Actions", null=True, blank=True)
+    notes = models.TextField("Notes", null=True, blank=True)
+    description = models.CharField("Description", max_length=255, null=True, blank=True)
+
+    name = models.CharField("Name", max_length=128, null=True, blank=True)
+
     placetype_id = models.IntegerField("Place Type ID", null=True, blank=True)
     sourcetype = models.CharField("Source Type", max_length=16, null=True, blank=True)
     source_id = models.IntegerField("Source ID", null=True, blank=True)
     geocoded = models.BooleanField("GeoCoded?", )
     multiunit = models.BooleanField("MultiUnit?", )
-    residential = models.BooleanField("Residential?", )
-    confirmed = models.BooleanField("Confirmed?",)
+    residential = models.BooleanField("Residential?", default=True )
     deleted = models.BooleanField("Deleted?",)
     googlemapurl = models.CharField("Google Map URL", max_length=255, blank=True)
     point = models.PointField("LatLng", default='POINT(0 0)')
@@ -25,30 +38,20 @@ class Place(MyModel):
     owner =  CurrentUserField(blank=True, related_name = "flt_place_owner", default=1)
     modifier = CurrentUserField(blank=True, related_name = "flt_place_modifier", default=1)
 
-    name = models.CharField("Name", max_length=128, null=True, blank=True)
 
     provinceno = models.PositiveIntegerField("Province No", null=True, blank=True)
     cantonno = models.PositiveIntegerField("Canton No", null=True, blank=True)
     districtno = models.PositiveIntegerField("District No", null=True, blank=True)
-    territoryno = models.CharField("Territory No", max_length=6, null=True, blank=True)
-    sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
-    blockno = models.CharField("Block No", max_length=32, null=True, blank=True)
-    pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
 
-    houseno = models.CharField("House No", max_length=32, null=True, blank=True)
-    districtname = models.CharField("District Name", max_length=32, null=True, blank=True)
     directions = models.CharField("Directions", max_length=255, null=True, blank=True)
-    description = models.CharField("Description", max_length=255, null=True, blank=True)
+    districtname = models.CharField("District Name", max_length=32, null=True, blank=True)
 
     number = models.PositiveIntegerField("Number", null=True, blank=True)
     geo_name_id = models.PositiveIntegerField("GEO Name ID", null=True, blank=True)
-    interestlevel = models.IntegerField("Interest Level", null=True, blank=True)
     religiousaffiliation = models.CharField("Religious Affiliation", max_length=32, null=True, blank=True)
 
     postalcode = models.CharField("Zip Code", max_length=32, null=True, blank=True)
 
-    actions = models.TextField("Actions", null=True, blank=True)
-    notes = models.TextField("Notes", null=True, blank=True)
     noteshtml = models.TextField("Notes HTML", null=True, blank=True)
 
     objects = models.GeoManager()
