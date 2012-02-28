@@ -128,8 +128,15 @@ class @PlaceItemView extends Backbone.View
     @show()
 
   dragend: =>
-    @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())
-    @model.save()
+    if confirm("Are you sure you want to move this marker?")
+      @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())
+      @model.save()
+    else
+      # move back to original position
+      @marker.position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
+      @marker.setMap(@map)
+
+
 
   show: =>
     @marker.setMap(@map)

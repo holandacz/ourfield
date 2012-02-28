@@ -211,11 +211,16 @@
     };
 
     PlaceItemView.prototype.dragend = function() {
-      this.model.set({
-        lat: this.marker.position.lat(),
-        lng: this.marker.position.lng()
-      });
-      return this.model.save();
+      if (confirm("Are you sure you want to move this marker?")) {
+        this.model.set({
+          lat: this.marker.position.lat(),
+          lng: this.marker.position.lng()
+        });
+        return this.model.save();
+      } else {
+        this.marker.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
+        return this.marker.setMap(this.map);
+      }
     };
 
     PlaceItemView.prototype.show = function() {

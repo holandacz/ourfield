@@ -16,10 +16,21 @@
 	"buffers":
 	[
 		{
-			"file": "static/js/app.coffee",
+			"file": "templates/map/edit-info-window-template.html",
 			"settings":
 			{
-				"buffer_size": 3057,
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "",
+			"file": "static/js/app.coffee",
+			"file_size": 5233,
+			"file_write_time": 129748763783362938,
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		},
@@ -27,60 +38,58 @@
 			"file": "static/js/models.coffee",
 			"settings":
 			{
-				"buffer_size": 1776,
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "static/js/backbone-tastypie.js",
+			"file": "apps/places/commands.py",
 			"settings":
 			{
-				"buffer_size": 3211,
+				"buffer_size": 0,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "SELECT id, created, modified, owner_id, modifier_id, geocoded, point FROM of_evernote\n\n\n\ncurl -d \"id=660;username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295\" http://x/api/v1/place/\n\n\n\n\ncurl -H \"Authorization: ApiKey larry:d65af2857fc77e4ce56299e53f6858178dfab295\" http://x/api/v1/place/660/\n\n\n\nddd\n\ncurl http://localhost/api/v1/place/660/?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295;format=json\n\n\n\n-d \"username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295\" HTTP POST data (h) => ( H )\n\n\ncurl -H \"Authorization: ApiKey larry:d65af2857fc77e4ce56299e53f6858178dfab295;format=json\" http://x/api/v1/place/\n\ncurl http://x/api/v1/place/params = $.param(\n  format: 'json'\n  username: USERNAME,\n  api_key: API_KEY\n)\n\n.url = \"/something/something?#{params}\"\n[2/21/12 2:24:34 AM] Umair Siddique: 410 691 264",
-			"settings":
-			{
-				"buffer_size": 838,
-				"line_ending": "Windows",
-				"name": "SELECT id, created, modified, owner_id, modifier_i"
-			}
-		},
-		{
-			"contents": "{% extends \"site_base.html\" %}\n{% load staticfiles %}\n\n{% load i18n %}\n{% load ifsetting_tag %}\n{% load map_tags %}\n\n{% block head_title %}{% trans \"Map\" %}{% endblock %}\n\n{% block extra_style %}\n	<link href=\"{% static \"css/map.css\" %}\" rel=\"stylesheet\" />\n{% endblock %}\n\n{% block extra_script %}\n    <script>\n      API = \"{% url api_dispatch_list api_name=\"v1\" resource_name=\"place\" %}\";\n      {% if data %}\n      	app = {loaded: true};\n      {% endif %}\n    </script>\n{% endblock %}\n\n{% block body %}\n  <div id=\"map\">\n    <div class=\"container\">\n      <div class=\"map-container map16\">\n          <div id=\"place-types\">Places:&nbsp;\n            <label for=\"place-types-1\">1</label>&nbsp;<input id=\"place-types-1\" name=\"place-types\" type=\"checkbox\" value=\"1\" checked=\"checked\" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for=\"place-types-2\">2</label>&nbsp;<input id=\"place-types-2\" name=\"place-types\" type=\"checkbox\" value=\"2\" />\n          </div>\n          <div>\n        <div id=\"map-canvas\">\n\n\n          <div id=\"gv_center_container\" style=\"display: block; position: absolute; left: 4px; bottom: 40px; \">\n              <table style=\"cursor:crosshair; filter:alpha(opacity=80); -moz-opacity:0.80; opacity:0.80;\"\n              cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n                  <tbody>\n                      <tr valign=\"middle\">\n                          <td>\n                              <div id=\"gv_center_coordinates\" class=\"gv_center_coordinates\" onclick=\"GV_Toggle('gv_crosshair'); gv_crosshair_temporarily_hidden = false;\"\n                              title=\"Click here to turn center crosshair on or off\">Center:\n                                  <span id=\"center_coordinate_pair\">38.61687,-107.66602</span>\n                              </div>\n                          </td>\n                          <td>\n                              <div id=\"gv_measurement_icon\" style=\"display:block; width:23px; height:15px; margin-left:3px; cursor:pointer;\">\n                                  <a href=\"javascript:void(0);\" onclick=\"GV_Place_Measurement_Tools();\"\n                                  title=\"Click here for measurement tools\" style=\"cursor:pointer;\">\n                                  <img src=\"{% static \"img/map/ruler.gif\" %}\" width=\"23\" height=\"13\" border=\"0\" vspace=\"1\" class=\"gmnoprint\"></a>\n                              </div>\n                          </td>\n                      </tr>\n                  </tbody>\n              </table>\n          </div>\n\n\n        </div>\n\n      </div>\n    </div><!-- container -->\n  </div>\n{% endblock %}\n\n{% block extra_body %}\n\n<script type=\"text/javascript\" src=\"{% static \"js/jquery-1.7.1.min.js\" %}\"></script>\n<script type=\"text/javascript\" src=\"{% static \"js/underscore.js\" %}\"></script>\n<script type=\"text/javascript\" src=\"{% static \"js/json2.js\" %}\"></script>\n<script type=\"text/javascript\" src=\"{% static \"js/backbone.js\" %}\"></script>\n<script type=\"text/javascript\" src=\"{% static \"js/backbone-tastypie.js\" %}\"></script>\n<script type=\"text/javascript\" src=\"//maps.googleapis.com/maps/api/js?sensor=false\"></script>\n\n<script type=\"text/javascript\" src=\"{% static \"js/models.js\" %}\"></script>\n<script type=\"text/javascript\" src=\"{% static \"js/app.js\" %}\"></script>\n\n<script type=\"text/javascript\">\n    zoom = 10; //{{zoom}}\n    center = \"10.001025,-84.134588\"; //\"{{center}}\"\n\n    var appData = new AppData({\n      zoom: 16,\n      center: \"10.001025,-84.134588\"\n    });\n\n    var placeTypes = new PlaceTypes();\n    placeTypes.add({id: 1, name: \"school\"});\n    placeTypes.add({id: 2, name: \"business\"});\n\n    var app = new MapView({\n      el: '#map',\n      model: appData,\n      collection: placeTypes,\n      title: \"This is a title\"\n    });\n\n    // placeTypes.get(1).show();\n    // placeTypes.get(2).show();\n\n    //places.fetch();\n\n    x = 0;\n</script>\n	\n{% endblock %}",
-			"file": "templates/map/base.html",
-			"file_size": 3813,
-			"file_write_time": 129743287781864609,
-			"settings":
-			{
-				"buffer_size": 3829,
-				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "apps/places/models.py",
 			"settings":
 			{
-				"buffer_size": 5057,
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "{\n    \"error_message\": \"invalid literal for int() with base 10: '/api/v1/place/660/'\",\n    \"traceback\": \"Traceback (most recent call last):\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\tastypie\\\\resources.py\\\", line 192, in wrapper\\n    response = callback(request, *args, **kwargs)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\tastypie\\\\resources.py\\\", line 406, in dispatch_detail\\n    return self.dispatch('detail', request, **kwargs)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\tastypie\\\\resources.py\\\", line 427, in dispatch\\n    response = method(request, **kwargs)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\tastypie\\\\resources.py\\\", line 1131, in put_detail\\n    updated_bundle = self.obj_update(bundle, request=request, **self.remove_api_resource_names(kwargs))\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\tastypie\\\\resources.py\\\", line 1824, in obj_update\\n    bundle.obj.save()\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\apps\\\\places\\\\models.py\\\", line 116, in save\\n    super(Place, self).save(*args, **kw)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\base.py\\\", line 460, in save\\n    self.save_base(using=using, force_insert=force_insert, force_update=force_update)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\base.py\\\", line 522, in save_base\\n    manager.using(using).filter(pk=pk_val).exists())):\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\query.py\\\", line 550, in filter\\n    return self._filter_or_exclude(False, *args, **kwargs)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\query.py\\\", line 568, in _filter_or_exclude\\n    clone.query.add_q(Q(*args, **kwargs))\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\sql\\\\query.py\\\", line 1194, in add_q\\n    can_reuse=used_aliases, force_having=force_having)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\sql\\\\query.py\\\", line 1129, in add_filter\\n    connector)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\contrib\\\\gis\\\\db\\\\models\\\\sql\\\\where.py\\\", line 41, in add\\n    super(GeoWhereNode, self).add(data, connector)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\sql\\\\where.py\\\", line 67, in add\\n    value = obj.prepare(lookup_type, value)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\sql\\\\where.py\\\", line 316, in prepare\\n    return self.field.get_prep_lookup(lookup_type, value)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\fields\\\\__init__.py\\\", line 292, in get_prep_lookup\\n    return self.get_prep_value(value)\\n\\n  File \\\"C:\\\\Users\\\\Larry\\\\__prjs\\\\ourfield\\\\ve\\\\lib\\\\site-packages\\\\django\\\\db\\\\models\\\\fields\\\\__init__.py\\\", line 479, in get_prep_value\\n    return int(value)\\n\\nValueError: invalid literal for int() with base 10: '/api/v1/place/660/'\\n\"\n}\n1",
+			"file": "apps/places/admin.py",
 			"settings":
 			{
-				"buffer_size": 3232,
-				"line_ending": "Windows",
-				"name": "{"
+				"buffer_size": 0,
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "apps/places/api.py",
+			"file": "apps/map/views.py",
 			"settings":
 			{
-				"buffer_size": 1295,
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "",
+			"file": "apps/places/api.py",
+			"file_size": 1358,
+			"file_write_time": 129748471268282032,
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "fabfile.py",
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		}
@@ -92,6 +101,10 @@
 		"selected_items":
 		[
 			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
 				":w",
 				":w - Save"
 			],
@@ -101,10 +114,6 @@
 			],
 			[
 				"pack	",
-				"Package Control: Install Package"
-			],
-			[
-				"pack",
 				"Package Control: Install Package"
 			],
 			[
@@ -177,38 +186,55 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Larry/__prjs/ourfield/static/js/backbone.js",
-		"/C/Users/Larry/__prjs/ourfield/static/js/crosshair.coffee",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/models.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
+		"/C/Users/Larry/__prjs/ourfield/local_settings.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
+		"/C/Users/Larry/__prjs/ourfield_2/settings.py",
+		"/C/Users/Larry/__prjs/ourfield/settings.py",
+		"/C/Users/Larry/__prjs/ourfield_2/local_settings.py",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/templates/index.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/profiles/_profile_item.html",
+		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
 		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
+		"/C/Users/Larry/__prjs/ourfield/.gitignore",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/TodoManager/TodoManager.sublime-settings",
+		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/templates/subnav_base.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/site_base.html",
+		"/C/Users/Larry/__prjs/ourfield/static/js/app_map_sample.coffee",
+		"/C/Users/Larry/__prjs/ourfield/private/lwe_scratch_notes_onmodels_etc.md",
+		"/C/Users/Larry/__prjs/ourfield/docs/lwe_scratch_notes_onmodels_etc.md",
+		"/C/Users/Larry/__prjs/ourfield/static/js/ICanHaz.min.js",
+		"/C/Users/Larry/__prjs/z_others/_b/index.html",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Tag/Tag Package.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Larry/__prjs/ourfield/static/js/backbone-tastypie.js",
+		"/C/Users/Larry/__prjs/ourfield/static/js/crosshair.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/js/backbone.js",
 		"/C/Users/Larry/__prjs/ourfield/static/js/routes.js",
 		"/C/Users/Larry/My Dropbox/ourfield/github_fltsys/private/js/underscore.js",
 		"/C/Users/Larry/My Dropbox/ourfield/github_fltsys/private/js/backbone.js",
 		"/C/Users/Larry/My Dropbox/ourfield/github_fltsys/private/js/backbone-tastypie.js",
 		"/C/Users/Larry/__prjs/ourfield/apps/en/urls.py",
-		"/C/Users/Larry/__prjs/ourfield/settings.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/admin.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
 		"/C/Users/Larry/My Dropbox/ourfield/github_fltsys/private/js/gmap4.html",
 		"/C/Users/Larry/__prjs/ourfield/private/data/dat/geo_names/featureCodes_en.txt",
 		"/C/Users/Larry/__prjs/ourfield/private/data/dat/geo_names/boundary_types.txt",
 		"/C/Users/Larry/__prjs/ourfield/private/data/dat/geo_names/geonames_allcountries.txt",
-		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/en/views.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/en/api.py",
 		"/C/Users/Larry/__prjs/ourfield/urls.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/en/models.py",
 		"/C/Users/Larry/__prjs/ourfield_2/apps/en/views.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/models.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/urls.py",
 		"/C/Users/Larry/__prjs/ourfield_2/apps/en/urls.py",
 		"/C/Users/Larry/__prjs/ourfield_2/apps/en/note.py",
 		"/C/Users/Larry/__prjs/ourfield_2/apps/en/models.py",
 		"/C/Users/Larry/__prjs/ourfield_2/apps/home/views.py",
-		"/C/Users/Larry/__prjs/z_others/_b/index.html",
 		"/C/Users/Larry/__prjs/ourfield/.idea/workspace.xml",
-		"/C/Users/Larry/__prjs/ourfield/.gitignore",
 		"/C/Users/Larry/__prjs/ourfield/fixtures/initial_data.json",
-		"/C/Users/Larry/__prjs/ourfield/templates/site_base.html",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/templates/theme_base.html",
 		"/C/Users/Larry/__prjs/ourfield/static/js/models.js",
 		"/C/Users/Larry/__prjs/ourfield/static/js/app.js",
@@ -235,7 +261,6 @@
 		"/C/Users/Larry/__prjs/z_others/Koffeeban/app/assets/javascripts/controllers/lanes-controller.js.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/js/_models_try.coffee",
 		"/C/Users/Larry/__prjs/z_others/_b/javascripts/backbone-tastypie.js",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
 		"/C/Users/Larry/__prjs/z_others/backbone-skeleton_2/index.html",
 		"/C/Users/Larry/__prjs/z_others/_b/web_server.coffee",
 		"/C/Users/Larry/__prjs/z_others/_b/coffee.bat",
@@ -288,23 +313,7 @@
 		"/C/Users/Larry/__prjs/z_others/cham/src/public/js/script.coffee",
 		"/C/Users/Larry/autostart_console.bat",
 		"/C/Users/Larry/__prjs/ourfield/activate.bat",
-		"/C/Users/Larry/__prjs/z_others/mapx/coffee/app.coffee",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/views.py",
-		"/C/Users/Larry/__prjs/ourfield/static/js/map_.js",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/map.coffee",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/map_2.coffee",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/mapnew.coffee",
-		"/C/Users/Larry/__prjs/ourfield/apps/current_user/models.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/map/api.py",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/app.coffee",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Terminal.sublime-settings",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Terminal/Terminal.sublime-settings",
-		"/C/Users/Larry/__prjs/z_others/memento/views.coffee",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Side Bar.sublime-settings",
-		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Terminal/Terminal.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/about/views.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/common/static/ext/backbone.js",
-		"/C/Users/Larry/__prjs/ourfield/apps/common/static/ext/jquery-1.6.1.js"
+		"/C/Users/Larry/__prjs/z_others/mapx/coffee/app.coffee"
 	],
 	"find":
 	{
@@ -315,6 +324,9 @@
 		"height": 0.0,
 		"where_history":
 		[
+			"C:\\Users\\Larry\\__prjs\\ourfield",
+			"C:\\Users\\Larry\\__prjs\\ourfield_2",
+			"C:\\Users\\Larry\\__prjs\\ourfield",
 			"C:\\Users\\Larry\\__prjs\\ourfield\\scripts",
 			"C:\\Users\\Larry\\__prjs\\z_others\\memento",
 			"C:\\Users\\Larry\\__prjs\\ourfield\\apps",
@@ -328,6 +340,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"territoryno",
+			"territory",
+			"beautifulsoup",
+			"DefaultParams",
+			"AppData",
+			"username",
+			"profile.name",
+			"limit",
+			"close",
+			"center",
 			"cursor",
 			"addListener",
 			"click",
@@ -386,6 +408,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"user.is_authenticated",
 			"lng",
 			"place",
 			"Place",
@@ -408,53 +431,53 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "static/js/app.coffee",
+					"file": "templates/map/edit-info-window-template.html",
 					"settings":
 					{
-						"buffer_size": 3057,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								614,
-								614
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1262.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "static/js/models.coffee",
+					"file": "static/js/app.coffee",
 					"settings":
 					{
-						"buffer_size": 1776,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								419,
-								419
+								0,
+								0
 							]
 						],
 						"settings":
@@ -473,10 +496,10 @@
 				},
 				{
 					"buffer": 2,
-					"file": "static/js/backbone-tastypie.js",
+					"file": "static/js/models.coffee",
 					"settings":
 					{
-						"buffer_size": 3211,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
@@ -491,8 +514,9 @@
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -502,74 +526,18 @@
 				},
 				{
 					"buffer": 3,
+					"file": "apps/places/commands.py",
 					"settings":
 					{
-						"buffer_size": 838,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								85,
+								0,
 								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "SELECT id, created, modified, owner_id, modifier_i",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "templates/map/base.html",
-					"settings":
-					{
-						"buffer_size": 3829,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								953,
-								953
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 371.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "apps/places/models.py",
-					"settings":
-					{
-						"buffer_size": 5057,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4804,
-								4804
 							]
 						],
 						"settings":
@@ -581,30 +549,92 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 504.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 4,
+					"file": "apps/places/models.py",
 					"settings":
 					{
-						"buffer_size": 3232,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1227,
-								1227
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"auto_name": "{",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "apps/places/admin.py",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "apps/map/views.py",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -617,15 +647,15 @@
 					"file": "apps/places/api.py",
 					"settings":
 					{
-						"buffer_size": 1295,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1029,
-								1029
+								0,
+								0
 							]
 						],
 						"settings":
@@ -633,6 +663,36 @@
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "fabfile.py",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -707,6 +767,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 252.0,
+	"side_bar_width": 235.0,
 	"status_bar_visible": true
 }
