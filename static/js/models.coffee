@@ -51,9 +51,11 @@ class @Place extends Backbone.Model
     toJSON: ->
       point: @get('point')
       territoryno: @get('territoryno')
+      sortno: @get('sortno')
       blockno: @get('blockno')
       houseno: @get('houseno')
       description: @get('description')
+      languages: @get('languages')
       persons: @get('persons')
       notes: @get('notes')
       interestlevel: @get('interestlevel')

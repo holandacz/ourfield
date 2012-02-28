@@ -93,23 +93,34 @@ class @PlaceItemView extends Backbone.View
     @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
 
     title = 'P' + @model.get('id')
+    if @model.get('interestlevel')
+      title += " - INTEREST " + @model.get('interestlevel')
+
+    if @model.get('territoryno')
+      title += " - TERRITORY# " + @model.get('territoryno')
+
+    if @model.get('sortno')
+      title += " - SORT# " + @model.get('sortno')
+
     if @model.get('blockno')
-      title += " - B" + @model.get('blockno')
+      title += " - BLOCK# " + @model.get('blockno')
 
     if @model.get('houseno')
-      title += " - HOUSE NO: " + @model.get('houseno')
+      title += " - HOUSE# " + @model.get('houseno')
 
     if @model.get('description')
-      title += "\n\n" + "DESCRIPTION: \n" + @model.get('description')
+      title += "\n\n" + "DESCRIPTION\n" + @model.get('description')
+
+    # code to show languages with a number in front of language code
 
     if @model.get('persons')
-      title += "\n\n" + "PERSONS: \n" + @model.get('persons')
+      title += "\n\n" + "PERSONS\n" + @model.get('persons')
 
     if @model.get('actions')
-      title += "\n\n" + "ACTIONS: \n" + @model.get('actions')
+      title += "\n\n" + "ACTIONS\n" + @model.get('actions')
 
     if @model.get('notes')
-      title += "\n\n" + "NOTES: \n" + @model.get('notes')
+      title += "\n\n" + "NOTES\n" + @model.get('notes')
 
 
 
@@ -145,7 +156,6 @@ class @PlaceItemView extends Backbone.View
     @marker.setMap(null)
 
   click: =>
-    console.log "PlaceItemView#click"
     @infoWindow.show()
 
 class @InfoWindow extends Backbone.View
@@ -164,7 +174,6 @@ class @InfoWindow extends Backbone.View
       maxWidth: 350
     google.maps.event.addListener @window, 'domready', @domReady
 
-  # LWE changed from - to = to try to refresh inforwindow
   show: =>
     @templateParams =
       id: _.uniqueId('info-window-')
@@ -199,10 +208,12 @@ class EditInfoWindow extends Backbone.View
   _save: ->
     @model.set
       territoryno: @$('#ed-territoryno').val()
+      sortno: @$('#ed-sortno').val()
       blockno: @$('#ed-blockno').val()
       interestlevel: @$('#ed-interestlevel').val()
       houseno: @$('#ed-houseno').val()
       description: @$('#ed-description').val()
+      languages: @$('#ed-languages').val()
       persons: @$('#ed-persons').val()
       notes: @$('#ed-notes').val()
       actions: @$('#ed-actions').val()

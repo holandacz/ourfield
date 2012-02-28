@@ -92,9 +92,11 @@
       return {
         point: this.get('point'),
         territoryno: this.get('territoryno'),
+        sortno: this.get('sortno'),
         blockno: this.get('blockno'),
         houseno: this.get('houseno'),
         description: this.get('description'),
+        languages: this.get('languages'),
         persons: this.get('persons'),
         notes: this.get('notes'),
         interestlevel: this.get('interestlevel'),

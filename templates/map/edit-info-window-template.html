@@ -14,6 +14,12 @@
           </div>
         </div>
         <div class="control-group">
+          <label class="control-label">Sort #</label>
+          <div class="controls">
+            <input id="ed-sortno" type="text" class="input-small" value="<%= model.get('sortno') %>">
+          </div>
+        </div>
+        <div class="control-group">
           <label class="control-label">Block #</label>
           <div class="controls">
             <input id="ed-blockno" type="text" class="input-small" value="<%= model.get('blockno') %>">
@@ -37,6 +43,13 @@
           <div class="controls">
             <textarea id="ed-persons" class="input-xlarge"><%= model.get('persons') %></textarea>
             <p class="help-block">Persons contacted at this place.</p>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Languages</label>
+          <div class="controls">
+            <textarea id="ed-languages" class="input-xlarge"><%= model.get('languages') %></textarea>
+            <p class="help-block">Insert a number in front of languages spoken in order of proficiency.</p>
           </div>
         </div>
         <div class="control-group">

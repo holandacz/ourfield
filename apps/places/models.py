@@ -22,6 +22,7 @@ class Place(MyModel):
     actions = models.TextField("Actions", null=True, blank=True)
     notes = models.TextField("Notes", null=True, blank=True)
     description = models.CharField("Description", max_length=255, null=True, blank=True)
+    languages = models.CharField("Description", max_length=255, null=True, blank=True, default="e:English\ns:Spanish\nch:Chinese\nf:French\ni:Italian\nx:German\n?:Other")
 
     name = models.CharField("Name", max_length=128, null=True, blank=True)
 

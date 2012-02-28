@@ -179,21 +179,32 @@
       var title;
       this.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
       title = 'P' + this.model.get('id');
-      if (this.model.get('blockno')) title += " - B" + this.model.get('blockno');
+      if (this.model.get('interestlevel')) {
+        title += " - INTEREST " + this.model.get('interestlevel');
+      }
+      if (this.model.get('territoryno')) {
+        title += " - TERRITORY# " + this.model.get('territoryno');
+      }
+      if (this.model.get('sortno')) {
+        title += " - SORT# " + this.model.get('sortno');
+      }
+      if (this.model.get('blockno')) {
+        title += " - BLOCK# " + this.model.get('blockno');
+      }
       if (this.model.get('houseno')) {
-        title += " - HOUSE NO: " + this.model.get('houseno');
+        title += " - HOUSE# " + this.model.get('houseno');
       }
       if (this.model.get('description')) {
-        title += "\n\n" + "DESCRIPTION: \n" + this.model.get('description');
+        title += "\n\n" + "DESCRIPTION\n" + this.model.get('description');
       }
       if (this.model.get('persons')) {
-        title += "\n\n" + "PERSONS: \n" + this.model.get('persons');
+        title += "\n\n" + "PERSONS\n" + this.model.get('persons');
       }
       if (this.model.get('actions')) {
-        title += "\n\n" + "ACTIONS: \n" + this.model.get('actions');
+        title += "\n\n" + "ACTIONS\n" + this.model.get('actions');
       }
       if (this.model.get('notes')) {
-        title += "\n\n" + "NOTES: \n" + this.model.get('notes');
+        title += "\n\n" + "NOTES\n" + this.model.get('notes');
       }
       this.marker = new google.maps.Marker({
         position: this.position,
@@ -232,7 +243,6 @@
     };
 
     PlaceItemView.prototype.click = function() {
-      console.log("PlaceItemView#click");
       return this.infoWindow.show();
     };
 
@@ -331,10 +341,12 @@
     EditInfoWindow.prototype._save = function() {
       this.model.set({
         territoryno: this.$('#ed-territoryno').val(),
+        sortno: this.$('#ed-sortno').val(),
         blockno: this.$('#ed-blockno').val(),
         interestlevel: this.$('#ed-interestlevel').val(),
         houseno: this.$('#ed-houseno').val(),
         description: this.$('#ed-description').val(),
+        languages: this.$('#ed-languages').val(),
         persons: this.$('#ed-persons').val(),
         notes: this.$('#ed-notes').val(),
         actions: this.$('#ed-actions').val()
