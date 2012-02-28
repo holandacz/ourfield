@@ -91,7 +91,14 @@
     Place.prototype.toJSON = function() {
       return {
         point: this.get('point'),
-        notes: this.get('notes')
+        territoryno: this.get('territoryno'),
+        blockno: this.get('blockno'),
+        houseno: this.get('houseno'),
+        description: this.get('description'),
+        persons: this.get('persons'),
+        notes: this.get('notes'),
+        interestlevel: this.get('interestlevel'),
+        actions: this.get('actions')
       };
     };
 

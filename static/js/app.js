@@ -198,7 +198,6 @@
       this.marker = new google.maps.Marker({
         position: this.position,
         draggable: true,
-        animation: google.maps.Animation.DROP,
         title: title
       });
       this.infoWindow = new InfoWindow({
@@ -326,7 +325,14 @@
 
     EditInfoWindow.prototype._save = function() {
       this.model.set({
-        notes: this.$('textarea').val()
+        territoryno: this.$('#ed-territoryno').val(),
+        blockno: this.$('#ed-blockno').val(),
+        interestlevel: this.$('#ed-interestlevel').val(),
+        houseno: this.$('#ed-houseno').val(),
+        description: this.$('#ed-description').val(),
+        persons: this.$('#ed-persons').val(),
+        notes: this.$('#ed-notes').val(),
+        actions: this.$('#ed-actions').val()
       });
       return this.model.save();
     };

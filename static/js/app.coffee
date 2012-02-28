@@ -48,7 +48,6 @@ class @MapView extends Backbone.View
     lng = @map.getCenter().lng()
     @collection.get(1).places.create(point: "POINT (#{lat} #{lng})")
 
-
 class @PlaceTypeView extends Backbone.View
   initialize: ->
     @map = @options.map
@@ -117,7 +116,7 @@ class @PlaceItemView extends Backbone.View
     @marker = new google.maps.Marker(
       position: @position
       draggable: true
-      animation: google.maps.Animation.DROP
+      #animation: google.maps.Animation.DROP
       title: title
     )
 
@@ -192,5 +191,12 @@ class EditInfoWindow extends Backbone.View
 
   _save: ->
     @model.set
-      notes: @$('textarea').val()
+      territoryno: @$('#ed-territoryno').val()
+      blockno: @$('#ed-blockno').val()
+      interestlevel: @$('#ed-interestlevel').val()
+      houseno: @$('#ed-houseno').val()
+      description: @$('#ed-description').val()
+      persons: @$('#ed-persons').val()
+      notes: @$('#ed-notes').val()
+      actions: @$('#ed-actions').val()
     @model.save()

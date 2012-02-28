@@ -80,32 +80,8 @@
       </div>
     </div>
   </script>
+  {% include "map/edit-info-window-template.html" %}
 
-  <script type="text/template" id="edit-info-window-template">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal" >&times;</a>
-      <h3>Edit Place</h3>
-    </div>
-
-    <div class="modal-body">
-      <form class="form-horizontal">
-        <fieldset>
-          <div class="control-group">
-            <label class="control-label">Notes</label>
-            <div class="controls">
-              <textarea class="input-xlarge"><%= model.get('notes') %></textarea>
-              <p class="help-block">Leave notes for this place.</p>
-            </div>
-          </div>
-        </fieldset>
-      </form>
-    </div>
-
-    <div class="modal-footer">
-      <a href="#" class="save btn btn-primary">Save changes</a>
-      <a href="#" class="btn" data-dismiss="modal" >Close</a>
-    </div>
-  </script>
 
   <script type="text/javascript" src="{% static "js/models.js" %}"></script>
   <script type="text/javascript" src="{% static "js/app.js" %}"></script>
