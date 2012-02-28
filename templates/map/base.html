@@ -69,18 +69,8 @@
   <script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
   <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-  <script type="text/template" id="info-window-template">
-    <div id="<%= id %>">
-      <h2><%= model.id %></h2>
-      <div>
-        <%= model.get('notes') %>
-      </div>
-      <div>
-        <button class="edit">Edit</button>
-      </div>
-    </div>
-  </script>
   {% include "map/edit-info-window-template.html" %}
+  {% include "map/info-window-template.html" %}
 
 
   <script type="text/javascript" src="{% static "js/models.js" %}"></script>

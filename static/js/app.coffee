@@ -99,6 +99,9 @@ class @PlaceItemView extends Backbone.View
     if @model.get('territoryno')
       title += " - TERRITORY# " + @model.get('territoryno')
 
+    if @model.get('markerno')
+      title += " - MARKER# " + @model.get('markerno')
+
     if @model.get('sortno')
       title += " - SORT# " + @model.get('sortno')
 
@@ -131,7 +134,7 @@ class @PlaceItemView extends Backbone.View
       title: title
     )
 
-    @infoWindow = new InfoWindow(map: @map, marker: @marker, model: @model)
+    # @infoWindow = new InfoWindow(map: @map, marker: @marker, model: @model)
 
     google.maps.event.addListener @marker, "dragend", @dragend
     google.maps.event.addListener @marker, "click", @click
@@ -147,8 +150,6 @@ class @PlaceItemView extends Backbone.View
       @marker.position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
       @marker.setMap(@map)
 
-
-
   show: =>
     @marker.setMap(@map)
 
@@ -156,61 +157,56 @@ class @PlaceItemView extends Backbone.View
     @marker.setMap(null)
 
   click: =>
-    @infoWindow.show()
+    @infoWindow = new InfoWindow(model: @model)
 
-class @InfoWindow extends Backbone.View
+class InfoWindow extends Backbone.View
   template: _.template($('#info-window-template').html())
 
-  events:
-    'click button.edit': '_edit'
-
-  initialize: ->
-    @map = @options.map
-    @marker = @options.marker
-    @render()
-
-  render: ->
-    @window = new google.maps.InfoWindow
-      maxWidth: 350
-    google.maps.event.addListener @window, 'domready', @domReady
-
-  show: =>
-    @templateParams =
-      id: _.uniqueId('info-window-')
-      model: @model
-    @window.setContent(@template(@templateParams))
-    @window.open(@map, @marker)
-
-  hide: ->
-    @window.close()
-
-  domReady: =>
-    @setElement($('#' + @templateParams.id))
-
-  _edit: ->
-    @editInfoWindow = new EditInfoWindow(model: @model)
-
-class EditInfoWindow extends Backbone.View
-  template: _.template($('#edit-info-window-template').html())
+  editTemplate: _.template($('#edit-info-window-template').html())
 
   className: 'modal'
 
   events:
+    'click a.edit': '_edit'
+    'click a.view': '_view'
+    'click a.save-continue': '_saveContinue'
     'click a.save': '_save'
 
   initialize: ->
+    @editing = false
     @render()
 
   render: ->
-    @$el.html(@template(model: @model))
+    if @editing
+      @$el.html(@editTemplate(model: @model))
+    else
+      @$el.html(@template(model: @model))
     @$el.modal('show')
 
+  _edit: ->
+    @editing = true
+    @render()
+
+  _view: ->
+    if confirm("Are you sure you want to abandon edit?")
+      @editing = false
+      @render()
+
+  _saveContinue: ->
+    @persist()
+
   _save: ->
+    @persist()
+    @model.bind 'sync', =>
+      @$el.modal('hide')
+
+  persist: ->
     @model.set
       territoryno: @$('#ed-territoryno').val()
-      sortno: @$('#ed-sortno').val()
+      markerno: (Number) @$('#ed-markerno').val()
+      sortno: (Number) @$('#ed-sortno').val()
       blockno: @$('#ed-blockno').val()
-      interestlevel: @$('#ed-interestlevel').val()
+      interestlevel: (Number) @$('#ed-interestlevel').val()
       houseno: @$('#ed-houseno').val()
       description: @$('#ed-description').val()
       languages: @$('#ed-languages').val()

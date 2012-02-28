@@ -92,6 +92,7 @@
       return {
         point: this.get('point'),
         territoryno: this.get('territoryno'),
+        markerno: this.get('markerno'),
         sortno: this.get('sortno'),
         blockno: this.get('blockno'),
         houseno: this.get('houseno'),

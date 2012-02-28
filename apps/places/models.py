@@ -16,6 +16,7 @@ class Place(MyModel):
     sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
     blockno = models.CharField("Block No", max_length=32, null=True, blank=True)
     pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
+    markerno = models.PositiveIntegerField("Marker No", null=True, blank=True)
     houseno = models.CharField("House No", max_length=32, null=True, blank=True)
     persons = models.TextField("Persons", null=True, blank=True)
     interestlevel = models.IntegerField("Interest Level", null=True, blank=True)
