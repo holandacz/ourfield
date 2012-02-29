@@ -214,6 +214,9 @@
         draggable: true,
         title: title
       });
+      if (this.model.get('markerno')) {
+        this.marker.icon = '/site_media/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png';
+      }
       google.maps.event.addListener(this.marker, "dragend", this.dragend);
       google.maps.event.addListener(this.marker, "click", this.click);
       return this.show();
@@ -227,8 +230,7 @@
         });
         return this.model.save();
       } else {
-        this.marker.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
-        return this.marker.setMap(this.map);
+        return this.marker.setPosition(new google.maps.LatLng(this.model.get('lat'), this.model.get('lng')));
       }
     };
 

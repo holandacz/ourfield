@@ -125,14 +125,15 @@ class @PlaceItemView extends Backbone.View
     if @model.get('notes')
       title += "\n\n" + "NOTES\n" + @model.get('notes')
 
-
-
     @marker = new google.maps.Marker(
       position: @position
       draggable: true
       #animation: google.maps.Animation.DROP
       title: title
     )
+
+    if @model.get('markerno')
+      @marker.icon = '/site_media/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png'
 
     # @infoWindow = new InfoWindow(map: @map, marker: @marker, model: @model)
 
@@ -147,8 +148,7 @@ class @PlaceItemView extends Backbone.View
       @model.save()
     else
       # move back to original position
-      @marker.position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
-      @marker.setMap(@map)
+      @marker.setPosition( new google.maps.LatLng(@model.get('lat'), @model.get('lng')))
 
   show: =>
     @marker.setMap(@map)
