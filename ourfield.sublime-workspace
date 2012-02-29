@@ -20,26 +20,10 @@
 	"buffers":
 	[
 		{
-			"file": "templates/map/info-window-template.html",
-			"settings":
-			{
-				"buffer_size": 3662,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "templates/map/edit-info-window-template.html",
-			"settings":
-			{
-				"buffer_size": 3882,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "static/js/app.coffee",
 			"settings":
 			{
-				"buffer_size": 5551,
+				"buffer_size": 5592,
 				"line_ending": "Windows"
 			}
 		},
@@ -68,26 +52,34 @@
 			}
 		},
 		{
-			"file": "fabfile.py",
-			"settings":
-			{
-				"buffer_size": 3483,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "templates/map/base.html",
 			"settings":
 			{
-				"buffer_size": 4548,
+				"buffer_size": 3184,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "templates/homepage.html",
+			"file": "static/css/map.css",
 			"settings":
 			{
-				"buffer_size": 2754,
+				"buffer_size": 1080,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "templates/map/crosshair.html",
+			"settings":
+			{
+				"buffer_size": 1290,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "static/js/jquery.cookie.js",
+			"settings":
+			{
+				"buffer_size": 1941,
 				"line_ending": "Unix"
 			}
 		}
@@ -103,12 +95,12 @@
 				":w - Save"
 			],
 			[
-				"pack",
-				"Package Control: Install Package"
-			],
-			[
 				":W",
 				":w - Save"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
 			],
 			[
 				"pack	",
@@ -184,6 +176,11 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/crosshair.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/info-window-template.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/edit-info-window-template.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/homepage.html",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/commands.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/admin.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
@@ -197,7 +194,6 @@
 		"/C/Users/Larry/__prjs/ourfield_2/local_settings.py",
 		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/templates/index.html",
 		"/C/Users/Larry/__prjs/ourfield/templates/profiles/_profile_item.html",
-		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
 		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
 		"/C/Users/Larry/__prjs/ourfield/.gitignore",
 		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/TodoManager/TodoManager.sublime-settings",
@@ -279,7 +275,6 @@
 		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/tweets.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/js/routes.coffee",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/base__.html",
-		"/C/Users/Larry/__prjs/ourfield/templates/homepage.html",
 		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/routes.coffee",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/base_2.html",
 		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/urls.py",
@@ -308,10 +303,7 @@
 		"/C/Users/Larry/__prjs/ourfield/utils/coffee-script/examples/web_server.coffee",
 		"/C/Users/Larry/__prjs/z_others/cham/src/vows/npm-debug.log",
 		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/settings.py",
-		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/local_settings.py",
-		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/rs.bat",
-		"/C/Users/Larry/__prjs/z_others/cham/src/public/js/script.coffee",
-		"/C/Users/Larry/autostart_console.bat"
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/local_settings.py"
 	],
 	"find":
 	{
@@ -429,83 +421,23 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "templates/map/info-window-template.html",
-					"settings":
-					{
-						"buffer_size": 3662,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3529,
-								3529
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1208.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "templates/map/edit-info-window-template.html",
-					"settings":
-					{
-						"buffer_size": 3882,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3683,
-								3683
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 828.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "static/js/app.coffee",
 					"settings":
 					{
-						"buffer_size": 5551,
+						"buffer_size": 5592,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5046,
-								5046
+								3195,
+								3195
 							]
 						],
 						"settings":
@@ -517,13 +449,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3089.0,
+						"translation.y": 1530.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 1,
 					"file": "static/js/models.coffee",
 					"settings":
 					{
@@ -534,8 +466,8 @@
 						"selection":
 						[
 							[
-								1232,
-								1232
+								1664,
+								1664
 							]
 						],
 						"settings":
@@ -547,13 +479,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 540.0,
+						"translation.y": 360.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 2,
 					"file": "apps/places/models.py",
 					"settings":
 					{
@@ -564,8 +496,8 @@
 						"selection":
 						[
 							[
-								1421,
-								1493
+								2028,
+								2028
 							]
 						],
 						"settings":
@@ -577,13 +509,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 144.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 3,
 					"file": "apps/map/views.py",
 					"settings":
 					{
@@ -613,49 +545,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "fabfile.py",
-					"settings":
-					{
-						"buffer_size": 3483,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
+					"buffer": 4,
 					"file": "templates/map/base.html",
 					"settings":
 					{
-						"buffer_size": 4548,
+						"buffer_size": 3184,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3147,
-								3147
+								1092,
+								1092
 							]
 						],
 						"settings":
@@ -667,25 +569,55 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1080.0,
+						"translation.y": 324.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "templates/homepage.html",
+					"buffer": 5,
+					"file": "static/css/map.css",
 					"settings":
 					{
-						"buffer_size": 2754,
+						"buffer_size": 1080,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								148,
+								148
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "templates/map/crosshair.html",
+					"settings":
+					{
+						"buffer_size": 1290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1290,
+								1290
 							]
 						],
 						"settings":
@@ -697,7 +629,35 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 144.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "static/js/jquery.cookie.js",
+					"settings":
+					{
+						"buffer_size": 1941,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								731,
+								731
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -736,10 +696,6 @@
 		]
 	},
 	"menu_visible": true,
-	"output.exec":
-	{
-		"height": 55.0
-	},
 	"output.sftp":
 	{
 		"height": 0.0

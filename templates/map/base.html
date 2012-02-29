@@ -29,6 +29,7 @@
         </div>
         <div><button id="add-place">Add Place</button></div>
         <div id="map-canvas">
+          {% include "map/crosshair.html" %}
         </div>
 
       </div>
@@ -43,6 +44,7 @@
   <script type="text/javascript" src="{% static "js/json2.js" %}"></script>
   <script type="text/javascript" src="{% static "js/backbone.js" %}"></script>
   <script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/jquery.cookie.js" %}"></script>
   <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 
   {% include "map/edit-info-window-template.html" %}
@@ -53,9 +55,12 @@
   <script type="text/javascript" src="{% static "js/app.js" %}"></script>
 
   <script type="text/javascript">
-      zoom = 10; //{{zoom}}
-      center = "10.001025,-84.134588"; //"{{center}}"
+      var zoom = 16; //{{zoom}}
+      var center = "10.001025,-84.134588"; //"{{center}}"
 
+      var preferences = new Preferences();
+      preferences.setDefault('zoom', zoom);
+      preferences.setDefault('center', center);
 
       var appData = new AppData({
         userid: {{ user.id|default_if_none:0 }},
@@ -80,7 +85,8 @@
           el: '#map',
           model: appData,
           collection: placeTypes,
-          title: "This is a title"
+          title: "This is a title",
+          preferences: preferences
         });
       });
 

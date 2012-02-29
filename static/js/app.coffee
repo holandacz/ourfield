@@ -1,17 +1,47 @@
+class @Preferences
+  constructor: ->
+    @cookieName = "preferences"
+    @items = {}
+    @load()
+
+  load: ->
+    rawValue = $.cookie(@cookieName)
+    if rawValue
+      @items = JSON.parse(rawValue)
+
+  save: ->
+    $.cookie(@cookieName, JSON.stringify(@items), expires: 365)
+
+  get: (key) ->
+    @items[key]
+
+  set: (key, value) ->
+    @items[key] = value
+    @save()
+
+  setDefault: (key, defaultValue) ->
+    @items[key] = defaultValue unless @items[key]
+    @save()
+
 class @MapView extends Backbone.View
   events:
     'click input[type="checkbox"]': '_togglePlaceType'
     'click button#add-place': '_addPlace'
 
   initialize: ->
+    @preferences = @options.preferences
     @render()
 
-
   render: ->
+    console.log @preferences.items
+
     @map = new google.maps.Map @$('#map-canvas').get(0),
-      zoom: @model.get('zoom')
+      zoom: @preferences.get('zoom')
       center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))
       mapTypeId: @model.get('mapTypeId')
+
+    google.maps.event.addListener @map, 'zoom_changed', =>
+      @preferences.set('zoom', @map.getZoom())
 
     @userid = @model.get('userid')
 
@@ -90,7 +120,26 @@ class @PlaceItemView extends Backbone.View
     @render()
 
   render: ->
+    @marker = new google.maps.Marker(
+      draggable: true
+    )
+
+    google.maps.event.addListener @marker, "dragend", @dragend
+    google.maps.event.addListener @marker, "click", @click
+
+    @show()
+
+  dragend: =>
+    if confirm("Are you sure you want to move this marker?")
+      @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())
+      @model.save()
+    else
+      # move back to original position
+      @marker.setPosition( new google.maps.LatLng(@model.get('lat'), @model.get('lng')))
+
+  show: =>
     @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
+    @marker.setPosition(@position)
 
     title = 'P' + @model.get('id')
     if @model.get('interestlevel')
@@ -125,32 +174,11 @@ class @PlaceItemView extends Backbone.View
     if @model.get('notes')
       title += "\n\n" + "NOTES\n" + @model.get('notes')
 
-    @marker = new google.maps.Marker(
-      position: @position
-      draggable: true
-      #animation: google.maps.Animation.DROP
-      title: title
-    )
+    @marker.setTitle(title)
 
     if @model.get('markerno')
-      @marker.icon = '/site_media/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png'
+      @marker.setIcon('/site_media/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png')
 
-    # @infoWindow = new InfoWindow(map: @map, marker: @marker, model: @model)
-
-    google.maps.event.addListener @marker, "dragend", @dragend
-    google.maps.event.addListener @marker, "click", @click
-
-    @show()
-
-  dragend: =>
-    if confirm("Are you sure you want to move this marker?")
-      @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())
-      @model.save()
-    else
-      # move back to original position
-      @marker.setPosition( new google.maps.LatLng(@model.get('lat'), @model.get('lng')))
-
-  show: =>
     @marker.setMap(@map)
 
   hide: =>

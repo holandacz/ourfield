@@ -5,6 +5,46 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
+  this.Preferences = (function() {
+
+    Preferences.name = 'Preferences';
+
+    function Preferences() {
+      this.cookieName = "preferences";
+      this.items = {};
+      this.load();
+    }
+
+    Preferences.prototype.load = function() {
+      var rawValue;
+      rawValue = $.cookie(this.cookieName);
+      if (rawValue) return this.items = JSON.parse(rawValue);
+    };
+
+    Preferences.prototype.save = function() {
+      return $.cookie(this.cookieName, JSON.stringify(this.items), {
+        expires: 365
+      });
+    };
+
+    Preferences.prototype.get = function(key) {
+      return this.items[key];
+    };
+
+    Preferences.prototype.set = function(key, value) {
+      this.items[key] = value;
+      return this.save();
+    };
+
+    Preferences.prototype.setDefault = function(key, defaultValue) {
+      if (!this.items[key]) this.items[key] = defaultValue;
+      return this.save();
+    };
+
+    return Preferences;
+
+  })();
+
   this.MapView = (function(_super) {
 
     __extends(MapView, _super);
@@ -21,15 +61,20 @@
     };
 
     MapView.prototype.initialize = function() {
+      this.preferences = this.options.preferences;
       return this.render();
     };
 
     MapView.prototype.render = function() {
       var _this = this;
+      console.log(this.preferences.items);
       this.map = new google.maps.Map(this.$('#map-canvas').get(0), {
-        zoom: this.model.get('zoom'),
+        zoom: this.preferences.get('zoom'),
         center: new google.maps.LatLng(this.model.get('centerLat'), this.model.get('centerLng')),
         mapTypeId: this.model.get('mapTypeId')
+      });
+      google.maps.event.addListener(this.map, 'zoom_changed', function() {
+        return _this.preferences.set('zoom', _this.map.getZoom());
       });
       this.userid = this.model.get('userid');
       if (this.userid > 0) {
@@ -176,8 +221,30 @@
     };
 
     PlaceItemView.prototype.render = function() {
+      this.marker = new google.maps.Marker({
+        draggable: true
+      });
+      google.maps.event.addListener(this.marker, "dragend", this.dragend);
+      google.maps.event.addListener(this.marker, "click", this.click);
+      return this.show();
+    };
+
+    PlaceItemView.prototype.dragend = function() {
+      if (confirm("Are you sure you want to move this marker?")) {
+        this.model.set({
+          lat: this.marker.position.lat(),
+          lng: this.marker.position.lng()
+        });
+        return this.model.save();
+      } else {
+        return this.marker.setPosition(new google.maps.LatLng(this.model.get('lat'), this.model.get('lng')));
+      }
+    };
+
+    PlaceItemView.prototype.show = function() {
       var title;
       this.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
+      this.marker.setPosition(this.position);
       title = 'P' + this.model.get('id');
       if (this.model.get('interestlevel')) {
         title += " - INTEREST " + this.model.get('interestlevel');
@@ -209,32 +276,10 @@
       if (this.model.get('notes')) {
         title += "\n\n" + "NOTES\n" + this.model.get('notes');
       }
-      this.marker = new google.maps.Marker({
-        position: this.position,
-        draggable: true,
-        title: title
-      });
+      this.marker.setTitle(title);
       if (this.model.get('markerno')) {
-        this.marker.icon = '/site_media/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png';
+        this.marker.setIcon('/site_media/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png');
       }
-      google.maps.event.addListener(this.marker, "dragend", this.dragend);
-      google.maps.event.addListener(this.marker, "click", this.click);
-      return this.show();
-    };
-
-    PlaceItemView.prototype.dragend = function() {
-      if (confirm("Are you sure you want to move this marker?")) {
-        this.model.set({
-          lat: this.marker.position.lat(),
-          lng: this.marker.position.lng()
-        });
-        return this.model.save();
-      } else {
-        return this.marker.setPosition(new google.maps.LatLng(this.model.get('lat'), this.model.get('lng')));
-      }
-    };
-
-    PlaceItemView.prototype.show = function() {
       return this.marker.setMap(this.map);
     };
 
