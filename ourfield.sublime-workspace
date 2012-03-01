@@ -20,10 +20,18 @@
 	"buffers":
 	[
 		{
+			"file": "templates/map/base.html",
+			"settings":
+			{
+				"buffer_size": 3366,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "static/js/app.coffee",
 			"settings":
 			{
-				"buffer_size": 5592,
+				"buffer_size": 6248,
 				"line_ending": "Windows"
 			}
 		},
@@ -36,10 +44,13 @@
 			}
 		},
 		{
+			"contents": "# -*- coding: utf-8 -*-\nimport wingdbstub\n\nfrom django.contrib.gis.db import models\nfrom django.contrib.auth.models import User\nfrom current_user import registration\nfrom django_extensions.db.models import TimeStampedModel\nfrom current_user.models import CurrentUserField\nfrom core.models import MyModel\nfrom tastypie.models import create_api_key\n\nmodels.signals.post_save.connect(create_api_key, sender=User)\n\nclass Place(MyModel):\n    confirmed = models.BooleanField(\"Confirmed?\",)\n    territoryno = models.CharField(\"Territory No\", max_length=6, null=True, blank=True, db_index=True)\n    sortno = models.PositiveIntegerField(\"Sort No\", null=True, default=0)\n    blockno = models.CharField(\"Block No\", max_length=32, null=True, blank=True)\n    pointno = models.PositiveIntegerField(\"Point No\", null=True, blank=True)\n    markerno = models.PositiveIntegerField(\"Marker No\", null=True, blank=True, db_index=True)\n    houseno = models.CharField(\"House No\", max_length=32, null=True, blank=True)\n    persons = models.TextField(\"Persons\", null=True, blank=True)\n    interestlevel = models.IntegerField(\"Interest Level\", null=True, blank=True)\n    actions = models.TextField(\"Actions\", null=True, blank=True)\n    notes = models.TextField(\"Notes\", null=True, blank=True)\n    description = models.CharField(\"Description\", max_length=255, null=True, blank=True)\n    languages = models.CharField(\"Description\", max_length=255, null=True, blank=True, default=\"e:English\\ns:Spanish\\nch:Chinese\\nf:French\\ni:Italian\\nx:German\\n?:Other\")\n\n    name = models.CharField(\"Name\", max_length=128, null=True, blank=True)\n\n    placetype_id = models.IntegerField(\"Place Type ID\", null=True, blank=True)\n    sourcetype = models.CharField(\"Source Type\", max_length=16, null=True, blank=True)\n    source_id = models.IntegerField(\"Source ID\", null=True, blank=True)\n    geocoded = models.BooleanField(\"GeoCoded?\", )\n    multiunit = models.BooleanField(\"MultiUnit?\", )\n    residential = models.BooleanField(\"Residential?\", default=True )\n    deleted = models.BooleanField(\"Deleted?\", db_index=True)\n    googlemapurl = models.CharField(\"Google Map URL\", max_length=255, blank=True)\n    point = models.PointField(\"LatLng\", default='POINT(0 0)')\n\n    owner =  CurrentUserField(blank=True, related_name = \"flt_place_owner\", default=1)\n    modifier = CurrentUserField(blank=True, related_name = \"flt_place_modifier\", default=1)\n\n\n    provinceno = models.PositiveIntegerField(\"Province No\", null=True, blank=True)\n    cantonno = models.PositiveIntegerField(\"Canton No\", null=True, blank=True)\n    districtno = models.PositiveIntegerField(\"District No\", null=True, blank=True)\n\n    directions = models.CharField(\"Directions\", max_length=255, null=True, blank=True)\n    districtname = models.CharField(\"District Name\", max_length=32, null=True, blank=True)\n\n    number = models.PositiveIntegerField(\"Number\", null=True, blank=True)\n    geo_name_id = models.PositiveIntegerField(\"GEO Name ID\", null=True, blank=True)\n    religiousaffiliation = models.CharField(\"Religious Affiliation\", max_length=32, null=True, blank=True)\n\n    postalcode = models.CharField(\"Zip Code\", max_length=32, null=True, blank=True)\n\n    noteshtml = models.TextField(\"Notes HTML\", null=True, blank=True)\n\n    objects = models.GeoManager()\n\n    def ParseDetails(self):\n        from django.contrib.gis.geos import Point\n        latitude = 0.0\n        longitude = 0.0\n        if self.googlemapurl:\n            import re\n            # look for ll=9.999107,-84.106216 like string for lat/long\n            # http://maps.google.com/maps?hl=en&ll=10.001479,-84.134258&spn=0.001751,0.002682&t=h&vpsrc=6&z=19\n            reobj = re.compile(r\"[&;\\?]ll=(?P<latitude>[\\-0-9.]+),(?P<longitude>[\\-0-9.]+)\")\n            match = reobj.search(self.googlemapurl)\n            if match:\n                latitude = float(match.group(\"latitude\"))\n                longitude = float(match.group(\"longitude\"))\n\n                from django.contrib.gis.geos import Point\n                self.point = Point(latitude, longitude)\n\n        self.point = Point(latitude, longitude)\n        self.isgeocoded = True if (self.point.y and self.point.x) else False\n\n    @property\n    def full_name(self):\n        ret = u'p'\n        ret += str(self.id)\n        if self.provinceno:\n            ret += ' t'\n            ret += str(self.provinceno).zfill(3) \n            ret += '-'\n        if self.cantonno: # canton\n            ret += str(self.cantonno).zfill(2) \n            ret += '-'\n        if self.districtno:\n            ret += str(self.districtno).zfill(3)\n        if self.districtname:\n            ret += ' '\n            ret += self.districtname\n        if self.territoryno:\n            ret += '-'\n            ret += self.territoryno\n        if self.sortno:\n            ret += ' '\n            ret += str(self.sortno).zfill(4)\n        if self.blockno:\n            ret += ' b'\n            ret += self.blockno\n        if self.pointno:\n            ret += ' p'\n            ret += str(self.pointno).zfill(2)\n\n        return ret\n\n    class Meta:\n        db_table = u'of_places'               \n        #unique_together = (\"boundary_type\", \"name\", \"number\", \"code\"),\n        verbose_name_plural = \"places\"\n        permissions = (\n            ('access_places','Access to Places'), \n        )\n\n    def save(self, *args, **kw):\n        #self.ParseDetails()\n        self.geocoded = True if (self.point.y and self.point.x) else False\n        \n        # In order to handle renumbering of markerno's, I need to see if markno has changed.\n        # If so, handle renumbering\n        self._handleMarkernoChangedSave()\n        \n        super(Place, self).save(*args, **kw)\n\n    def type(self):\n        return u'place'\n\n    def __unicode__(self):\n        return self.full_name\n\n    def _maxMarkerno(self, territoryno):\n        result = Place.objects.filter(territoryno = '4-1-2').aggregate(Max('markerno'))\n        if result:\n            return result['markerno__max']\n        else:\n            return 0\n\n    # default markerno to be max markerno + 1\n    def _handleMarkernoChangedAdded(self):\n        \"\"\"If Place is added, need to reorder other markerno's in territory\"\"\"\n        x=0\n        pass\n    \n    def _handleMarkernoChangedDelete(self):\n        \"\"\"If Place is deleted, need to reorder other markerno's in territory\"\"\"\n        x=0\n        \n        pass\n    \n    # update of_places set markerno = markerno + 1 where territoryno = '4-1-2' and markerno is not null\n    def _handleMarkernoChangedSave(self):\n        \"\"\"If Place.markerno is changed, need to reorder other markerno's\"\"\"\n        \n        # this is a new Place\n        if not self.id:\n            # if no markerno was set\n            # set it to max markerno + 1\n            if not self.markerno:\n                pass\n            \n            # else adjust affected markerno's\n            else:\n                pass\n            \n        # existing Place\n        else:\n            # get previous data to determine how to proceed\n            prevPlace = Place.objects.get(id=self.id)\n            prev_id = prevPlace.id\n            prev_territoryno = prevPlace.territoryno\n            prev_markerno = prevPlace.markerno\n        \n            # if new Place.territoryno is different that previous\n            # need to reorder markerno's prev_territoryno\n            # need to reorder markerno's in current_territoryno\n            if self.territoryno != prevPlace.territoryno:\n                pass\n            \n            # only reorder markers in current territory\n            else:\n                pass\n",
 			"file": "apps/places/models.py",
+			"file_size": 7406,
+			"file_write_time": 129750366243635942,
 			"settings":
 			{
-				"buffer_size": 5529,
+				"buffer_size": 7554,
 				"line_ending": "Windows"
 			}
 		},
@@ -52,35 +63,11 @@
 			}
 		},
 		{
-			"file": "templates/map/base.html",
+			"file": "docs/MarkerNos.md",
 			"settings":
 			{
-				"buffer_size": 3184,
+				"buffer_size": 1184,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "static/css/map.css",
-			"settings":
-			{
-				"buffer_size": 1080,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "templates/map/crosshair.html",
-			"settings":
-			{
-				"buffer_size": 1290,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "static/js/jquery.cookie.js",
-			"settings":
-			{
-				"buffer_size": 1941,
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -91,11 +78,11 @@
 		"selected_items":
 		[
 			[
-				":w",
+				":W",
 				":w - Save"
 			],
 			[
-				":W",
+				":w",
 				":w - Save"
 			],
 			[
@@ -176,8 +163,13 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
+		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/less/responsive.less",
+		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/css/bootstrap-responsive.css",
+		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
+		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/less/navbar.less",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/crosshair.html",
+		"/C/Users/Larry/__prjs/ourfield/static/js/jquery.cookie.js",
+		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/info-window-template.html",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/edit-info-window-template.html",
 		"/C/Users/Larry/__prjs/ourfield/templates/homepage.html",
@@ -194,7 +186,6 @@
 		"/C/Users/Larry/__prjs/ourfield_2/local_settings.py",
 		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/templates/index.html",
 		"/C/Users/Larry/__prjs/ourfield/templates/profiles/_profile_item.html",
-		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
 		"/C/Users/Larry/__prjs/ourfield/.gitignore",
 		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/TodoManager/TodoManager.sublime-settings",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/templates/subnav_base.html",
@@ -299,11 +290,7 @@
 		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/static/js/a.coffee",
 		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/a.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/js/a.js",
-		"/C/Users/Larry/__prjs/ourfield/cake.bat",
-		"/C/Users/Larry/__prjs/ourfield/utils/coffee-script/examples/web_server.coffee",
-		"/C/Users/Larry/__prjs/z_others/cham/src/vows/npm-debug.log",
-		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/settings.py",
-		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/local_settings.py"
+		"/C/Users/Larry/__prjs/ourfield/cake.bat"
 	],
 	"find":
 	{
@@ -311,9 +298,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
+			"C:\\Users\\Larry\\__prjs\\ourfield\\ve\\Lib\\site-packages\\pinax_theme_bootstrap",
 			"C:\\Users\\Larry\\__prjs\\ourfield",
 			"C:\\Users\\Larry\\__prjs\\ourfield_2",
 			"C:\\Users\\Larry\\__prjs\\ourfield",
@@ -330,6 +318,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"static",
+			"navbar-fixed-top",
 			"territoryno",
 			"territory",
 			"beautifulsoup",
@@ -421,23 +411,53 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "static/js/app.coffee",
+					"file": "templates/map/base.html",
 					"settings":
 					{
-						"buffer_size": 5592,
+						"buffer_size": 3366,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3195,
-								3195
+								1786,
+								1786
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 605.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "static/js/app.coffee",
+					"settings":
+					{
+						"buffer_size": 6248,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2626,
+								2626
 							]
 						],
 						"settings":
@@ -449,13 +469,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1530.0,
+						"translation.y": 1602.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "static/js/models.coffee",
 					"settings":
 					{
@@ -479,25 +499,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 360.0,
+						"translation.y": 828.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "apps/places/models.py",
 					"settings":
 					{
-						"buffer_size": 5529,
+						"buffer_size": 7554,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2028,
-								2028
+								7034,
+								7034
 							]
 						],
 						"settings":
@@ -509,13 +529,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 144.0,
+						"translation.y": 2304.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "apps/map/views.py",
 					"settings":
 					{
@@ -545,116 +565,28 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "templates/map/base.html",
-					"settings":
-					{
-						"buffer_size": 3184,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1092,
-								1092
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 324.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 5,
-					"file": "static/css/map.css",
+					"file": "docs/MarkerNos.md",
 					"settings":
 					{
-						"buffer_size": 1080,
+						"buffer_size": 1184,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								148,
-								148
+								714,
+								714
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "templates/map/crosshair.html",
-					"settings":
-					{
-						"buffer_size": 1290,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1290,
-								1290
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "static/js/jquery.cookie.js",
-					"settings":
-					{
-						"buffer_size": 1941,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								731,
-								731
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -729,6 +661,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 235.0,
+	"side_bar_width": 274.0,
 	"status_bar_visible": true
 }

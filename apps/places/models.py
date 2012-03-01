@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 #import wingdbstub
+
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
+from django.db.models import Max
+from django.db import connection, transaction
 from current_user import registration
 from django_extensions.db.models import TimeStampedModel
 from current_user.models import CurrentUserField
@@ -12,11 +15,11 @@ models.signals.post_save.connect(create_api_key, sender=User)
 
 class Place(MyModel):
     confirmed = models.BooleanField("Confirmed?",)
-    territoryno = models.CharField("Territory No", max_length=6, null=True, blank=True)
+    territoryno = models.CharField("Territory No", max_length=6, null=True, blank=True, db_index=True, default="4-1-2")
     sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
     blockno = models.CharField("Block No", max_length=32, null=True, blank=True)
     pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
-    markerno = models.PositiveIntegerField("Marker No", null=True, blank=True)
+    markerno = models.PositiveIntegerField("Marker No", null=True, blank=True, db_index=True)
     houseno = models.CharField("House No", max_length=32, null=True, blank=True)
     persons = models.TextField("Persons", null=True, blank=True)
     interestlevel = models.IntegerField("Interest Level", null=True, blank=True)
@@ -33,7 +36,7 @@ class Place(MyModel):
     geocoded = models.BooleanField("GeoCoded?", )
     multiunit = models.BooleanField("MultiUnit?", )
     residential = models.BooleanField("Residential?", default=True )
-    deleted = models.BooleanField("Deleted?",)
+    deleted = models.BooleanField("Deleted?", db_index=True)
     googlemapurl = models.CharField("Google Map URL", max_length=255, blank=True)
     point = models.PointField("LatLng", default='POINT(0 0)')
 
@@ -116,14 +119,110 @@ class Place(MyModel):
         permissions = (
             ('access_places','Access to Places'), 
         )
-
+        
+    @transaction.commit_manually
     def save(self, *args, **kw):
         #self.ParseDetails()
         self.geocoded = True if (self.point.y and self.point.x) else False
+        
+        # In order to handle renumbering of markerno's, I need to see if markno has changed.
+        # If so, handle renumbering
+        self._handleMarkernoChangedSave()
+        
         super(Place, self).save(*args, **kw)
-
+        
+        transaction.commit()
+        
     def type(self):
         return u'place'
 
     def __unicode__(self):
         return self.full_name
+
+
+    def _updateMarkernos(self, \
+            territoryno='4-1-2', \
+            increment=True, \
+            greater_than=0, \
+            less_than=999999999999\
+            ):
+        
+        cursor = connection.cursor()
+        
+        sql = '''
+        update of_places 
+          set markerno = markerno + 1 
+        where (
+          territoryno = "%s" 
+          and markerno > %d
+          and markerno < %d
+          and markerno is not null
+        )
+        ''' % (territoryno, greater_than, less_than)
+        
+        cursor.execute(sql)
+        transaction.commit_unless_managed()        
+
+
+
+
+
+
+
+
+
+
+    # default markerno to be max markerno + 1
+    def _handleMarkernoChangedAdded(self):
+        """If Place is added, need to reorder other markerno's in territory"""
+        x=0
+        pass
+    
+    def _handleMarkernoChangedDelete(self):
+        """If Place is deleted, need to reorder other markerno's in territory"""
+        
+        # Get previous markerno
+        # update markerno's >prev_markerno to markerno + 1
+        # update of_places set markerno = markerno + 1 where territoryno = '4-1-2' and markerno is not null
+        x=0
+        
+        pass
+        
+
+    def maxMarkerno(self, territoryno):
+        result = Place.objects.filter(territoryno=territoryno).aggregate(Max('markerno'))
+        return result['markerno__max'] if result else 1   
+                        
+    def _handleMarkernoChangedSave(self):
+        """If Place.markerno is changed, need to reorder other markerno's"""
+        
+        # this is a new Place
+        if not self.id:
+            # if no markerno was set
+            # set it to max markerno + 1
+            
+            if self.territoryno and not self.markerno:
+                self.markerno = self.maxMarkerno(self.territoryno) + 1
+                     
+            else:
+                # else adjust affected markerno's
+                # update of_places set markerno = markerno + 1 where territoryno = '4-1-2' and markerno is not null                   
+                pass
+            
+        # existing Place
+        else:
+            # get previous data to determine how to proceed
+            prevPlace = Place.objects.get(id=self.id)
+            prev_id = prevPlace.id
+            prev_territoryno = prevPlace.territoryno
+            prev_markerno = prevPlace.markerno
+        
+            # if new Place.territoryno is different that previous
+            # need to reorder markerno's prev_territoryno
+            # need to reorder markerno's in current_territoryno
+            if self.territoryno != prevPlace.territoryno:
+                pass
+            
+            # only reorder markers in current territory
+            else:
+                pass

@@ -50,7 +50,7 @@ class @Place extends Backbone.Model
 
     toJSON: ->
       point: @get('point')
-      territoryno: @get('territoryno')
+      territoryno: @get('territoryno') || '4-1-2' 
       markerno: @get('markerno')
       sortno: @get('sortno')
       blockno: @get('blockno')

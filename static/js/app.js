@@ -61,7 +61,11 @@
     };
 
     MapView.prototype.initialize = function() {
+      var _this = this;
       this.preferences = this.options.preferences;
+      this.collection.bind('sync', function() {
+        return _this.collection.fetch();
+      });
       return this.render();
     };
 
@@ -109,6 +113,7 @@
       console.log("_addPlace", e);
       lat = this.map.getCenter().lat();
       lng = this.map.getCenter().lng();
+      console.log(lat, lng);
       return this.collection.get(1).places.create({
         point: "POINT (" + lat + " " + lng + ")"
       });
@@ -181,10 +186,15 @@
       _.each(this.placeItemViews, function(placeItemView) {
         return placeItemView.hide();
       });
+      this.placeItemViews = [];
       return this.collection.each(this.addPlaceItemView);
     };
 
     PlacesView.prototype.addPlaceItemView = function(place) {
+      var _this = this;
+      place.bind('sync', function() {
+        return _this.collection.fetch();
+      });
       return this.placeItemViews.push(new PlaceItemView({
         model: place,
         map: this.map
@@ -314,6 +324,7 @@
     InfoWindow.prototype.className = 'modal';
 
     InfoWindow.prototype.events = {
+      'click a.delete': '_delete',
       'click a.edit': '_edit',
       'click a.view': '_view',
       'click a.save-continue': '_saveContinue',
@@ -341,6 +352,16 @@
     InfoWindow.prototype._edit = function() {
       this.editing = true;
       return this.render();
+    };
+
+    InfoWindow.prototype._delete = function() {
+      var _this = this;
+      if (confirm("Are you sure you want to delete this place?")) {
+        this.model.bind('destroy', function() {
+          return _this.$el.modal('hide');
+        });
+        return this.model.destroy();
+      }
     };
 
     InfoWindow.prototype._view = function() {

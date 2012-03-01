@@ -91,7 +91,7 @@
     Place.prototype.toJSON = function() {
       return {
         point: this.get('point'),
-        territoryno: this.get('territoryno'),
+        territoryno: this.get('territoryno') || '4-1-2',
         markerno: this.get('markerno'),
         sortno: this.get('sortno'),
         blockno: this.get('blockno'),

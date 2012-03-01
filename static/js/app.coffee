@@ -30,6 +30,8 @@ class @MapView extends Backbone.View
 
   initialize: ->
     @preferences = @options.preferences
+    @collection.bind 'sync', => 
+      @collection.fetch()
     @render()
 
   render: ->
@@ -76,6 +78,7 @@ class @MapView extends Backbone.View
     console.log "_addPlace", e
     lat = @map.getCenter().lat()
     lng = @map.getCenter().lng()
+    console.log lat, lng
     @collection.get(1).places.create(point: "POINT (#{lat} #{lng})")
 
 class @PlaceTypeView extends Backbone.View
@@ -98,15 +101,20 @@ class @PlacesView extends Backbone.View
     @map = @options.map
     @placeItemViews = []
     @collection.bind 'add', @addPlaceItemView
+    # @collection.bind 'sync', =>
+    #   @collection.fetch()
     @collection.bind 'reset', @render
     @render() if @collection.length > 0
 
   render: =>
     _.each @placeItemViews, (placeItemView) =>
       placeItemView.hide()
+    @placeItemViews = []
     @collection.each @addPlaceItemView
 
   addPlaceItemView: (place) =>
+    place.bind 'sync', =>
+      @collection.fetch()
     @placeItemViews.push(new PlaceItemView(model: place, map: @map))
 
 class @PlaceItemView extends Backbone.View
@@ -195,6 +203,7 @@ class InfoWindow extends Backbone.View
   className: 'modal'
 
   events:
+    'click a.delete': '_delete'
     'click a.edit': '_edit'
     'click a.view': '_view'
     'click a.save-continue': '_saveContinue'
@@ -214,6 +223,12 @@ class InfoWindow extends Backbone.View
   _edit: ->
     @editing = true
     @render()
+
+  _delete: ->
+    if confirm("Are you sure you want to delete this place?")
+      @model.bind 'destroy', =>
+        @$el.modal('hide')
+      @model.destroy()
 
   _view: ->
     if confirm("Are you sure you want to abandon edit?")
