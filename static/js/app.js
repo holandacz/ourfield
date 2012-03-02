@@ -265,9 +265,6 @@
       if (this.model.get('markerno')) {
         title += " - MARKER# " + this.model.get('markerno');
       }
-      if (this.model.get('sortno')) {
-        title += " - SORT# " + this.model.get('sortno');
-      }
       if (this.model.get('blockno')) {
         title += " - BLOCK# " + this.model.get('blockno');
       }
@@ -289,6 +286,8 @@
       this.marker.setTitle(title);
       if (this.model.get('markerno')) {
         this.marker.setIcon('/site_media/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png');
+      } else {
+        this.marker.setIcon('/site_media/static/img/mapicons/25x30/symbol_blank.png');
       }
       return this.marker.setMap(this.map);
     };
@@ -387,7 +386,6 @@
       this.model.set({
         territoryno: this.$('#ed-territoryno').val(),
         markerno: Number(this.$('#ed-markerno').val()),
-        sortno: Number(this.$('#ed-sortno').val()),
         blockno: this.$('#ed-blockno').val(),
         interestlevel: Number(this.$('#ed-interestlevel').val()),
         houseno: this.$('#ed-houseno').val(),

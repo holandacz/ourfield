@@ -5,6 +5,47 @@ from djboss.commands import *
 import wingdbstub
 
 @command
+@argument('territoryno', type=str, help="Territoryno. 0 for 4-1-2.")  
+def places_genYamlTestData(args):
+    """Generate places test YAML data."""
+    from django.core.serializers import serialize
+    from places.models import Place
+
+    territoryno = '4-1-2' if args.territoryno == '0' else args.territoryno
+
+    print "Generating Test Data for territoryno: %s..." % territoryno
+
+    s = ""
+    for p in Place.objects.filter(territoryno=territoryno)\
+        .values('id','territoryno', 'markerno', 'point')\
+        .order_by('territoryno', 'markerno', 'id'):
+        s += "- model: places.place\n"
+        s += "  pk: %d\n" % p['id']
+        s += "  fields:\n"
+        s += "    territoryno: %s\n" % p['territoryno']
+        s += "    markerno: %d\n" % (p['markerno'] if p['markerno'] else 0)
+        s += "    point: %s\n" % p['point'].wkt
+        print p['id'];
+	
+
+    out = open("fixtures/places_testdata.yaml", "wb")
+    out.write(s)
+    out.close()
+    
+    print "Done!"
+
+    # # to pretty up output
+    # html = re.sub(r"""(?sm)- fields: (\{.*?\})
+    #   (model:.*?)
+    #   (pk:.*?$)""", r"""- \2
+    #   \3
+    #   fields:
+    #     \1""", html)
+
+
+
+
+@command
 @argument('howmany', type=int, help="How many notes to list. 0 for all.")   
 def places_html2text(args):
     """Convert html to text and put into notes field."""

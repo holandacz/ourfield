@@ -159,9 +159,6 @@ class @PlaceItemView extends Backbone.View
     if @model.get('markerno')
       title += " - MARKER# " + @model.get('markerno')
 
-    if @model.get('sortno')
-      title += " - SORT# " + @model.get('sortno')
-
     if @model.get('blockno')
       title += " - BLOCK# " + @model.get('blockno')
 
@@ -186,7 +183,9 @@ class @PlaceItemView extends Backbone.View
 
     if @model.get('markerno')
       @marker.setIcon('/site_media/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png')
-
+    else
+      @marker.setIcon('/site_media/static/img/mapicons/25x30/symbol_blank.png')
+    
     @marker.setMap(@map)
 
   hide: =>
@@ -247,7 +246,6 @@ class InfoWindow extends Backbone.View
     @model.set
       territoryno: @$('#ed-territoryno').val()
       markerno: (Number) @$('#ed-markerno').val()
-      sortno: (Number) @$('#ed-sortno').val()
       blockno: @$('#ed-blockno').val()
       interestlevel: (Number) @$('#ed-interestlevel').val()
       houseno: @$('#ed-houseno').val()

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#import wingdbstub
+import wingdbstub
 
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
@@ -19,7 +19,7 @@ class Place(MyModel):
     sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
     blockno = models.CharField("Block No", max_length=32, null=True, blank=True)
     pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
-    markerno = models.PositiveIntegerField("Marker No", null=True, blank=True, db_index=True)
+    markerno = models.PositiveIntegerField("Marker No", default=0, db_index=True)
     houseno = models.CharField("House No", max_length=32, null=True, blank=True)
     persons = models.TextField("Persons", null=True, blank=True)
     interestlevel = models.IntegerField("Interest Level", null=True, blank=True)
@@ -37,7 +37,7 @@ class Place(MyModel):
     multiunit = models.BooleanField("MultiUnit?", )
     residential = models.BooleanField("Residential?", default=True )
     deleted = models.BooleanField("Deleted?", db_index=True)
-    googlemapurl = models.CharField("Google Map URL", max_length=255, blank=True)
+    googlemapurl = models.CharField("Google Map URL", max_length=255, null=True, blank=True)
     point = models.PointField("LatLng", default='POINT(0 0)')
 
     owner =  CurrentUserField(blank=True, related_name = "flt_place_owner", default=1)
@@ -133,6 +133,27 @@ class Place(MyModel):
         
         transaction.commit()
         
+    @transaction.commit_manually
+    def delete(self, *args, **kw):
+        # If so, handle renumbering
+        self._handleMarkernoDeleted()
+        
+        super(Place, self).delete(*args, **kw)
+        
+        transaction.commit()     
+        
+    def _handleMarkernoDeleted(self):
+        """If Place is deleted, need to reorder other markerno's in territory"""
+        # get previous data in case use changed pertinent details before clicking delete
+        prevPlace = self.prevPlace()
+        prev_territoryno = prevPlace.territoryno
+        prev_markerno = prevPlace.markerno
+        
+        self.territoryno = prev_territoryno
+        self.markerno = prev_markerno
+        
+        self._updateMarkernos(greater_than = prev_markerno, decrement = True)
+        
     def type(self):
         return u'place'
 
@@ -140,89 +161,178 @@ class Place(MyModel):
         return self.full_name
 
 
+    
+    def _getTerritoryMarkernos(self):
+        return Place.objects.filter(territoryno=self.territoryno).filter(markerno__gt=0).values_list('markerno', flat=True).order_by('markerno')
+    
     def _updateMarkernos(self, \
-            territoryno='4-1-2', \
-            increment=True, \
             greater_than=0, \
-            less_than=999999999999\
+            less_than=999999999999, \
+            decrement=False, \
             ):
         
         cursor = connection.cursor()
         
         sql = '''
-        update of_places 
-          set markerno = markerno + 1 
+        update %s 
+          set markerno = markerno %s 1 
         where (
           territoryno = "%s" 
           and markerno > %d
           and markerno < %d
           and markerno is not null
         )
-        ''' % (territoryno, greater_than, less_than)
+        ''' % (self._meta.db_table, ('-' if decrement else '+'), self.territoryno, greater_than, less_than)
         
         cursor.execute(sql)
-        transaction.commit_unless_managed()        
+        transaction.commit_unless_managed()  
 
+    def _getNextTerritoryPlaceMarkerno(self):
+        """Determine the next markerno to use"""
+        
+        # if self.max_markerno == 0
+        if self.max_markerno == 0:
+            return 1
+            
+        # All markerno's SHOULD be number 1 through total number markers
+        # if not, there are some markers that have not yet been assigned markerno
+        # assume self.max_markerno is NOT greater than self.countTerritoryPlaces
+        
+        # if there are not markerno's in this territory
+        if not self.existing_markernos:
+            return 1
+        
 
-
-
-
-
-
-
-
-
-    # default markerno to be max markerno + 1
-    def _handleMarkernoChangedAdded(self):
-        """If Place is added, need to reorder other markerno's in territory"""
-        x=0
-        pass
+        # if the first markerno is NOT 1
+        if self.existing_markernos[0] != 1:
+            # return one less than first one
+            return self.existing_markernos[0] - 1
+        
+        
+        next_markerno = 0
+        # loop through looking for an opening gap
+        for i, markerno in enumerate(self.existing_markernos):
+            if i == 0:
+                continue
+            
+            # if markerno is not 1 + previous
+            if markerno != self.existing_markernos[i - 1] + 1:
+                # return previous markerno + 1
+                return self.existing_markernos[i - 1] + 1
+        
+        # if we arrive here, there was only one markerno or the next open slot is at the end of list
+        
+        return self.max_markerno + 1
+            
     
-    def _handleMarkernoChangedDelete(self):
-        """If Place is deleted, need to reorder other markerno's in territory"""
+    def _handleMarkernoChanged(self):
+              
+        prev_territoryno = None
+        prev_markerno = None     
         
-        # Get previous markerno
-        # update markerno's >prev_markerno to markerno + 1
-        # update of_places set markerno = markerno + 1 where territoryno = '4-1-2' and markerno is not null
-        x=0
+        # is this an existing place?
+        if self.id:
+            # get previous data to determine how to proceed
+            prevPlace = self.prevPlace()
+            prev_territoryno = prevPlace.territoryno
+            prev_markerno = prevPlace.markerno
+            
+            #if no change return
+            if self.territoryno == prev_territoryno and self.markerno == prev_markerno:
+                return
+            
+            
+            # Was this Place moved from a previous territory?
+            # if territoryno != to prevPlace.territoryno
+            # need to renumber Places in the territory that lost the moved Place
+            if prev_territoryno and self.territoryno != prev_territoryno:
+                # decrement prevPlace markerno's greater_than > prev_markerno
+                self._updateMarkernos(prev_territoryno, \
+                                      greater_than = prev_markerno, \
+                                      decrement = True)
+                # If moved, unset markerno if same as prev_markerno to force placing it at the end of the list
+                if self.markerno == prev_markerno:
+                    self.markerno = None
+                
+                
         
-        pass
+            # if the markerno is NOT set
+            # AND it WAS set before, pull it out and assign it the next valid markerno
+            if not self.markerno and prev_markerno:
+                # decrement prevPlace markerno's greater_than > prev_markerno
+                # this will close the gap in markerno's
+                self._updateMarkernos(self.territoryno, \
+                                      greater_than = prev_markerno, \
+                                      decrement = True)
+                self.markerno = _getNextTerritoryPlaceMarkerno()
+                return
+                                          
+            
+        # handle if markerno is total count of Territory Places or less than 1
+        # TODO: should be put in validate
+        if not self.markerno or self.markerno > self.countTerritoryPlaces or self.markerno < 1:
+            self.markerno = self.next_markerno
+            return
         
+        
+        # if markerno does NOT exist
+        # go ahead and use this markerno cause user must be targeting a valid position
+        if self.markerno and not self.markerno in self.existing_markernos:
+            return
+            
+            
+        # handle if target markerno is less than prev_markerno
+        if self.markerno < prev_markerno:
+            # we have to insert and renumber other markers
+            self._updateMarkernos(decrement = False, greater_than = self.markerno - 1, less_than = prev_markerno)
+            return
+            
+        
+        # handle if target markerno is greater than prev_markerno
+        if self.markerno > prev_markerno:
+            # we have to insert and renumber other markers
+            self._updateMarkernos(decrement = True, greater_than = prev_markerno, less_than = self.markerno + 1)
+            return
+                    
+            
+        
+        # if user enters a markerno that is an existing markerno
+        # we have to insert and renumber other markers
+        self._updateMarkernos(decrement = False, greater_than = self.markerno - 1)
 
-    def maxMarkerno(self, territoryno):
-        result = Place.objects.filter(territoryno=territoryno).aggregate(Max('markerno'))
-        return result['markerno__max'] if result else 1   
-                        
+
+    def maxTerritoryMarkerno(self):
+        """Return highest markerno within a territory"""
+        result = Place.objects.filter(territoryno=self.territoryno).aggregate(Max('markerno'))
+        return result['markerno__max'] if result else 0
+    
+    def countTerritoryPlaces(self):
+        """Return total count of Places within a territory"""
+        return Place.objects.filter(territoryno=self.territoryno).count()            
+
+    def prevPlace(self):
+        """Return previous Place for reviewing pre_update values"""
+        return Place.objects.get(id=self.id)          
+
     def _handleMarkernoChangedSave(self):
         """If Place.markerno is changed, need to reorder other markerno's"""
         
-        # this is a new Place
-        if not self.id:
-            # if no markerno was set
-            # set it to max markerno + 1
-            
-            if self.territoryno and not self.markerno:
-                self.markerno = self.maxMarkerno(self.territoryno) + 1
-                     
-            else:
-                # else adjust affected markerno's
-                # update of_places set markerno = markerno + 1 where territoryno = '4-1-2' and markerno is not null                   
-                pass
-            
-        # existing Place
-        else:
-            # get previous data to determine how to proceed
-            prevPlace = Place.objects.get(id=self.id)
-            prev_id = prevPlace.id
-            prev_territoryno = prevPlace.territoryno
-            prev_markerno = prevPlace.markerno
+        # we are going to only focus on Places with territoryno        
+        if not self.id and not self.territoryno:
+            self.markno = 0
+            return
         
-            # if new Place.territoryno is different that previous
-            # need to reorder markerno's prev_territoryno
-            # need to reorder markerno's in current_territoryno
-            if self.territoryno != prevPlace.territoryno:
-                pass
-            
-            # only reorder markers in current territory
-            else:
-                pass
+        # get existing markerno's for this territory, in ascend order
+        self.existing_markernos = self._getTerritoryMarkernos()         
+        self.max_markerno = self.maxTerritoryMarkerno()
+        self.countTerritoryPlaces = self.countTerritoryPlaces()   
+        self.next_markerno = self._getNextTerritoryPlaceMarkerno()
+
+        # this is a NEW Place        
+        if not self.id:
+            # if markerno NOT was set
+            if not self.markerno:
+                self.markerno = self.next_markerno
+                
+                
+        self._handleMarkernoChanged()

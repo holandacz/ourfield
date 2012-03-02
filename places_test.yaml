@@ -1,0 +1,54 @@
+- fields: {point: POINT (9.9982380000000006 -84.1341319999999940)}
+  model: places.place
+  pk: 2843
+- fields: {point: POINT (9.9973537362948903 -84.1340438220901060)}
+  model: places.place
+  pk: 2844
+- fields: {point: POINT (9.9973401537066309 -84.1365272371178040)}
+  model: places.place
+  pk: 2950
+- fields: {point: POINT (9.9991730000000008 -84.1357280000000000)}
+  model: places.place
+  pk: 2845
+- fields: {point: POINT (9.9989120000000007 -84.1355080000000020)}
+  model: places.place
+  pk: 2846
+- fields: {point: POINT (9.9991060950057804 -84.1337948163377970)}
+  model: places.place
+  pk: 2847
+- fields: {point: POINT (10.0021460979909000 -84.1344798620041980)}
+  model: places.place
+  pk: 2848
+- fields: {point: POINT (10.0020790599532990 -84.1347279740869990)}
+  model: places.place
+  pk: 2849
+- fields: {point: POINT (10.0020913639611000 -84.1346389023033940)}
+  model: places.place
+  pk: 2850
+- fields: {point: POINT (10.0021515199422010 -84.1344640605976930)}
+  model: places.place
+  pk: 2851
+- fields: {point: POINT (10.0022738564656000 -84.1341693616973030)}
+  model: places.place
+  pk: 2852
+- fields: {point: POINT (10.0040600689186000 -84.1348101457825950)}
+  model: places.place
+  pk: 2853
+- fields: {point: POINT (10.0022418800510010 -84.1342244235535050)}
+  model: places.place
+  pk: 2854
+- fields: {point: POINT (9.9994820000000004 -84.1352880000000030)}
+  model: places.place
+  pk: 2896
+- fields: {point: POINT (10.0013260000000010 -84.1339179999999940)}
+  model: places.place
+  pk: 2919
+- fields: {point: POINT (10.0014790000000000 -84.1342580000000030)}
+  model: places.place
+  pk: 2920
+- fields: {point: POINT (10.0015240000000000 -84.1340380000000040)}
+  model: places.place
+  pk: 2921
+- fields: {point: POINT (10.0011280000000000 -84.1342769999999970)}
+  model: places.place
+  pk: 2922
