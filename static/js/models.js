@@ -120,6 +120,22 @@
 
     Places.prototype.model = Place;
 
+    Places.prototype.initialize = function(models, options) {
+      this.queryParams = {};
+      return this.resetUrl();
+    };
+
+    Places.prototype.setQueryParam = function(name, value) {
+      this.queryParams[name] = value;
+      return this.resetUrl();
+    };
+
+    Places.prototype.resetUrl = function() {
+      var params;
+      params = $.param(_.defaults(this.queryParams, DefaultParams));
+      return this.url = "/api/v1/place/?" + params;
+    };
+
     Places.prototype.show = function() {
       var _this = this;
       this.trigger('show');
@@ -153,11 +169,7 @@
     PlaceType.prototype.idAttribute = 'id';
 
     PlaceType.prototype.initialize = function() {
-      var params;
-      this.places = new Places();
-      params = {};
-      params = $.param(_.defaults(params, DefaultParams));
-      return this.places.url = "/api/v1/place/?" + params;
+      return this.places = new Places();
     };
 
     PlaceType.prototype.show = function() {

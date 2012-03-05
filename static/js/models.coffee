@@ -26,8 +26,8 @@ class @Place extends Backbone.Model
 
   # Fear the XSS.
   escapedJson: ->
-      return json =
-          id: @get "id"
+    return json =
+        id: @get "id"
 
   initialize: (attributes) ->
     match = attributes.point?.match(/(\-?\d+(?:\.\d+)?)\s(\-?\d+(?:\.\d+)?)/)
@@ -64,6 +64,21 @@ class @Place extends Backbone.Model
 class @Places extends Backbone.Collection
   model: Place
 
+  initialize: (models, options) ->
+    @queryParams = {}
+    @resetUrl()
+
+  setQueryParam: (name, value) ->
+    @queryParams[name] = value
+    @resetUrl()
+
+  resetUrl: ->
+    params = $.param(_.defaults(@queryParams, DefaultParams))
+    #
+    # Would like to determine bounds of points in this collection and then set center and best fit zoom
+    #
+    @url = "/api/v1/place/?#{params}"
+
   show: ->
     @trigger 'show'
     @each (place) => place.trigger 'show'
@@ -78,9 +93,9 @@ class @PlaceType extends Backbone.Model
   initialize: ->
     @places = new Places()
 
-    params = {}
-    params = $.param(_.defaults(params, DefaultParams))
-    @places.url = "/api/v1/place/?#{params}"
+    # params = {}
+    # params = $.param(_.defaults(params, DefaultParams))
+    # @places.url = "/api/v1/place/?#{params}"
     #?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295
 
   show: ->

@@ -23,6 +23,38 @@ class @Preferences
     @items[key] = defaultValue unless @items[key]
     @save()
 
+class @AppView extends Backbone.View
+  initialize: ->
+    @preferences = @options.preferences
+    @collection.bind 'sync', => 
+      @collection.fetch()
+    @render()
+
+  render : ->
+    @mapView = new MapView
+      el: '#map'
+      model: @model
+      collection: @collection
+      preferences: @preferences
+
+    @listView = new ListView
+      el: '#list'
+      model: @model
+      collection: @collection
+      preferences: @preferences
+
+    @logView = new LogView 
+      el: '#log'
+      model: @model
+      collection: @collection
+      preferences: @preferences
+
+    @searchView = new SearchView
+      el: '#search'
+      model: @model
+      collection: @collection
+      preferences: @preferences
+
 class @MapView extends Backbone.View
   events:
     'click input[type="checkbox"]': '_togglePlaceType'
@@ -30,8 +62,6 @@ class @MapView extends Backbone.View
 
   initialize: ->
     @preferences = @options.preferences
-    @collection.bind 'sync', => 
-      @collection.fetch()
     @render()
 
   render: ->
@@ -141,6 +171,7 @@ class @PlaceItemView extends Backbone.View
     if confirm("Are you sure you want to move this marker?")
       @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())
       @model.save()
+      # get newMarkerno(asadsasdf)
     else
       # move back to original position
       @marker.setPosition( new google.maps.LatLng(@model.get('lat'), @model.get('lng')))
@@ -255,3 +286,38 @@ class InfoWindow extends Backbone.View
       notes: @$('#ed-notes').val()
       actions: @$('#ed-actions').val()
     @model.save()
+
+class @ListView extends Backbone.View
+  initialize: ->
+    @collection.bind 'reset', @render
+    @collection.bind 'add', @addListItemView
+    @render() if @collection.length > 0
+
+  render: =>
+    $('#list').empty()
+    @collection.each @addListItemView
+
+  addListItemView: (model) =>
+    new ListItemView(model: model)
+
+class @ListItemView extends Backbone.View
+  template: _.template($('#list-item-template').html())
+
+  initialize: ->
+    @render()
+
+  render: ->
+    @$el.html(@template(model: @model))
+    $('#list').append(@el)
+
+class @LogView extends Backbone.View
+  initialize: ->
+    @render()
+
+  render: ->
+
+class @SearchView extends Backbone.View
+  initilaize: ->
+    @render()
+
+  render: ->

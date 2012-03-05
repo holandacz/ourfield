@@ -45,6 +45,56 @@
 
   })();
 
+  this.AppView = (function(_super) {
+
+    __extends(AppView, _super);
+
+    AppView.name = 'AppView';
+
+    function AppView() {
+      return AppView.__super__.constructor.apply(this, arguments);
+    }
+
+    AppView.prototype.initialize = function() {
+      var _this = this;
+      this.preferences = this.options.preferences;
+      this.collection.bind('sync', function() {
+        return _this.collection.fetch();
+      });
+      return this.render();
+    };
+
+    AppView.prototype.render = function() {
+      this.mapView = new MapView({
+        el: '#map',
+        model: this.model,
+        collection: this.collection,
+        preferences: this.preferences
+      });
+      this.listView = new ListView({
+        el: '#list',
+        model: this.model,
+        collection: this.collection,
+        preferences: this.preferences
+      });
+      this.logView = new LogView({
+        el: '#log',
+        model: this.model,
+        collection: this.collection,
+        preferences: this.preferences
+      });
+      return this.searchView = new SearchView({
+        el: '#search',
+        model: this.model,
+        collection: this.collection,
+        preferences: this.preferences
+      });
+    };
+
+    return AppView;
+
+  })(Backbone.View);
+
   this.MapView = (function(_super) {
 
     __extends(MapView, _super);
@@ -61,11 +111,7 @@
     };
 
     MapView.prototype.initialize = function() {
-      var _this = this;
       this.preferences = this.options.preferences;
-      this.collection.bind('sync', function() {
-        return _this.collection.fetch();
-      });
       return this.render();
     };
 
@@ -399,6 +445,107 @@
     };
 
     return InfoWindow;
+
+  })(Backbone.View);
+
+  this.ListView = (function(_super) {
+
+    __extends(ListView, _super);
+
+    ListView.name = 'ListView';
+
+    function ListView() {
+      this.addListItemView = __bind(this.addListItemView, this);
+
+      this.render = __bind(this.render, this);
+      return ListView.__super__.constructor.apply(this, arguments);
+    }
+
+    ListView.prototype.initialize = function() {
+      this.collection.bind('reset', this.render);
+      this.collection.bind('add', this.addListItemView);
+      if (this.collection.length > 0) return this.render();
+    };
+
+    ListView.prototype.render = function() {
+      $('#list').empty();
+      return this.collection.each(this.addListItemView);
+    };
+
+    ListView.prototype.addListItemView = function(model) {
+      return new ListItemView({
+        model: model
+      });
+    };
+
+    return ListView;
+
+  })(Backbone.View);
+
+  this.ListItemView = (function(_super) {
+
+    __extends(ListItemView, _super);
+
+    ListItemView.name = 'ListItemView';
+
+    function ListItemView() {
+      return ListItemView.__super__.constructor.apply(this, arguments);
+    }
+
+    ListItemView.prototype.template = _.template($('#list-item-template').html());
+
+    ListItemView.prototype.initialize = function() {
+      return this.render();
+    };
+
+    ListItemView.prototype.render = function() {
+      this.$el.html(this.template({
+        model: this.model
+      }));
+      return $('#list').append(this.el);
+    };
+
+    return ListItemView;
+
+  })(Backbone.View);
+
+  this.LogView = (function(_super) {
+
+    __extends(LogView, _super);
+
+    LogView.name = 'LogView';
+
+    function LogView() {
+      return LogView.__super__.constructor.apply(this, arguments);
+    }
+
+    LogView.prototype.initialize = function() {
+      return this.render();
+    };
+
+    LogView.prototype.render = function() {};
+
+    return LogView;
+
+  })(Backbone.View);
+
+  this.SearchView = (function(_super) {
+
+    __extends(SearchView, _super);
+
+    SearchView.name = 'SearchView';
+
+    function SearchView() {
+      return SearchView.__super__.constructor.apply(this, arguments);
+    }
+
+    SearchView.prototype.initilaize = function() {
+      return this.render();
+    };
+
+    SearchView.prototype.render = function() {};
+
+    return SearchView;
 
   })(Backbone.View);
 

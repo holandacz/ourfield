@@ -44,7 +44,7 @@ def index(request):
         'api_key' : api_key,
         'center' : request.GET.get('ll', ""),
         'zoom' : request.GET.get('z', 0),
-        'territoryno' : request.GET.get('t', '4-1-2'),
+        'territoryno' : request.GET.get('territoryno', ''),
         'polys' : polys,
         'enpts' : enpts,
         'placepts' : placepts,

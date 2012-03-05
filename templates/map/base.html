@@ -21,19 +21,30 @@
 {% endblock %}
 
 {% block body %}
-  <div id="map">
-    <div class="container">
-      <div class="map-container map16">
-        <div id="place-types" style="display:none">Places:&nbsp;
-          <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
-        </div>
-        <div><button id="add-place">Add Place</button></div>
-        <div id="map-canvas">
-          {% include "map/crosshair.html" %}
-        </div>
+  <div id="app">
+    <div id="map">
+      <div class="container">
+        <div class="map-container map16">
+          <div id="place-types" style="display:none">Places:&nbsp;
+            <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
+          </div>
+          <div><button id="add-place">Add Place</button></div>
+          <div id="map-canvas">
+            {% include "map/crosshair.html" %}
+          </div>
 
-      </div>
-    </div><!-- container -->
+        </div>
+      </div><!-- container -->
+    </div>
+
+    <div id="list">
+    </div>
+
+    <div id="log">
+    </div>
+
+    <div id="search">
+    </div>
   </div>
 {% endblock %}
 
@@ -50,26 +61,26 @@
   {% include "map/edit-info-window-template.html" %}
   {% include "map/info-window-template.html" %}
 
+  {% include "map/list-item-template.html" %}
 
   <script type="text/javascript" src="{% static "js/models.js" %}"></script>
   <script type="text/javascript" src="{% static "js/app.js" %}"></script>
 
   <script type="text/javascript">
-      //var territoryno = "{{ territoryno|default_if_none:"4-1-2" }}"; //{{territoryno}}
+      var territoryno = "{{ territoryno|default_if_none:"4-1-2" }}";
       var zoom = 16; //{{zoom}}
       var center = "10.001025,-84.134588"; //"{{center}}"
 
       var preferences = new Preferences();
       preferences.setDefault('zoom', zoom);
       preferences.setDefault('center', center);
-      //preferences.setDefault('territoryno', "{{ territoryno|default_if_none:"4-1-2" }}");
+      preferences.setDefault('territoryno', territoryno);
 
       var appData = new AppData({
         userid: {{ user.id|default_if_none:0 }},
         username: "{{ user.username|default_if_none:"" }}",
         zoom: 16,
         center: "10.001025,-84.134588"
-        //territoryno: "{{ territoryno|default_if_none:"4-1-2" }}"
       });
 
       DefaultParams.userid = {{ user.id|default_if_none:0 }}
@@ -78,18 +89,17 @@
       DefaultParams.userisstaff = {{ userisstaff }}
       DefaultParams.userissuperuser = {{ userissuperuser }}
       DefaultParams.api_key = "{{ api_key }}"
-      //DefaultParams.territoryno = "{{ territoryno|default_if_none:"4-1-2" }}"
+      DefaultParams.territoryno = "{{ territoryno|default_if_none:"" }}"
 
       var placeTypes = new PlaceTypes();
       placeTypes.add({id: 1, name: "school"});
       placeTypes.add({id: 2, name: "business"});
 
       $(function() {
-        var app = new MapView({
-          el: '#map',
+        new AppView({
+          el: '#app',
           model: appData,
           collection: placeTypes,
-          title: "This is a title",
           preferences: preferences
         });
       });
