@@ -1,8 +1,42 @@
 # https://github.com/zacharyvoase/django-boss
 # http://docs.python.org/dev/library/argparse.html
 from djboss.commands import *
+from django.db import connection, transaction
+from models import Place
 # a copy of this file should be copied to djboss app dir
 import wingdbstub
+
+srcTerritorynos = ['4-1-2', '3']
+
+def deleteSQL(where):
+    """Quick SQL DELETE"""
+    if not where:
+	raise ValueError("No WHERE clause!")
+    cursor = connection.cursor()
+    sql = 'DELETE FROM %s WHERE %s' % (Place._meta.db_table, where)
+    cursor.execute(sql)
+
+def clonePlaces(territoryno, testTerritoryno):
+    """clone Places where srcTerritoryno setting new Place to testTerritoryno"""
+    places = Place.objects.filter(territoryno=territoryno).filter(markerno__gt=0)
+    for place in places:
+        place.id = None
+        place.territoryno = testTerritoryno
+        place.save(handleMarkernos = False)
+
+def resetDemoPlaces(srcTerritorynos = srcTerritorynos):
+    """Reset Demo Places"""
+    for territoryno in srcTerritorynos:
+        # delete exiting test Places
+        deleteSQL('territoryno = "_%s"' % territoryno)
+        clonePlaces(territoryno, '_' + territoryno)
+
+@command
+def places_test(args):
+    """Test"""
+    resetDemoPlaces()
+    
+    print "Hello"
 
 @command
 @argument('territoryno', type=str, help="Territoryno. 0 for 4-1-2.")  

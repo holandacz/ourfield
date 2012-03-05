@@ -1,8 +1,7 @@
-from django.test import TestCase
-#from django.core.management import call_command
 from models import Place
 #import wingdbstub
 
+print 
 
 class SimpleTest(TestCase):
     def test_basic_addition(self):

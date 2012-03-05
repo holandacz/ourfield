@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#import wingdbstub
+import wingdbstub
 
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
@@ -120,27 +120,32 @@ class Place(MyModel):
             ('access_places','Access to Places'), 
         )
         
-    @transaction.commit_manually
+    #@transaction.commit_manually
     def save(self, *args, **kw):
         #self.ParseDetails()
         self.geocoded = True if (self.point.y and self.point.x) else False
         
         # In order to handle renumbering of markerno's, I need to see if markno has changed.
         # If so, handle renumbering
-        self._handleMarkernoChangedSave()
-        
+        # kw['handleMarkernos'] is set in test to quickly clone Places. Do not want to process markernos
+        if not 'handleMarkernos' in kw or kw['handleMarkernos']:
+            self._handleMarkernoChangedSave()
+            
+        if 'handleMarkernos' in kw:
+            del(kw['handleMarkernos']) # was just temp
+            
         super(Place, self).save(*args, **kw)
         
-        transaction.commit()
+        #transaction.commit()
         
-    @transaction.commit_manually
+    #@transaction.commit_manually
     def delete(self, *args, **kw):
         # If so, handle renumbering
         self._handleMarkernoDeleted()
         
         super(Place, self).delete(*args, **kw)
         
-        transaction.commit()     
+        #transaction.commit()     
         
     def _handleMarkernoDeleted(self):
         """If Place is deleted, need to reorder other markerno's in territory"""
@@ -165,11 +170,7 @@ class Place(MyModel):
     def _getTerritoryMarkernos(self):
         return Place.objects.filter(territoryno=self.territoryno).filter(markerno__gt=0).values_list('markerno', flat=True).order_by('markerno')
     
-    def _updateMarkernos(self, \
-            greater_than=0, \
-            less_than=999999999999, \
-            decrement=False, \
-            ):
+    def _updateMarkernos(self, greater_than=0, less_than=999999999999, decrement=False):
         
         cursor = connection.cursor()
         
