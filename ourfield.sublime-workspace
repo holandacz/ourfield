@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"curr",
+				"currentPlace"
+			],
+			[
+				"cur",
+				"currentPlace"
+			],
+			[
+				"objec",
+				"objects"
+			],
+			[
 				"col",
 				"Collection"
 			],
@@ -32,45 +44,23 @@
 	"buffers":
 	[
 		{
-			"file": "private/py/closestpt.py",
-			"settings":
-			{
-				"buffer_size": 2511,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "static/js/calcmarkerno.coffee",
-			"settings":
-			{
-				"buffer_size": 3318,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "templates/map/base.html",
 			"settings":
 			{
-				"buffer_size": 3566,
+				"buffer_size": 3715,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "class @Preferences\n  constructor: ->\n    @cookieName = \"preferences\"\n    @items = {}\n    @load()\n\n  load: ->\n    rawValue = $.cookie(@cookieName)\n    if rawValue\n      @items = JSON.parse(rawValue)\n\n  save: ->\n    $.cookie(@cookieName, JSON.stringify(@items), expires: 365)\n\n  get: (key) ->\n    @items[key]\n\n  set: (key, value) ->\n    @items[key] = value\n    @save()\n\n  setDefault: (key, defaultValue) ->\n    @items[key] = defaultValue unless @items[key]\n    @save()\n\nclass @MapView extends Backbone.View\n  events:\n    'click input[type=\"checkbox\"]': '_togglePlaceType'\n    'click button#add-place': '_addPlace'\n\n  initialize: ->\n    @preferences = @options.preferences\n    @collection.bind 'sync', => \n      @collection.fetch()\n    @render()\n\n  render: ->\n    console.log @preferences.items\n\n    @map = new google.maps.Map @$('#map-canvas').get(0),\n      zoom: @preferences.get('zoom')\n      center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))\n      mapTypeId: @model.get('mapTypeId')\n\n    google.maps.event.addListener @map, 'zoom_changed', =>\n      @preferences.set('zoom', @map.getZoom())\n\n    @userid = @model.get('userid')\n\n\n\n      # window.placeTypes.models[0].places.add({id:3, point: 'POINT (10.001 -84.134)'})\n      # make into a function: @addPlace(event)\n\n    # google.maps.event.addListener @map, \"click\", => @addPlace()\n    # location: event.latLng\n    # centered: false\n\n    if @userid > 0\n      @collection.each (placeType) =>\n        new PlaceTypeView(model: placeType, collection: placeType.places, map: @map)\n\n      @$('input[type=\"checkbox\"]:checked').each (index, el) =>\n        model = @collection.get($(el).val())\n        model.show()\n\n\n\n  _togglePlaceType: (e) ->\n    inputEl = @$(e.target)\n    model = @collection.get(inputEl.val())\n    if inputEl.is(\":checked\")\n      model.show()\n    else\n      model.hide()\n\n  _addPlace: (e) ->\n    console.log \"_addPlace\", e\n    lat = @map.getCenter().lat()\n    lng = @map.getCenter().lng()\n    console.log lat, lng\n    @collection.get(1).places.create(point: \"POINT (#{lat} #{lng})\")\n\nclass @PlaceTypeView extends Backbone.View\n  initialize: ->\n    @map = @options.map\n    @model.bind 'show', @show\n    @model.bind 'hide', @hide\n    @render()\n\n  render: ->\n    @placesView = new PlacesView(collection: @collection, map: @map)\n\n  show: =>\n    @collection.fetch()\n\n  hide: =>\n\nclass @PlacesView extends Backbone.View\n  initialize: ->\n    @map = @options.map\n    @placeItemViews = []\n    @collection.bind 'add', @addPlaceItemView\n    # @collection.bind 'sync', =>\n    #   @collection.fetch()\n    @collection.bind 'reset', @render\n    @render() if @collection.length > 0\n\n  render: =>\n    _.each @placeItemViews, (placeItemView) =>\n      placeItemView.hide()\n    @placeItemViews = []\n    @collection.each @addPlaceItemView\n\n  addPlaceItemView: (place) =>\n    place.bind 'sync', =>\n      @collection.fetch()\n    @placeItemViews.push(new PlaceItemView(model: place, map: @map))\n\nclass @PlaceItemView extends Backbone.View\n  initialize: ->\n    @map = @options.map\n    @model.bind 'show', @show\n    @model.bind 'hide', @hide\n\n    # LWE added to try to refresh inforwindow\n    @model.bind 'sync', @show\n    @render()\n\n  render: ->\n    @marker = new google.maps.Marker(\n      draggable: true\n    )\n\n    google.maps.event.addListener @marker, \"dragend\", @dragend\n    google.maps.event.addListener @marker, \"click\", @click\n\n    @show()\n\n  dragend: =>\n    if confirm(\"Are you sure you want to move this marker?\")\n      @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())\n      # get newMarkerno(asadsasdf)\n      @model.save()\n    else\n      # move back to original position\n      @marker.setPosition( new google.maps.LatLng(@model.get('lat'), @model.get('lng')))\n\n  show: =>\n    @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))\n    @marker.setPosition(@position)\n\n    title = 'P' + @model.get('id')\n    if @model.get('interestlevel')\n      title += \" - INTEREST \" + @model.get('interestlevel')\n\n    if @model.get('territoryno')\n      title += \" - TERRITORY# \" + @model.get('territoryno')\n\n    if @model.get('markerno')\n      title += \" - MARKER# \" + @model.get('markerno')\n\n    if @model.get('blockno')\n      title += \" - BLOCK# \" + @model.get('blockno')\n\n    if @model.get('houseno')\n      title += \" - HOUSE# \" + @model.get('houseno')\n\n    if @model.get('description')\n      title += \"\\n\\n\" + \"DESCRIPTION\\n\" + @model.get('description')\n\n    # code to show languages with a number in front of language code\n\n    if @model.get('persons')\n      title += \"\\n\\n\" + \"PERSONS\\n\" + @model.get('persons')\n\n    if @model.get('actions')\n      title += \"\\n\\n\" + \"ACTIONS\\n\" + @model.get('actions')\n\n    if @model.get('notes')\n      title += \"\\n\\n\" + \"NOTES\\n\" + @model.get('notes')\n\n    @marker.setTitle(title)\n\n    if @model.get('markerno')\n      @marker.setIcon('/site_media/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png')\n    else\n      @marker.setIcon('/site_media/static/img/mapicons/25x30/symbol_blank.png')\n    \n    @marker.setMap(@map)\n\n  hide: =>\n    @marker.setMap(null)\n\n  click: =>\n    @infoWindow = new InfoWindow(model: @model)\n\nclass InfoWindow extends Backbone.View\n  template: _.template($('#info-window-template').html())\n\n  editTemplate: _.template($('#edit-info-window-template').html())\n\n  className: 'modal'\n\n  events:\n    'click a.delete': '_delete'\n    'click a.edit': '_edit'\n    'click a.view': '_view'\n    'click a.save-continue': '_saveContinue'\n    'click a.save': '_save'\n\n  initialize: ->\n    @editing = false\n    @render()\n\n  render: ->\n    if @editing\n      @$el.html(@editTemplate(model: @model))\n    else\n      @$el.html(@template(model: @model))\n    @$el.modal('show')\n\n  _edit: ->\n    @editing = true\n    @render()\n\n  _delete: ->\n    if confirm(\"Are you sure you want to delete this place?\")\n      @model.bind 'destroy', =>\n        @$el.modal('hide')\n      @model.destroy()\n\n  _view: ->\n    if confirm(\"Are you sure you want to abandon edit?\")\n      @editing = false\n      @render()\n\n  _saveContinue: ->\n    @persist()\n\n  _save: ->\n    @persist()\n    @model.bind 'sync', =>\n      @$el.modal('hide')\n\n  persist: ->\n    @model.set\n      territoryno: @$('#ed-territoryno').val()\n      markerno: (Number) @$('#ed-markerno').val()\n      blockno: @$('#ed-blockno').val()\n      interestlevel: (Number) @$('#ed-interestlevel').val()\n      houseno: @$('#ed-houseno').val()\n      description: @$('#ed-description').val()\n      languages: @$('#ed-languages').val()\n      persons: @$('#ed-persons').val()\n      notes: @$('#ed-notes').val()\n      actions: @$('#ed-actions').val()\n    @model.save()\n",
 			"file": "static/js/app.coffee",
-			"file_size": 6887,
-			"file_write_time": 129751961316305416,
 			"settings":
 			{
-				"buffer_size": 6665,
+				"buffer_size": 8009,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "\nCR = \"10.001025 -84.134588\" # no space between\n\n@DefaultParams =\n  user_id: 0\n  username: \"\"\n  api_key: \"\"\n  format: \"json\"\n  limit: 0\n\nclass @AppData extends Backbone.Model\n  defaults:\n    center: CR\n    zoom: 16\n    mapTypeId: google.maps.MapTypeId.ROADMAP\n\n  initialize: (attributes) ->\n    ll = attributes.center.split(',')\n    @set('centerLat', ll[0])\n    @set('centerLng', ll[1])\n\n# A place has a location\nclass @Place extends Backbone.Model\n  defaults:\n    notes: ''\n\n  # Fear the XSS.\n  escapedJson: ->\n    return json =\n        id: @get \"id\"\n\n  initialize: (attributes) ->\n    match = attributes.point?.match(/(\\-?\\d+(?:\\.\\d+)?)\\s(\\-?\\d+(?:\\.\\d+)?)/)\n    if match?\n      @set('lat', match[1])\n      @set('lng', match[2])\n\n    params = {}\n    params = $.param(_.defaults(params, DefaultParams))\n    if @has('resource_uri')\n      @url = @get('resource_uri') + \"?#{params}\"\n\n    @bind 'change', @recalcPoint\n\n  recalcPoint: =>\n    if @hasChanged('lat') or @hasChanged('lng')\n      lat = @get('lat')\n      lng = @get('lng')\n      @set('point', \"POINT(#{lat} #{lng})\")\n\n  toJSON: ->\n    point: @get('point')\n    territoryno: @get('territoryno') || '4-1-2' \n    markerno: @get('markerno')\n    blockno: @get('blockno')\n    houseno: @get('houseno')\n    description: @get('description')\n    languages: @get('languages')\n    persons: @get('persons')\n    notes: @get('notes')\n    interestlevel: @get('interestlevel')\n    actions: @get('actions')\n\nclass @Places extends Backbone.Collection\n  model: Place\n\n  initialize: (models, options) ->\n    @queryParams = {}\n    @resetUrl()\n\n  setQueryParam: (name, value) ->\n    @queryParams[name] = value\n    @resetUrl()\n\n  resetUrl: ->\n    params = $.param(_.defaults(@queryParams, DefaultParams))\n    #\n    # Would like to determine bounds of points in this collection and then set center and best fit zoom\n    #\n    @url = \"/api/v1/place/?#{params}\"\n\n  show: ->\n    @trigger 'show'\n    @each (place) => place.trigger 'show'\n\n  hide: ->\n    @trigger 'hide'\n    @each (place) => place.trigger 'hide'\n\nclass @PlaceType extends Backbone.Model\n  idAttribute: 'id'\n\n  initialize: ->\n    @places = new Places()\n\n    # params = {}\n    # params = $.param(_.defaults(params, DefaultParams))\n    # @places.url = \"/api/v1/place/?#{params}\"\n    #?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295\n\n  show: ->\n    @trigger 'show'\n    @places.show()\n\n  hide: ->\n    @trigger 'hide'\n    @places.hide()\n\nclass @PlaceTypes extends Backbone.Collection\n  model: PlaceType\n",
 			"file": "static/js/models.coffee",
-			"file_size": 2621,
-			"file_write_time": 129752918233324580,
 			"settings":
 			{
 				"buffer_size": 2507,
@@ -78,26 +68,34 @@
 			}
 		},
 		{
-			"file": "apps/map/views.py",
+			"file": "apps/places/markernos.py",
 			"settings":
 			{
-				"buffer_size": 1688,
-				"line_ending": "Unix"
+				"buffer_size": 8517,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "apps/places/models.py",
 			"settings":
 			{
-				"buffer_size": 13781,
+				"buffer_size": 17448,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "apps/places/api.py",
+			"file": "apps/places/commands.py",
 			"settings":
 			{
-				"buffer_size": 1536,
+				"buffer_size": 6282,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "private/py/closestpt.py",
+			"settings":
+			{
+				"buffer_size": 3278,
 				"line_ending": "Windows"
 			}
 		}
@@ -109,11 +107,11 @@
 		"selected_items":
 		[
 			[
-				":w",
+				":W",
 				":w - Save"
 			],
 			[
-				":W",
+				":w",
 				":w - Save"
 			],
 			[
@@ -194,9 +192,17 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
+		"/C/Users/Larry/__prjs/ourfield/private/py/closestpt.py",
+		"/C/Users/Larry/__prjs/ourfield/static/js/crosshair.coffee",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/crosshair.html",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/test.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/commands.py",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/list-item-template.html",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
+		"/C/Users/Larry/__prjs/ourfield/static/js/calcmarkerno.coffee",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/tests.py",
 		"/C/Users/Larry/__prjs/ourfield/settings.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/commands.py",
 		"/C/Users/Larry/__prjs/ourfield/fixtures/places_testdata.yaml",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/edit-info-window-template.html",
 		"/C/Users/Larry/__prjs/ourfield/private/py/ptIsBetween.py",
@@ -213,17 +219,14 @@
 		"/C/Users/Larry/__prjs/ourfield/static/css/theme.css",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/pinax/css/theme.css",
-		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
 		"/C/Users/Larry/__prjs/ourfield/docs/MarkerNos.md",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/less/responsive.less",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/css/bootstrap-responsive.css",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/less/navbar.less",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/crosshair.html",
 		"/C/Users/Larry/__prjs/ourfield/static/js/jquery.cookie.js",
 		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
 		"/C/Users/Larry/__prjs/ourfield/templates/homepage.html",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/admin.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
 		"/C/Users/Larry/__prjs/ourfield/static/js/app.coffee",
 		"/C/Users/Larry/__prjs/ourfield/local_settings.py",
 		"/C/Users/Larry/__prjs/ourfield_2/settings.py",
@@ -242,7 +245,6 @@
 		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Tag/Tag Package.sublime-settings",
 		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Larry/__prjs/ourfield/static/js/backbone-tastypie.js",
-		"/C/Users/Larry/__prjs/ourfield/static/js/crosshair.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/js/backbone.js",
 		"/C/Users/Larry/__prjs/ourfield/static/js/routes.js",
 		"/C/Users/Larry/My Dropbox/ourfield/github_fltsys/private/js/underscore.js",
@@ -317,11 +319,7 @@
 		"/C/Users/Larry/__prjs/ourfield/apps/tweets/urls.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/api/models.py",
 		"/C/_extjs/ext-4.0.7-gpl/index.html",
-		"/C/Users/Larry/__prjs/ourfield/apps/tweets/models.py",
-		"/C/Users/Larry/__prjs/ourfield/static/js/tweets.coffee",
-		"/C/Users/Larry/__prjs/ourfield/apps/tweets/api.py",
-		"/C/Users/Larry/__prjs/ourfield/static/js/tweets.js",
-		"/C/Users/Larry/__prjs/ourfield/coffee.bat"
+		"/C/Users/Larry/__prjs/ourfield/apps/tweets/models.py"
 	],
 	"find":
 	{
@@ -349,6 +347,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"calcDistanceToPlace",
+			"currentPlaceMaxMarkerno",
+			"raise",
 			"MKN",
 			"Ps",
 			"P",
@@ -425,6 +426,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"calcDistanceSquare",
+			"currentMaxTerritoryMarkerno",
 			"markerno",
 			"Places",
 			"Place",
@@ -452,53 +455,83 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "private/py/closestpt.py",
+					"file": "templates/map/base.html",
 					"settings":
 					{
-						"buffer_size": 2511,
+						"buffer_size": 3715,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2446,
-								1832
+								1203,
+								1203
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 300.0,
+						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "static/js/calcmarkerno.coffee",
+					"file": "static/js/app.coffee",
 					"settings":
 					{
-						"buffer_size": 3318,
+						"buffer_size": 8009,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								699,
-								699
+								7627,
+								7627
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4170.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "static/js/models.coffee",
+					"settings":
+					{
+						"buffer_size": 2507,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								201,
+								201
 							]
 						],
 						"settings":
@@ -516,109 +549,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "templates/map/base.html",
-					"settings":
-					{
-						"buffer_size": 3566,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1438,
-								1438
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 570.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 3,
-					"file": "static/js/app.coffee",
+					"file": "apps/places/markernos.py",
 					"settings":
 					{
-						"buffer_size": 6665,
+						"buffer_size": 8517,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3602,
-								3602
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1759.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "static/js/models.coffee",
-					"settings":
-					{
-						"buffer_size": 2507,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1453,
-								1459
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 540.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "apps/map/views.py",
-					"settings":
-					{
-						"buffer_size": 1688,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1390,
-								1390
+								2778,
+								2778
 							]
 						],
 						"settings":
@@ -630,17 +573,17 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 60.0,
+						"translation.y": 150.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 4,
 					"file": "apps/places/models.py",
 					"settings":
 					{
-						"buffer_size": 13781,
+						"buffer_size": 17448,
 						"regions":
 						{
 						},
@@ -660,25 +603,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 525.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "apps/places/api.py",
+					"buffer": 5,
+					"file": "apps/places/commands.py",
 					"settings":
 					{
-						"buffer_size": 1536,
+						"buffer_size": 6282,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								800,
-								800
+								607,
+								607
 							]
 						],
 						"settings":
@@ -691,6 +634,36 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "private/py/closestpt.py",
+					"settings":
+					{
+						"buffer_size": 3278,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1944,
+								1944
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 664.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

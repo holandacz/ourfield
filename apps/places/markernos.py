@@ -24,49 +24,44 @@ class PlaceMarkernos(currentPlace, isnew = False, isdeleted = False)
 
         self.isnew = isnew
         self.isdeleted = isdeleted
+
     def _calcMarkerno(self):
-        """Calculate best guess markerno based on its location
-        It takes the following steps to arrive at the best guess
+        """Calculate best guess markerno based on its location"""
 
-        Find closest place to currentPlace 
-            closestPlace = self.currentPlace.findClosestPlace()
+        # Find closest place to currentPlace 
+        closestPlace = self.currentPlace.findClosestPlace()
 
-        If the closestPlace is the FIRST Place with a markerno == 1?
-            Need to determine whether the currentPlace should become the new markerno #1.
-
-            If closestPlace (#1) is closer than currentPlace (?) to Place.markerno #2, 
-                then currentPlace.markerno will become the new markerno #1
-            Else
-                currentPlace.markerno will become the new markerno #2
-
-        Else If the closestPlace is the LAST Place with a markerno == self.currentMaxTerritoryMarkerno (#MAX)
-            Need to determine whether the currentPlace should be the next number after(#MAX)
-
-            If closestPlace (#MAX) is closer than currentPlace (?) to Place.markerno (#MAX - 1), 
-                then currentPlace.markerno will become #MAX
-            Else
-                currentPlace.markerno will become #MAX + 1
-               
-        Else
-            Get the Place before and after the closestPlace
-                beforeClosestPlace, aferClosestPlace = self.currentPoint.adjoiningPlaces(closestPlace)
-
-            Calc the distance from currentPlace to the Place before and after the closestPlace
-                distanceToPlaceBeforeClosestPlace = self.currentPoint.calcDistanceToPlace(beforeClosestPlace)
-                distanceToPlaceAfterClosestPlace = self.currentPoint.calcDistanceToPlace(aferClosestPlace)
-
-            if distanceToPlaceBeforeClosestPlace < distanceToPlaceAfterClosestPlace
-                currentPlace.markerno = closestPlace.markerno
-            else
-                currentPlace.markerno = aferClosestPlace.markerno
-        """
+        # Get the Place before and after the closestPlace
+        nextPlace = closestPlace.adjoiningPlace()
+        prevPlace = closestPlace.adjoiningPlace('before')
 
 
+        # If the closestPlace is the FIRST Place with a markerno == 1,
+        # need to determine whether the currentPlace should become the new markerno #1.
 
+        if closestPlace.markerno == 1 and nextPlace:
+            # if currentPlace (?) is closer than closestPlace (#1) to Place.markerno #2 (nextPlace),
+            # currentPlace.markerno will become the new #2 else #1
+            return 2 if self.currentPlace.calcDistanceSquare(nextPlace) < closestPlace.calcDistanceSquare(nextPlace) else 1
 
+        # If the closestPlace is the LAST Place with a markerno == self.currentMaxTerritoryMarkerno (#MAX)
+        elif closestPlace.markerno == self.currentMaxTerritoryMarkerno and prevPlace:
+            # Need to determine whether the currentPlace should be the next number after(#MAX)
+            # If currentPlace (?) is closer than the closestPlace (#MAX) to Place.markerno #MAX - 1 (prevPlace), 
+            # currentPlace.markerno will become the new #MAX else #MAX + 1 
+            if self.currentPlace.calcDistanceSquare(prevPlace) < closestPlace.calcDistanceSquare(prevPlace):
+                return self.currentMaxTerritoryMarkerno
+            else:
+                return self.currentMaxTerritoryMarkerno + 1
 
+        elif prevPlace and nextPlace:
+            if self.currentPoint.calcDistanceSquare(prevPlace) < self.currentPoint.calcDistanceSquare(nextPlace):
+                return closestPlace.markerno
+            else:
+                return nextPlace.markerno
 
-
+        else:
+            raise Exception("Expected prevPlace and nextPlace")
 
     def handleChange(self):
         if self.isnew:
@@ -82,7 +77,7 @@ class PlaceMarkernos(currentPlace, isnew = False, isdeleted = False)
         # while maintaining existing order, renumber all sequentially
         newmarkerno = 1
         cursor.execute('START TRANSACTION')
-        for place in Place.objects.filter(territoryno=territoryno).exclude(deleted=True):
+        for place in Place.objects.filter(territoryno=territoryno).exclude(deleted=True).order_by('markerno'):
             sql = 'UPDATE %s SET markerno = markerno %s 1 WHERE (id = %d)' % (Place._meta.db_table, place.id, newmarkerno)
             cursor.execute(sql)
             newmarkerno += 1

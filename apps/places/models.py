@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import wingdbstub
+#import wingdbstub
 
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
@@ -60,6 +60,98 @@ class Place(MyModel):
     noteshtml = models.TextField("Notes HTML", null=True, blank=True)
 
     objects = models.GeoManager()
+
+    #p1 = Place.objects.get(id=3006)
+    #p2 = Place.objects.get(id=3007)
+    #p1.calcDistanceSquare(p2)
+    def calcDistanceSquare(self, place):
+        """calc distance squared to a place"""
+        return (self.point[0] - place.point[0])**2 + (self.point[1] - place.point[1])**2
+
+    # http://code.activestate.com/recipes/576779-calculating-distance-between-two-geographic-points/
+    # http://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points
+    def calcDistance(self, place):
+        import math
+        
+        lat1 = self.point[0]
+        lon1 = self.point[1]
+        lat2 = place.point[0]
+        lon2 = place.point[1]
+        
+        radius = 6371 # km
+    
+        dlat = math.radians(lat2-lat1)
+        dlon = math.radians(lon2-lon1)
+        a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(lat1)) \
+            * math.cos(math.radians(lat2)) * math.sin(dlon/2) * math.sin(dlon/2)
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+        d = radius * c
+    
+        return d        
+
+
+    #p1 = Place.objects.get(id=2950)
+    #p1.findClosestPlace('4-1-2')
+    #print p1.findClosestPlace('4-1-2')
+    def findClosestPlace(self, territoryno):
+        """find closest place excluding self. Must be geocoded."""
+        minDistance = 999999999999 # better way?
+        places = Place.objects.filter(territoryno = territoryno).filter(geocoded=
+        True).exclude(deleted=True)
+        
+        if self.id:
+            places = places.exclude(id=self.id)
+        
+        # are there any 
+        if len(places) < 2:
+            return None
+        
+        closestPlace = None
+        for place in places:
+            distance = self.calcDistanceSquare(place)
+            if distance < minDistance:
+                minDistance = distance
+                closestPlace = place
+                
+        return closestPlace
+    
+    # p1 = Place.objects.get(id=2957); p2 = p1.adjoiningPlace('before'); print p1.calcDirection(p2)
+    # http://hoegners.de/Maxi/geo/geo.py
+    # http://www.platoscave.net/blog/2009/oct/5/calculate-distance-latitude-longitude-python/
+    # http://rosettacode.org/wiki/Box_the_compass#Python
+    # http://www.movable-type.co.uk/scripts/latlong.html
+    def calcDirection(self, place):
+        from math import *
+
+        direction_names = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
+        directions_num = len(direction_names)
+        directions_step = 360./directions_num
+
+        lat1 = self.point[0]
+        lon1 = self.point[1]
+        lat2 = place.point[0]
+        lon2 = place.point[1]
+
+        dLon = lon2 - lon1
+        y = sin(dLon) * cos(lat2)
+        x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
+        
+
+        index = int(round(degrees(atan2(y, x))/directions_step ))
+        index %= directions_num
+        return direction_names[index]
+
+
+    # p1 = Place.objects.get(id=2957)
+    # p1.adjoiningPlace()
+    # p1.adjoiningPlace('before')
+    def adjoiningPlace(self, adjoin = 'after'): 
+        """return place adjoining before or after within territory"""
+        markerno = self.markerno
+        adjoiningMarkerno = self.markerno + 1 if adjoin == 'after' else self.markerno - 1
+        places = Place.objects.filter(territoryno = self.territoryno).filter(markerno=adjoiningMarkerno)
+        
+        return places[0] if places else None
 
     def ParseDetails(self):
         from django.contrib.gis.geos import Point
