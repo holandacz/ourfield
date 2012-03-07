@@ -180,24 +180,26 @@ class @PlaceItemView extends Backbone.View
     @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
     @marker.setPosition(@position)
 
-    title = 'P' + @model.get('id')
+    title = 'P:' + @model.get('id')
     if @model.get('interestlevel')
-      title += " - INTEREST " + @model.get('interestlevel')
+      title += "  I:" + @model.get('interestlevel')
 
     if @model.get('territoryno')
-      title += " - TERRITORY# " + @model.get('territoryno')
+      title += "  T:" + @model.get('territoryno')
 
     if @model.get('markerno')
-      title += " - MARKER# " + @model.get('markerno')
+      title += "  M:" + @model.get('markerno')
 
     if @model.get('blockno')
-      title += " - BLOCK# " + @model.get('blockno')
+      title += "  B:" + @model.get('blockno')
 
     if @model.get('houseno')
-      title += " - HOUSE# " + @model.get('houseno')
+      title += "  H:" + @model.get('houseno')
+
+    title += "  \n\n"
 
     if @model.get('description')
-      title += "\n\n" + "DESCRIPTION\n" + @model.get('description')
+      title += "DESCRIPTION\n" + @model.get('description')
 
     # code to show languages with a number in front of language code
 

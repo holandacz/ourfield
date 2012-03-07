@@ -301,24 +301,19 @@
       var title;
       this.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
       this.marker.setPosition(this.position);
-      title = 'P' + this.model.get('id');
+      title = 'P:' + this.model.get('id');
       if (this.model.get('interestlevel')) {
-        title += " - INTEREST " + this.model.get('interestlevel');
+        title += "  I:" + this.model.get('interestlevel');
       }
       if (this.model.get('territoryno')) {
-        title += " - TERRITORY# " + this.model.get('territoryno');
+        title += "  T:" + this.model.get('territoryno');
       }
-      if (this.model.get('markerno')) {
-        title += " - MARKER# " + this.model.get('markerno');
-      }
-      if (this.model.get('blockno')) {
-        title += " - BLOCK# " + this.model.get('blockno');
-      }
-      if (this.model.get('houseno')) {
-        title += " - HOUSE# " + this.model.get('houseno');
-      }
+      if (this.model.get('markerno')) title += "  M:" + this.model.get('markerno');
+      if (this.model.get('blockno')) title += "  B:" + this.model.get('blockno');
+      if (this.model.get('houseno')) title += "  H:" + this.model.get('houseno');
+      title += "  \n\n";
       if (this.model.get('description')) {
-        title += "\n\n" + "DESCRIPTION\n" + this.model.get('description');
+        title += "DESCRIPTION\n" + this.model.get('description');
       }
       if (this.model.get('persons')) {
         title += "\n\n" + "PERSONS\n" + this.model.get('persons');

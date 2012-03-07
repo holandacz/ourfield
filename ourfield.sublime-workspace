@@ -71,7 +71,7 @@
 			"file": "apps/places/markernos.py",
 			"settings":
 			{
-				"buffer_size": 8517,
+				"buffer_size": 8503,
 				"line_ending": "Windows"
 			}
 		},
@@ -79,7 +79,7 @@
 			"file": "apps/places/models.py",
 			"settings":
 			{
-				"buffer_size": 17448,
+				"buffer_size": 10265,
 				"line_ending": "Windows"
 			}
 		},
@@ -88,14 +88,6 @@
 			"settings":
 			{
 				"buffer_size": 6282,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "private/py/closestpt.py",
-			"settings":
-			{
-				"buffer_size": 3278,
 				"line_ending": "Windows"
 			}
 		}
@@ -192,8 +184,8 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
 		"/C/Users/Larry/__prjs/ourfield/private/py/closestpt.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
 		"/C/Users/Larry/__prjs/ourfield/static/js/crosshair.coffee",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/crosshair.html",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/test.py",
@@ -347,6 +339,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Max",
 			"calcDistanceToPlace",
 			"currentPlaceMaxMarkerno",
 			"raise",
@@ -553,15 +546,15 @@
 					"file": "apps/places/markernos.py",
 					"settings":
 					{
-						"buffer_size": 8517,
+						"buffer_size": 8503,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2778,
-								2778
+								780,
+								780
 							]
 						],
 						"settings":
@@ -573,7 +566,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 150.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -583,7 +576,7 @@
 					"file": "apps/places/models.py",
 					"settings":
 					{
-						"buffer_size": 17448,
+						"buffer_size": 10265,
 						"regions":
 						{
 						},
@@ -634,36 +627,6 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "private/py/closestpt.py",
-					"settings":
-					{
-						"buffer_size": 3278,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1944,
-								1944
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 664.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
