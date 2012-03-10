@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import wingdbstub
+#import wingdbstub
 
 from django.db.models import Max, Min
 from django.db import connection, transaction
