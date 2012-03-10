@@ -5,29 +5,27 @@
 				<tr>
 					<td>
 				    	<span class="list-markerno"><%= model.get('markerno') %></span>&nbsp;
-				    	<span class="list-multiunit"><%= model.get('multiunit') %></span>&nbsp;
+				    	<!--<span class="list-multiunit"><%= model.get('multiunit') %></span>&nbsp;
 				    	<span class="list-residential"><%= model.get('residential') %></span>&nbsp;
-				    	<span class="list-confirmed"><%= model.get('confirmed') %></span>
+				    	<span class="list-confirmed"><%= model.get('confirmed') %></span>-->
 				    </td>
 				    <td>
-				    	<span class="list-interestlevel">p<%= model.get('interestlevel') %></span>&nbsp;
-				    	<span class="list-id">p<%= model.get('id') %></span>
+				    	<span class="list-id">p<%= model.get('id') %></span>&nbsp;
+				    	<span class="list-interestlevel">i<%= model.get('interestlevel') %></span>
 				    </td>
 					<td>
 				    	<span class="list-houseno"><%= model.get('houseno') %></span>&nbsp;
 				    	<span class="list-directions"><%= model.get('directions') %></span>
 				    </td>
 					<td>
-				    	<span class="list-persons">P<%= model.get('persons') %></span>
-				    </td>
-				    <td>
-					    <span class="list-description">D<%= model.get('description') %></span>&nbsp;
+				    	<span class="list-persons"><%= model.get('persons') %></span>&nbsp;
+					    <span class="list-description"><%= model.get('description') %></span>&nbsp;
 					    <span class="list-notes">N<%= model.get('notes') %></span>
-					</td>
+				    </td>
 				</tr>
 				<tr id="list-action-<%= model.get('id') %>">
 					<td>
-				    	<span class="list-actions">A<%= model.get('actions') %></span>
+				    	<span class="list-actions"><%= model.get('actions') %></span>
 				    </td>
 				</tr>
 			</table>
