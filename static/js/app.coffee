@@ -23,6 +23,12 @@ class @Preferences
     @items[key] = defaultValue unless @items[key]
     @save()
 
+@Log =
+  log: (message) ->
+    @trigger 'log', message
+
+_.extend(@Log, Backbone.Events)
+
 class @AppView extends Backbone.View
   initialize: ->
     @preferences = @options.preferences
@@ -40,14 +46,11 @@ class @AppView extends Backbone.View
     @listView = new ListView
       el: '#list'
       model: @model
-      collection: @collection
+      collection: @collection.get(1).places
       preferences: @preferences
 
     @logView = new LogView 
       el: '#log'
-      model: @model
-      collection: @collection
-      preferences: @preferences
 
     @searchView = new SearchView
       el: '#search'
@@ -171,6 +174,7 @@ class @PlaceItemView extends Backbone.View
     if confirm("Are you sure you want to move this marker?")
       @model.set(lat:  @marker.position.lat(), lng: @marker.position.lng())
       @model.save()
+      Log.log('dragged')
       # get newMarkerno(asadsasdf)
     else
       # move back to original position
@@ -309,11 +313,15 @@ class @ListItemView extends Backbone.View
     @render()
 
   render: ->
+    console.log @model
     @$el.html(@template(model: @model))
     $('#list').append(@el)
 
 class @LogView extends Backbone.View
   initialize: ->
+    Log.on 'log', (message) ->
+      $('#log').append("<div>#{message}</div>")
+
     @render()
 
   render: ->

@@ -174,30 +174,18 @@ class PlaceMarkernos:
                 calcedMarkerno = closestPlace.markerno - 1    
                 
         elif prevPlace and nextPlace:
-            # calc distance from currentPlace to closestPlace
-            distanceFromCurrentPlaceToClosestPlace = self.currentPlace.calcDistanceSquare(closestPlace)
             
-            # calc distance from currentPlace to prevPlace
-            distanceFromCurrentPlaceToPrevPlace = self.currentPlace.calcDistanceSquare(prevPlace)
+            mostInLineWithPlace = self.currentPlace.mostInLineWith(closestPlace, prevPlace, nextPlace)
             
-            
-            # calc distance from closestPlaceToPrevPlace
-            distanceFromClosestPlaceToPrevPlace = closestPlace.calcDistanceSquare(prevPlace)
-            
-            # calc distance from closestPlaceToNextPlace
-            distanceFromClosestPlaceToNextPlace = closestPlace.calcDistanceSquare(nextPlace)
-            
-            # calc distance from currentPlace to nextPlace
-            distanceFromCurrentPlaceToNextPlace = self.currentPlace.calcDistanceSquare(nextPlace)
-            
-            prevPlaceRatio = distanceFromCurrentPlaceToPrevPlace / distanceFromClosestPlaceToPrevPlace
-            nextPlaceRatio = distanceFromCurrentPlaceToNextPlace / distanceFromClosestPlaceToNextPlace
-            
-            if prevPlaceRatio < nextPlaceRatio:
+            if mostInLineWithPlace.markerno == prevPlace.markerno:
                 calcedMarkerno = prevPlace.markerno
             else:
                 calcedMarkerno = closestPlace.markerno
                 
+            if self.isnew:
+                calcedMarkerno += 1
+                
+            # forgot why this
             if hasattr(self, 'previousPlaceMarkerno') and self.previousPlaceMarkerno > calcedMarkerno:
                 calcedMarkerno += 1
 

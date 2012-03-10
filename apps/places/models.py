@@ -11,6 +11,7 @@ from current_user.models import CurrentUserField
 from core.models import MyModel
 from markernos import PlaceMarkernos
 from tastypie.models import create_api_key
+import map.utils as mapUtils
 
 models.signals.post_save.connect(create_api_key, sender=User)
 
@@ -154,6 +155,13 @@ class Place(MyModel):
         
         return places[0] if places else None
 
+    def mostInLineWith(self, closestPlace, prevPlace, nextPlace):
+        """Return the Place that is most in line with"""
+        if mapUtils.mostInLineWith(self.point, closestPlace.point, prevPlace.point, nextPlace.point) == 'prevPt':
+            return prevPlace
+        else:
+            return nextPlace
+        
     def ParseDetails(self):
         from django.contrib.gis.geos import Point
         latitude = 0.0

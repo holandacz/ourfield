@@ -45,6 +45,14 @@
 
   })();
 
+  this.Log = {
+    log: function(message) {
+      return this.trigger('log', message);
+    }
+  };
+
+  _.extend(this.Log, Backbone.Events);
+
   this.AppView = (function(_super) {
 
     __extends(AppView, _super);
@@ -74,14 +82,11 @@
       this.listView = new ListView({
         el: '#list',
         model: this.model,
-        collection: this.collection,
+        collection: this.collection.get(1).places,
         preferences: this.preferences
       });
       this.logView = new LogView({
-        el: '#log',
-        model: this.model,
-        collection: this.collection,
-        preferences: this.preferences
+        el: '#log'
       });
       return this.searchView = new SearchView({
         el: '#search',
@@ -291,7 +296,8 @@
           lat: this.marker.position.lat(),
           lng: this.marker.position.lng()
         });
-        return this.model.save();
+        this.model.save();
+        return Log.log('dragged');
       } else {
         return this.marker.setPosition(new google.maps.LatLng(this.model.get('lat'), this.model.get('lng')));
       }
@@ -494,6 +500,7 @@
     };
 
     ListItemView.prototype.render = function() {
+      console.log(this.model);
       this.$el.html(this.template({
         model: this.model
       }));
@@ -515,6 +522,9 @@
     }
 
     LogView.prototype.initialize = function() {
+      Log.on('log', function(message) {
+        return $('#log').append("<div>" + message + "</div>");
+      });
       return this.render();
     };
 
