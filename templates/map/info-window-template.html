@@ -1,9 +1,9 @@
 <script type="text/template" id="info-window-template">
   <div class="modal-header">
-    <h3>P<%= model.get('id') %> - M<%= model.get('marker') %>
+    <h3><%= model.get('markerno') %>&nbsp;&nbsp;p<%= model.get('id') %>
 
-      <a href="#" class="edit btn btn-primary">Edit</a>
       <a href="#" class="delete btn">Delete</a>
+      <a href="#" class="edit btn btn-primary">Edit</a>
       <a href="#" class="btn" data-dismiss="modal" >Close</a>
 
     </h3>
@@ -13,54 +13,55 @@
     <form class="form-horizontal">
       <fieldset>
         <div class="control-group">
-          <label class="control-label">Territory#</label>
-          <div class="controls"><%= model.get('territoryno') %></div>
-        <div class="control-group">
-          <label class="control-label">Marker#</label>
-          <div class="controls"><%= model.get('markerno') %></div>
+          Territory:&nbsp;
+          <%= model.get('territoryno') %>
+
+          &nbsp;&nbsp;Marker#:&nbsp;
+          <%= model.get('markerno') %>
+
+          {% if interestlevel %}
+            &nbsp;&nbsp;Interest Level:&nbsp;
+            <%= model.get('interestlevel') %>
+          {% endif %}
+
         </div>
-        <div class="control-group">
-          <label class="control-label">Sort#</label>
-          <div class="controls"><%= model.get('sortno') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Block#</label>
-          <div class="controls"><%= model.get('blockno') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">House#</label>
-          <div class="controls"><%= model.get('houseno') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Description</label>
-          <div class="controls"><%= model.get('description') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Persons</label>
-          <div class="controls"><%= model.get('persons') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Languages</label>
-          <div class="controls"><%= model.get('languages') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Notes</label>
-          <div class="controls"><%= model.get('notes') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Interest Level</label>
-          <div class="controls"><%= model.get('interestlevel') %></div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Actions</label>
-          <div class="controls"><%= model.get('actions') %></div>
-        </div>
+
+
+        {% if houseno or directions or description%}
+          <div class="control-group">
+            <label class="control-label">Address</label>
+            <div class="controls"><%= model.get('houseno') %> <%= model.get('directions') %> <%= model.get('description') %></div>
+          </div>
+        {% endif %}
+
+        {% if persons %}
+          <div class="control-group">
+            <label class="control-label">Persons</label>
+            <div class="controls"><%= model.get('persons') %></div>
+          </div>
+        {% endif %}
+
+        {% if notes %}
+          <div class="control-group">
+            <label class="control-label">Notes</label>
+            <div class="controls"><%= model.get('notes') %></div>
+          </div>
+        {% endif %}
+
+        {% if actions %}
+          <div class="control-group">
+            <label class="control-label">Actions</label>
+            <div class="controls"><%= model.get('actions') %></div>
+          </div>
+        {% endif %}
+
       </fieldset>
     </form>
   </div>
 
   <div class="modal-footer">
-    <a href="#" class="edit btn btn-primary">Edit</a>
     <a href="#" class="btn" data-dismiss="modal" >Close</a>
+    <a href="#" class="edit btn btn-primary">Edit</a>
+    <a href="#" class="delete btn">Delete</a>
   </div>
 </script>

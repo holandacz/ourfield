@@ -307,28 +307,21 @@
       var title;
       this.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
       this.marker.setPosition(this.position);
-      title = 'P:' + this.model.get('id');
-      if (this.model.get('interestlevel')) {
-        title += "  I:" + this.model.get('interestlevel');
-      }
-      if (this.model.get('territoryno')) {
-        title += "  T:" + this.model.get('territoryno');
-      }
-      if (this.model.get('markerno')) title += "  M:" + this.model.get('markerno');
-      if (this.model.get('blockno')) title += "  B:" + this.model.get('blockno');
-      if (this.model.get('houseno')) title += "  H:" + this.model.get('houseno');
-      title += "  \n\n";
-      if (this.model.get('description')) {
-        title += "DESCRIPTION\n" + this.model.get('description');
+      title = this.model.get('markerno');
+      title += ' p' + this.model.get('id');
+      if (this.model.get('interestlevel')) title += " INTERESTED! ";
+      if (this.model.get('houseno') || this.model.get('description')) {
+        title += "  ADDR: " + this.model.get('houseno');
+        title += this.model.get('description');
       }
       if (this.model.get('persons')) {
-        title += "\n\n" + "PERSONS\n" + this.model.get('persons');
-      }
-      if (this.model.get('actions')) {
-        title += "\n\n" + "ACTIONS\n" + this.model.get('actions');
+        title += " " + "PERSONS: " + this.model.get('persons');
       }
       if (this.model.get('notes')) {
-        title += "\n\n" + "NOTES\n" + this.model.get('notes');
+        title += " " + "NOTES: " + this.model.get('notes');
+      }
+      if (this.model.get('actions')) {
+        title += " " + "ACTIONS: " + this.model.get('actions');
       }
       this.marker.setTitle(title);
       if (this.model.get('markerno')) {

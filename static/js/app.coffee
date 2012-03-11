@@ -184,37 +184,25 @@ class @PlaceItemView extends Backbone.View
     @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
     @marker.setPosition(@position)
 
-    title = 'P:' + @model.get('id')
+    title = @model.get('markerno')
+    title += ' p' + @model.get('id')
+
     if @model.get('interestlevel')
-      title += "  I:" + @model.get('interestlevel')
+      title += " INTERESTED! "
 
-    if @model.get('territoryno')
-      title += "  T:" + @model.get('territoryno')
-
-    if @model.get('markerno')
-      title += "  M:" + @model.get('markerno')
-
-    if @model.get('blockno')
-      title += "  B:" + @model.get('blockno')
-
-    if @model.get('houseno')
-      title += "  H:" + @model.get('houseno')
-
-    title += "  \n\n"
-
-    if @model.get('description')
-      title += "DESCRIPTION\n" + @model.get('description')
-
-    # code to show languages with a number in front of language code
+    if @model.get('houseno') or @model.get('description')
+      title += "  ADDR: " + @model.get('houseno')
+      title += @model.get('description')
 
     if @model.get('persons')
-      title += "\n\n" + "PERSONS\n" + @model.get('persons')
-
-    if @model.get('actions')
-      title += "\n\n" + "ACTIONS\n" + @model.get('actions')
+      title += " " + "PERSONS: " + @model.get('persons')
 
     if @model.get('notes')
-      title += "\n\n" + "NOTES\n" + @model.get('notes')
+      title += " " + "NOTES: " + @model.get('notes')
+
+    if @model.get('actions')
+      title += " " + "ACTIONS: " + @model.get('actions')
+
 
     @marker.setTitle(title)
 
