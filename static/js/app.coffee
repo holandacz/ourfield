@@ -295,15 +295,57 @@ class @ListView extends Backbone.View
     new ListItemView(model: model)
 
 class @ListItemView extends Backbone.View
-  template: _.template($('#list-item-template').html())
 
   initialize: ->
     @render()
 
   render: ->
-    console.log @model
-    @$el.html(@template(model: @model))
     $('#list').append(@el)
+
+    html = ''
+    html += '<div class="list-item-row" id="list-item-row-' + @model.get('id') + '">'
+    html += '<span class="list-title list-markerno">' + @model.get('markerno') + '</span>'
+
+    if @model.get('multiunit')
+      html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>'
+
+    if not @model.get('residential')
+      html += '&nbsp;&nbsp;<span class="list-residential">BIZ</span>'
+
+    if not @model.get('confirmed')
+      html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>'
+
+    html += '&nbsp;&nbsp;<span class="list-id">p' + @model.get('id') + '</span>'
+
+    if @model.get('interestlevel')
+      html += '<span class="list-title list-interestlevel">INTEREST</span>'
+
+    if @model.get('houseno') or @model.get('directions') or @model.get('description')
+      html += '<span class="list-title list-title">ADDRESS:</span>'
+      html += '<span class="list-houseno">' + @model.get('houseno') + '</span>&nbsp;'
+      html += '<span class="list-directions">' + @model.get('directions') + '</span>&nbsp;'
+      html += '<span class="list-description">' + @model.get('description') + '</span>&nbsp;'
+
+    if @model.get('persons')
+      html += '<span class="list-title list-title">PERSON(S):</span>'
+      html += '<span class="list-persons">' + @model.get('persons') + '</span>'
+
+    if @model.get('notes')
+      html += '<span class="list-title list-title">NOTES:</span>'
+      html += '<span class="list-notes">' + @model.get('notes') + '</span>'
+
+    if @model.get('actions')
+      html += '<div class="list-item-actions" id="list-actions-' + @model.get('id') + '">'
+      html += '<span class="list-title list-title">ACTIONS:</span>'
+      html += '<span class="list-actions">' + @model.get('actions') + '</span>'
+      html += '</div>'
+
+
+    html += '</div>'
+
+    $('#list').append(html)
+
+
 
 class @LogView extends Backbone.View
   initialize: ->

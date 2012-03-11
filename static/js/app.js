@@ -486,18 +486,51 @@
       return ListItemView.__super__.constructor.apply(this, arguments);
     }
 
-    ListItemView.prototype.template = _.template($('#list-item-template').html());
-
     ListItemView.prototype.initialize = function() {
       return this.render();
     };
 
     ListItemView.prototype.render = function() {
-      console.log(this.model);
-      this.$el.html(this.template({
-        model: this.model
-      }));
-      return $('#list').append(this.el);
+      var html;
+      $('#list').append(this.el);
+      html = '';
+      html += '<div class="list-item-row" id="list-item-row-' + this.model.get('id') + '">';
+      html += '<span class="list-title list-markerno">' + this.model.get('markerno') + '</span>';
+      if (this.model.get('multiunit')) {
+        html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>';
+      }
+      if (!this.model.get('residential')) {
+        html += '&nbsp;&nbsp;<span class="list-residential">BIZ</span>';
+      }
+      if (!this.model.get('confirmed')) {
+        html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>';
+      }
+      html += '&nbsp;&nbsp;<span class="list-id">p' + this.model.get('id') + '</span>';
+      if (this.model.get('interestlevel')) {
+        html += '<span class="list-title list-interestlevel">INTEREST</span>';
+      }
+      if (this.model.get('houseno') || this.model.get('directions') || this.model.get('description')) {
+        html += '<span class="list-title list-title">ADDRESS:</span>';
+        html += '<span class="list-houseno">' + this.model.get('houseno') + '</span>&nbsp;';
+        html += '<span class="list-directions">' + this.model.get('directions') + '</span>&nbsp;';
+        html += '<span class="list-description">' + this.model.get('description') + '</span>&nbsp;';
+      }
+      if (this.model.get('persons')) {
+        html += '<span class="list-title list-title">PERSON(S):</span>';
+        html += '<span class="list-persons">' + this.model.get('persons') + '</span>';
+      }
+      if (this.model.get('notes')) {
+        html += '<span class="list-title list-title">NOTES:</span>';
+        html += '<span class="list-notes">' + this.model.get('notes') + '</span>';
+      }
+      if (this.model.get('actions')) {
+        html += '<div class="list-item-actions" id="list-actions-' + this.model.get('id') + '">';
+        html += '<span class="list-title list-title">ACTIONS:</span>';
+        html += '<span class="list-actions">' + this.model.get('actions') + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      return $('#list').append(html);
     };
 
     return ListItemView;

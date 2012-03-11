@@ -1,0 +1,16 @@
+#list {
+    padding: 10px 10px 40px 10px;
+}
+.list-item-row {
+    padding-bottom: 5px;
+}
+.list-title {
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 5px;
+}
+.list-markerno {  
+    padding-left: 0;
+    padding-right: 0;
+}
+

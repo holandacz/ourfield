@@ -9,6 +9,7 @@
 
 {% block extra_style %}
   <link href="{% static "css/map.css" %}" rel="stylesheet" />
+  <link href="{% static "css/list.css" %}" rel="stylesheet" />
 {% endblock %}
 
 {% block extra_script %}
@@ -54,8 +55,6 @@
 
   {% include "map/edit-info-window-template.html" %}
   {% include "map/info-window-template.html" %}
-
-  {% include "map/list-item-template.html" %}
 
   <script type="text/javascript" src="{% static "js/models.js" %}"></script>
   <script type="text/javascript" src="{% static "js/app.js" %}"></script>

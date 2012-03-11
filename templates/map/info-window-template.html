@@ -19,41 +19,31 @@
           &nbsp;&nbsp;Marker#:&nbsp;
           <%= model.get('markerno') %>
 
-          {% if interestlevel %}
             &nbsp;&nbsp;Interest Level:&nbsp;
             <%= model.get('interestlevel') %>
-          {% endif %}
 
         </div>
 
 
-        {% if houseno or directions or description%}
           <div class="control-group">
             <label class="control-label">Address</label>
             <div class="controls"><%= model.get('houseno') %> <%= model.get('directions') %> <%= model.get('description') %></div>
           </div>
-        {% endif %}
 
-        {% if persons %}
           <div class="control-group">
             <label class="control-label">Persons</label>
             <div class="controls"><%= model.get('persons') %></div>
           </div>
-        {% endif %}
 
-        {% if notes %}
           <div class="control-group">
             <label class="control-label">Notes</label>
             <div class="controls"><%= model.get('notes') %></div>
           </div>
-        {% endif %}
 
-        {% if actions %}
           <div class="control-group">
             <label class="control-label">Actions</label>
             <div class="controls"><%= model.get('actions') %></div>
           </div>
-        {% endif %}
 
       </fieldset>
     </form>
