@@ -53,8 +53,8 @@
 #map-crosshair img {
     z-index: 10;
     position:absolute;
-    left:50%;
-    top:50%;
+    left: 48.5%;
+    top: 49%;
 }
 
 #map-canvas img {
