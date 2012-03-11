@@ -85,9 +85,6 @@
         collection: this.collection.get(1).places,
         preferences: this.preferences
       });
-      this.logView = new LogView({
-        el: '#log'
-      });
       return this.searchView = new SearchView({
         el: '#search',
         model: this.model,
@@ -495,7 +492,7 @@
       $('#list').append(this.el);
       html = '';
       html += '<div class="list-item-row" id="list-item-row-' + this.model.get('id') + '">';
-      html += '<span class="list-title list-markerno">' + this.model.get('markerno') + '</span>';
+      html += '<img src="/site_media/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png" />';
       if (this.model.get('multiunit')) {
         html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>';
       }
@@ -505,15 +502,21 @@
       if (!this.model.get('confirmed')) {
         html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>';
       }
-      html += '&nbsp;&nbsp;<span class="list-id">p' + this.model.get('id') + '</span>';
+      html += '&nbsp;&nbsp;<span class="list-id" id="list-id-' + this.model.get('id') + '">p' + this.model.get('id') + '</span>';
       if (this.model.get('interestlevel')) {
         html += '<span class="list-title list-interestlevel">INTEREST</span>';
       }
       if (this.model.get('houseno') || this.model.get('directions') || this.model.get('description')) {
         html += '<span class="list-title list-title">ADDRESS:</span>';
-        html += '<span class="list-houseno">' + this.model.get('houseno') + '</span>&nbsp;';
-        html += '<span class="list-directions">' + this.model.get('directions') + '</span>&nbsp;';
-        html += '<span class="list-description">' + this.model.get('description') + '</span>&nbsp;';
+        if (this.model.get('houseno')) {
+          html += '<span class="list-houseno">' + this.model.get('houseno') + '</span>&nbsp;';
+        }
+        if (this.model.get('directions')) {
+          html += '<span class="list-directions">' + this.model.get('directions') + '</span>&nbsp;';
+        }
+        if (this.model.get('description')) {
+          html += '<span class="list-description">' + this.model.get('description') + '</span>&nbsp;';
+        }
       }
       if (this.model.get('persons')) {
         html += '<span class="list-title list-title">PERSON(S):</span>';

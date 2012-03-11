@@ -35,7 +35,7 @@ class Place(MyModel):
     placetype_id = models.IntegerField("Place Type ID", null=True, blank=True)
     sourcetype = models.CharField("Source Type", max_length=16, null=True, blank=True)
     source_id = models.IntegerField("Source ID", null=True, blank=True)
-    geocoded = models.BooleanField("GeoCoded?", )
+    geocoded = models.BooleanField("GeoCoded?", default=True )
     multiunit = models.BooleanField("MultiUnit?", )
     residential = models.BooleanField("Residential?", default=True )
     deleted = models.BooleanField("Deleted?", db_index=True)

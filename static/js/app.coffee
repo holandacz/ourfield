@@ -49,8 +49,8 @@ class @AppView extends Backbone.View
       collection: @collection.get(1).places
       preferences: @preferences
 
-    @logView = new LogView 
-      el: '#log'
+    # @logView = new LogView 
+    #   el: '#log'
 
     @searchView = new SearchView
       el: '#search'
@@ -295,6 +295,8 @@ class @ListView extends Backbone.View
     new ListItemView(model: model)
 
 class @ListItemView extends Backbone.View
+  # events:
+  #   'click #list-id-': '_clickid'
 
   initialize: ->
     @render()
@@ -304,7 +306,7 @@ class @ListItemView extends Backbone.View
 
     html = ''
     html += '<div class="list-item-row" id="list-item-row-' + @model.get('id') + '">'
-    html += '<span class="list-title list-markerno">' + @model.get('markerno') + '</span>'
+    html += '<img src="/site_media/static/img/mapicons/25x30/numbers/number_' + @model.get('markerno') + '.png" />'
 
     if @model.get('multiunit')
       html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>'
@@ -315,16 +317,19 @@ class @ListItemView extends Backbone.View
     if not @model.get('confirmed')
       html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>'
 
-    html += '&nbsp;&nbsp;<span class="list-id">p' + @model.get('id') + '</span>'
+    html += '&nbsp;&nbsp;<span class="list-id" id="list-id-' + @model.get('id') + '">p' + @model.get('id') + '</span>'
 
     if @model.get('interestlevel')
       html += '<span class="list-title list-interestlevel">INTEREST</span>'
 
     if @model.get('houseno') or @model.get('directions') or @model.get('description')
       html += '<span class="list-title list-title">ADDRESS:</span>'
-      html += '<span class="list-houseno">' + @model.get('houseno') + '</span>&nbsp;'
-      html += '<span class="list-directions">' + @model.get('directions') + '</span>&nbsp;'
-      html += '<span class="list-description">' + @model.get('description') + '</span>&nbsp;'
+      if @model.get('houseno') 
+        html += '<span class="list-houseno">' + @model.get('houseno') + '</span>&nbsp;'
+      if @model.get('directions')          
+        html += '<span class="list-directions">' + @model.get('directions') + '</span>&nbsp;'
+      if @model.get('description')          
+        html += '<span class="list-description">' + @model.get('description') + '</span>&nbsp;'
 
     if @model.get('persons')
       html += '<span class="list-title list-title">PERSON(S):</span>'
@@ -346,6 +351,9 @@ class @ListItemView extends Backbone.View
     $('#list').append(html)
 
 
+  # clickid: =>
+  #   console.log 'clickid'
+  #   #@infoWindow = new InfoWindow(model: @model)
 
 class @LogView extends Backbone.View
   initialize: ->
