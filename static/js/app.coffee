@@ -204,6 +204,7 @@ class @PlaceItemView extends Backbone.View
       title += " " + "ACTIONS: " + @model.get('actions')
 
 
+
     @marker.setTitle(title)
 
     if @model.get('markerno')
