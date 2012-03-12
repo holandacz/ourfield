@@ -58,6 +58,11 @@ def stop_gunicorn():
         sudo('kill `cat gunicorn.pid`')
 
 
+def restart_gunicorn():
+    with cd(fab['PROJECT_ROOT']):
+        sudo('kill `cat gunicorn.pid`')
+        sudo('python manage.py run_gunicorn -c gunicorn.conf.py --traceback 0.0.0.0:8001')
+
 
 def sync_db():
     with cd(fab['PROJECT_ROOT']):

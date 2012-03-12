@@ -207,9 +207,9 @@ class @PlaceItemView extends Backbone.View
     @marker.setTitle(title)
 
     if @model.get('markerno')
-      @marker.setIcon('/site_media/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png')
+      @marker.setIcon('/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png')
     else
-      @marker.setIcon('/site_media/static/img/mapicons/25x30/symbol_blank.png')
+      @marker.setIcon('/static/img/mapicons/25x30/symbol_blank.png')
     
     @marker.setMap(@map)
 
@@ -234,7 +234,7 @@ class InfoWindow extends Backbone.View
     'click a.save': '_save'
 
   initialize: ->
-    @editing = false
+    @editing = @options.editing || false
     @render()
 
   render: ->
@@ -295,8 +295,8 @@ class @ListView extends Backbone.View
     new ListItemView(model: model)
 
 class @ListItemView extends Backbone.View
-  # events:
-  #   'click #list-id-': '_clickid'
+  events:
+    'click .list-id': '_clickid'
 
   initialize: ->
     @render()
@@ -306,7 +306,7 @@ class @ListItemView extends Backbone.View
 
     html = ''
     html += '<div class="list-item-row" id="list-item-row-' + @model.get('id') + '">'
-    html += '<img src="/site_media/static/img/mapicons/25x30/numbers/number_' + @model.get('markerno') + '.png" />'
+    html += '<img src="/static/img/mapicons/25x30/numbers/number_' + @model.get('markerno') + '.png" />'
 
     if @model.get('multiunit')
       html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>'
@@ -317,7 +317,11 @@ class @ListItemView extends Backbone.View
     if not @model.get('confirmed')
       html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>'
 
-    html += '&nbsp;&nbsp;<span class="list-id" id="list-id-' + @model.get('id') + '">p' + @model.get('id') + '</span>'
+
+
+    html += '&nbsp;&nbsp;<span class="list-id">p' + @model.get('id') + '</span>'
+
+
 
     if @model.get('interestlevel')
       html += '<span class="list-title list-interestlevel">INTEREST</span>'
@@ -348,12 +352,13 @@ class @ListItemView extends Backbone.View
 
     html += '</div>'
 
-    $('#list').append(html)
+    #$('#list').append(html)
+    @$el.html(html)
 
 
-  # clickid: =>
-  #   console.log 'clickid'
-  #   #@infoWindow = new InfoWindow(model: @model)
+  _clickid: ->
+    console.log 'clickid'
+    @infoWindow = new InfoWindow(model: @model, editing: true)
 
 class @LogView extends Backbone.View
   initialize: ->

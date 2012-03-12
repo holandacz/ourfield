@@ -322,9 +322,9 @@
       }
       this.marker.setTitle(title);
       if (this.model.get('markerno')) {
-        this.marker.setIcon('/site_media/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png');
+        this.marker.setIcon('/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png');
       } else {
-        this.marker.setIcon('/site_media/static/img/mapicons/25x30/symbol_blank.png');
+        this.marker.setIcon('/static/img/mapicons/25x30/symbol_blank.png');
       }
       return this.marker.setMap(this.map);
     };
@@ -368,7 +368,7 @@
     };
 
     InfoWindow.prototype.initialize = function() {
-      this.editing = false;
+      this.editing = this.options.editing || false;
       return this.render();
     };
 
@@ -483,6 +483,10 @@
       return ListItemView.__super__.constructor.apply(this, arguments);
     }
 
+    ListItemView.prototype.events = {
+      'click .list-id': '_clickid'
+    };
+
     ListItemView.prototype.initialize = function() {
       return this.render();
     };
@@ -492,7 +496,7 @@
       $('#list').append(this.el);
       html = '';
       html += '<div class="list-item-row" id="list-item-row-' + this.model.get('id') + '">';
-      html += '<img src="/site_media/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png" />';
+      html += '<img src="/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png" />';
       if (this.model.get('multiunit')) {
         html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>';
       }
@@ -502,7 +506,7 @@
       if (!this.model.get('confirmed')) {
         html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>';
       }
-      html += '&nbsp;&nbsp;<span class="list-id" id="list-id-' + this.model.get('id') + '">p' + this.model.get('id') + '</span>';
+      html += '&nbsp;&nbsp;<span class="list-id">p' + this.model.get('id') + '</span>';
       if (this.model.get('interestlevel')) {
         html += '<span class="list-title list-interestlevel">INTEREST</span>';
       }
@@ -533,7 +537,15 @@
         html += '</div>';
       }
       html += '</div>';
-      return $('#list').append(html);
+      return this.$el.html(html);
+    };
+
+    ListItemView.prototype._clickid = function() {
+      console.log('clickid');
+      return this.infoWindow = new InfoWindow({
+        model: this.model,
+        editing: true
+      });
     };
 
     return ListItemView;
