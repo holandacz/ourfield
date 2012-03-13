@@ -10,6 +10,7 @@ class @MapView extends Backbone.View
   render: ->
     #console.log 'preferences', @preferences.items
 
+
     @map = new google.maps.Map @$('#map-canvas').get(0),
       zoom: @preferences.get('zoom')
       # center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))
