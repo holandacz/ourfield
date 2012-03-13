@@ -30,7 +30,7 @@ class PlaceResource(ModelResource):
         queryset = Place.objects.filter(geocoded=True).exclude(deleted=True).order_by('markerno')
         resource_name = 'place'        
         allowed_methods = ["get", "post", "put", "delete"]
-        excludes = ['isgeocoded', 'googlemapurl', 'geo_name_id']
+        excludes = ['isgeocoded', 'geo_name_id']
         authentication = ApiKeyPlusWebAuthentication()
         authorization = DjangoAuthorization()
     	filtering = {

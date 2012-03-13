@@ -154,6 +154,7 @@ class InfoWindow extends Backbone.View
 
   persist: ->
     @model.set
+      googlemapurl: @$('#ed-googlemapurl').val()
       territoryno: @$('#ed-territoryno').val()
       markerno: (Number) @$('#ed-markerno').val()
       blockno: @$('#ed-blockno').val()

@@ -53,8 +53,9 @@
 
     Place.prototype.toJSON = function() {
       return {
+        googlemapurl: this.get('googlemapurl'),
         point: this.get('point'),
-        territoryno: this.get('territoryno') || '4-1-2',
+        territoryno: this.get('territoryno'),
         markerno: this.get('markerno'),
         blockno: this.get('blockno'),
         houseno: this.get('houseno'),
@@ -564,6 +565,7 @@
 
     InfoWindow.prototype.persist = function() {
       this.model.set({
+        googlemapurl: this.$('#ed-googlemapurl').val(),
         territoryno: this.$('#ed-territoryno').val(),
         markerno: Number(this.$('#ed-markerno').val()),
         blockno: this.$('#ed-blockno').val(),

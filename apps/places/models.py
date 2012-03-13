@@ -182,8 +182,9 @@ class Place(MyModel):
                 from django.contrib.gis.geos import Point
                 self.point = Point(latitude, longitude)
 
-        self.point = Point(latitude, longitude)
-        self.isgeocoded = True if (self.point.y and self.point.x) else False
+                self.point = Point(latitude, longitude)
+                self.googlemapurl = None
+                self.isgeocoded = True if (self.point.y and self.point.x) else False
 
     @property
     def full_name(self):
@@ -207,7 +208,7 @@ class Place(MyModel):
         )
         
     def save(self, *args, **kw):
-        #self.ParseDetails()
+        self.ParseDetails()
         self.geocoded = True if (self.point.y and self.point.x) else False
         
         # In order to handle renumbering of markerno's, I need to see if markno has changed.

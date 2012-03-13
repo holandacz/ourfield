@@ -28,8 +28,9 @@ class @Place extends Backbone.Model
       @set('point', "POINT(#{lat} #{lng})")
 
   toJSON: ->
+    googlemapurl: @get('googlemapurl')
     point: @get('point')
-    territoryno: @get('territoryno') || '4-1-2' 
+    territoryno: @get('territoryno') 
     markerno: @get('markerno')
     blockno: @get('blockno')
     houseno: @get('houseno')
