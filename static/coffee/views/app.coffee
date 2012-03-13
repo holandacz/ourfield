@@ -20,7 +20,9 @@ class @AppView extends Backbone.View
           ll = "10.001025,-84.134588"
         when "4-7-1" 
           ll = "9.98713594918928,-84.1771144239311"
-
+        when "1-2-1" 
+          ll = "9.92111127977427,-84.1474170057183"
+          
       if territoryno
         @preferences.set('territoryno', territoryno)
         @preferences.set('center', ll)

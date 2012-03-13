@@ -197,6 +197,8 @@
             return ll = "10.001025,-84.134588";
           case "4-7-1":
             return ll = "9.98713594918928,-84.1771144239311";
+          case "1-2-1":
+            return ll = "9.92111127977427,-84.1474170057183";
         }
       })(), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1])) : void 0);
       this.listView = new ListView({
