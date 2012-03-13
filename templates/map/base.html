@@ -29,7 +29,6 @@
           <div id="place-types" style="display:none">Places:&nbsp;
             <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
           </div>
-          <div><button id="add-place">Add Place</button></div>
           <div id="map-canvas">
             {% include "map/crosshair.html" %}
           </div>
@@ -39,6 +38,7 @@
         </div>
       </div><!-- container -->
     </div>
+    <span style="page-break-before: always;"> List View </span>
     <div id="log"></div>
     <div id="list"></div>
     <div id="search"></div>
@@ -58,7 +58,6 @@
   {% include "map/edit-info-window-template.html" %}
   {% include "map/info-window-template.html" %}
 
-  <script type="text/javascript" src="{% static "js/models.js" %}"></script>
   <script type="text/javascript" src="{% static "js/app.js" %}"></script>
 
   <script type="text/javascript">
@@ -105,5 +104,6 @@
       //places.fetch();
 
       x = 0;
+
   </script>
 {% endblock %}

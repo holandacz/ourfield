@@ -89,6 +89,7 @@ def update_remote():
          
 def restart(): 
     sudo('supervisorctl restart ourfield')
+    # sudo /etc/init.d/nginx restart
     sudo('/etc/init.d/nginx restart')
          
 # def deploy(push_code=False): 
