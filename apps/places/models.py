@@ -101,12 +101,15 @@ class Place(MyModel):
         places = Place.objects.filter(territoryno = self.territoryno).filter(geocoded=
         True).exclude(deleted=True)
         
+        if not places:
+            return None
+        
         if self.id:
             places = places.exclude(id=self.id)
         
         # are there any 
-        if len(places) < 2:
-            return None
+        if len(places) == 1:
+            return places[0]
         
         closestPlace = None
         for place in places:

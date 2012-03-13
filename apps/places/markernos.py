@@ -83,6 +83,9 @@ class PlaceMarkernos:
 
         # Find closest place to currentPlace 
         closestPlace = self.currentPlace.findClosestPlace()
+        if not closestPlace:
+            return 1
+        
         calcedMarkerno = None
         
         # Get the Place before and after the closestPlace
@@ -106,6 +109,10 @@ class PlaceMarkernos:
             # if currentPlace (?) is closer than closestPlace (#1) to Place.markerno #2 (nextPlace),
             # calcedMarkerno will become the new #2 else #1
             calcedMarkerno = 2 if self.currentPlace.calcDistanceSquare(nextPlace) < closestPlace.calcDistanceSquare(nextPlace) else 1
+            
+        elif closestPlace.markerno == 1 and not nextPlace:
+            calcedMarkerno = 2
+            
             
             
         # If the closestPlace is the LAST Place with a markerno == self.currentMaxTerritoryMarkerno,        
@@ -197,13 +204,13 @@ class PlaceMarkernos:
 
     def handleChange(self):
         if self.isnew:
-            print 'Added'
+            #print 'Added'
             self.currentPlace.markerno = self._handleAdded()
         elif self.isdeleted:
-            print 'Deleted'
+            #print 'Deleted'
             self._handleDeleted()
         else:
-            print 'Changed'
+            #print 'Changed'
             self.currentPlace.markerno = self._handleChanged()  
     def fixUnnumberedMarkers(self, place):
         """fix rare case where marker need numbers cleaned up"""

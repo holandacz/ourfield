@@ -14,6 +14,7 @@ class @AppData extends Backbone.Model
     mapTypeId: google.maps.MapTypeId.ROADMAP
 
   initialize: (attributes) ->
+
     ll = attributes.center.split(',')
     @set('centerLat', ll[0])
     @set('centerLng', ll[1])

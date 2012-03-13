@@ -8,11 +8,12 @@ class @MapView extends Backbone.View
     @render()
 
   render: ->
-    console.log @preferences.items
+    #console.log 'preferences', @preferences.items
 
     @map = new google.maps.Map @$('#map-canvas').get(0),
       zoom: @preferences.get('zoom')
-      center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))
+      # center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))
+      center: new google.maps.LatLng(@preferences.get('centerLat'), @preferences.get('centerLng'))
       mapTypeId: @model.get('mapTypeId')
 
     # http://code.google.com/apis/maps/documentation/javascript/controls.html#Adding_Controls_to_the_Map
@@ -80,5 +81,6 @@ class @MapView extends Backbone.View
   _addPlace: () ->
     lat = @map.getCenter().lat()
     lng = @map.getCenter().lng()
-    @collection.get(1).places.create(point: "POINT (#{lat} #{lng})")
+    console.log 'preferences', @preferences.items
+    @collection.get(1).places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
 

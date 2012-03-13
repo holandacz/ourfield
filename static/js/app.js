@@ -185,12 +185,20 @@
     };
 
     AppView.prototype.render = function() {
+      var ll, territoryno;
       this.mapView = new MapView({
         el: '#map',
         model: this.model,
         collection: this.collection,
         preferences: this.preferences
-      });
+      }, territoryno = this.preferences.get('territoryno'), console.log(territoryno), (function() {
+        switch (territoryno) {
+          case "4-1-2":
+            return ll = "10.001025,-84.134588";
+          case "4-7-1":
+            return ll = "9.98713594918928,-84.1771144239311";
+        }
+      })(), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1])) : void 0);
       this.listView = new ListView({
         el: '#list',
         model: this.model,
@@ -232,10 +240,9 @@
     MapView.prototype.render = function() {
       var controlDiv, controlText, controlUI,
         _this = this;
-      console.log(this.preferences.items);
       this.map = new google.maps.Map(this.$('#map-canvas').get(0), {
         zoom: this.preferences.get('zoom'),
-        center: new google.maps.LatLng(this.model.get('centerLat'), this.model.get('centerLng')),
+        center: new google.maps.LatLng(this.preferences.get('centerLat'), this.preferences.get('centerLng')),
         mapTypeId: this.model.get('mapTypeId')
       });
       controlDiv = document.createElement('DIV');
@@ -294,7 +301,9 @@
       var lat, lng;
       lat = this.map.getCenter().lat();
       lng = this.map.getCenter().lng();
+      console.log('preferences', this.preferences.items);
       return this.collection.get(1).places.create({
+        territoryno: this.preferences.get('territoryno'),
         point: "POINT (" + lat + " " + lng + ")"
       });
     };
