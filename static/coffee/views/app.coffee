@@ -38,7 +38,7 @@ class @AppView extends Backbone.View
           zoom = 13
           pageheader = "Unassigned"
 
-      $('#page-header').html(pageheader)
+      $('.page-header').html(pageheader)
 
       if territoryno
         @preferences.set('territoryno', territoryno)

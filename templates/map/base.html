@@ -12,6 +12,7 @@
   <link href="{% static "css/list.css" %}" rel="stylesheet" />
 {% endblock %}
 
+
 {% block extra_script %}
   <script>
     API = "{% url api_dispatch_list api_name="v1" resource_name="place" %}";
@@ -22,28 +23,59 @@
 {% endblock %}
 
 {% block body %}
+<style>
+section {
+  padding-top: 40px;
+}
+</style>
+
+
+
+
   <div id="app">
-    <div id="map">
-      <div class="container">
+    
+    <section id="section-map">
+      {% include "map/subnav.html" %}
+      <div id="map">
+        <div class="container">
 
-        <h1 class="page-header small" id="page-header" style="display:none"></h1>
-        <h2 class="small" id="page-menu" style="display:none">Page Menu</h2>
-        
-        <div class="map-container">
-          <div id="place-types" style="display:none">Places:&nbsp;
-            <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
+          <h1 class="page-header small" id="page-header" style="display:none"></h1>
+          <h2 class="small" id="page-menu" style="display:none">Page Menu</h2>
+
+          <div class="map-container">
+            <div id="place-types" style="display:none">Places:&nbsp;
+              <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
+            </div>
+            <div id="map-canvas">{% include "map/crosshair.html" %}</div>
+            <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" /></div>
+
           </div>
-          <div id="map-canvas">{% include "map/crosshair.html" %}</div>
-          <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" /></div>
 
-        </div>
-      </div><!-- container -->
-    </div>
+        </div><!-- container -->
+      </div>
+    </section>
+    <section id="section-log">
+      <div id="log"></div>
+    </section>
+
     <span style="page-break-before: always;"> List View </span>
-    <div id="log"></div>
-    <div id="list"></div>
-    <div id="search"></div>
+    <section id="section-list">
+      {% include "map/subnav.html" %}
+      <div id="list"></div>
+    </section>
+    
+    <span style="page-break-before: always;"> List View </span>
+    <section id="section-terr-instructions">
+      {% include "map/subnav.html" %}
+      <div id="terr-instructions"></div>
+    </section>
+
+
+
+
   </div>
+
+
 {% endblock %}
 
 

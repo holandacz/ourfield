@@ -2,9 +2,6 @@ body {
   padding-top: 40px;
   position: relative;
 }
-section {
-  padding-top: 60px;
-}
 .modal form {
   margin-bottom: 0px;
 }
@@ -22,4 +19,8 @@ section {
   padding-bottom: 0; /*override*/
   margin: 0;
   border-bottom: 1px solid #eeeeee;
+}
+
+section {
+  padding-top: 0;
 }

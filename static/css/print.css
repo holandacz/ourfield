@@ -1,0 +1,16 @@
+body {
+  background: white;
+}
+#donate {
+  display: none;
+}
+.navbar, .subnav, #map-crosshair {
+  display: none;
+}
+
+a:link, a:visited {
+  color: black;
+  background: transparent;
+  font-weight: normal;
+  text-decoration: none;
+}

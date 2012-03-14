@@ -215,7 +215,7 @@
             zoom = 13;
             return pageheader = "Unassigned";
         }
-      })(), $('#page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1])) : void 0);
+      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1])) : void 0);
       this.listView = new ListView({
         el: '#list',
         model: this.model,
