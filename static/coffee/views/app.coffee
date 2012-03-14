@@ -14,24 +14,36 @@ class @AppView extends Backbone.View
       preferences: @preferences
 
       territoryno = @preferences.get('territoryno')
+      zoom = @preferences.get('zoom')
       console.log territoryno
       switch territoryno
-        when "4-1-2" 
-          ll = "10.001025,-84.134588"
-        when "4-7-1" 
-          ll = "9.98713594918928,-84.1771144239311"
         when "1-2-1" 
           ll = "9.92111127977427,-84.1474170057183"
-          
+          zoom = 14
+          pageheader = "San Jose/Escazu/Escazu"
+        when "4-1-2" 
+          ll = "10.001025,-84.134588"
+          pageheader = "Heredea/Heredia/Mercedes"
+          zoom = 15
+        when "4-7-1" 
+          ll = "9.98713594918928,-84.1771144239311"
+          zoom = 15
+          pageheader = "Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen"
+        when "999" 
+          ll = "9.98713594918928,-84.1771144239311"
+          zoom = 13
+          pageheader = "Unassigned"
+
+      $('#page-header').html(pageheader)
+
       if territoryno
         @preferences.set('territoryno', territoryno)
         @preferences.set('center', ll)
+        @preferences.set('zoom', zoom)
 
         ll = ll.split(',')
         @preferences.set('centerLat', ll[0])
         @preferences.set('centerLng', ll[1])
-
-      #console.log 'AppView preferences', @preferences
 
     @listView = new ListView
       el: '#list'

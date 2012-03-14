@@ -186,22 +186,32 @@
     };
 
     AppView.prototype.render = function() {
-      var ll, territoryno;
+      var ll, pageheader, territoryno, zoom;
       this.mapView = new MapView({
         el: '#map',
         model: this.model,
         collection: this.collection,
         preferences: this.preferences
-      }, territoryno = this.preferences.get('territoryno'), console.log(territoryno), (function() {
+      }, territoryno = this.preferences.get('territoryno'), zoom = this.preferences.get('zoom'), console.log(territoryno), (function() {
         switch (territoryno) {
-          case "4-1-2":
-            return ll = "10.001025,-84.134588";
-          case "4-7-1":
-            return ll = "9.98713594918928,-84.1771144239311";
           case "1-2-1":
-            return ll = "9.92111127977427,-84.1474170057183";
+            ll = "9.92111127977427,-84.1474170057183";
+            zoom = 14;
+            return pageheader = "San Jose/Escazu/Escazu";
+          case "4-1-2":
+            ll = "10.001025,-84.134588";
+            pageheader = "Heredea/Heredia/Mercedes";
+            return zoom = 15;
+          case "4-7-1":
+            ll = "9.98713594918928,-84.1771144239311";
+            zoom = 15;
+            return pageheader = "Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen";
+          case "999":
+            ll = "9.98713594918928,-84.1771144239311";
+            zoom = 13;
+            return pageheader = "Unassigned";
         }
-      })(), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1])) : void 0);
+      })(), $('#page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1])) : void 0);
       this.listView = new ListView({
         el: '#list',
         model: this.model,

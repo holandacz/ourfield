@@ -1,4 +1,5 @@
 from math import *
+#import wingdbstub
 
 def dot(A,B,C):
     AB = []

@@ -25,15 +25,16 @@
   <div id="app">
     <div id="map">
       <div class="container">
-        <div class="map-container map16">
+
+        <h1 class="page-header small" id="page-header" style="display:none"></h1>
+        <h2 class="small" id="page-menu" style="display:none">Page Menu</h2>
+        
+        <div class="map-container">
           <div id="place-types" style="display:none">Places:&nbsp;
             <label for="place-types-1">1</label>&nbsp;<input id="place-types-1" name="place-types" type="checkbox" value="1" checked="checked" />&nbsp;&nbsp;|&nbsp;&nbsp;<label for="place-types-2">2</label>&nbsp;<input id="place-types-2" name="place-types" type="checkbox" value="2" />
           </div>
-          <div id="map-canvas">
-            {% include "map/crosshair.html" %}
-          </div>
-          <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" />
-          </div>
+          <div id="map-canvas">{% include "map/crosshair.html" %}</div>
+          <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" /></div>
 
         </div>
       </div><!-- container -->

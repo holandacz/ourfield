@@ -17,3 +17,9 @@ section {
 #footer p.right {
   float: right;
 }
+
+.page-header {
+  padding-bottom: 0; /*override*/
+  margin: 0;
+  border-bottom: 1px solid #eeeeee;
+}
