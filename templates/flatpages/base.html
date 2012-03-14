@@ -1,0 +1,12 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+
+{% block extra_style %}
+  <link href="{% static "css/code.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% load markup %}
+
+{% block body %}
+    {{ flatpage.content|markdown:'safe,codehilite' }}
+{% endblock %}

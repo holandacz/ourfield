@@ -115,6 +115,7 @@ MIDDLEWARE_CLASSES = [
     "pinax.apps.account.middleware.LocaleMiddleware",
     "pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -150,8 +151,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
+    'django.contrib.markup',
     "django.contrib.humanize",
+    "django.contrib.flatpages",
     "django_extensions",
+    'django.contrib.gis',
     
     "pinax.templatetags",
     
@@ -174,14 +178,14 @@ INSTALLED_APPS = [
     "announcements",
     "pagination",
     "idios",
-    "metron",
+    #"metron",
     
     # Pinax
     "pinax.apps.account",
     "pinax.apps.signup_codes",
     
     # project
-    "about",
+    "flatblocks",
     "map",
     "profiles",
     'common',
@@ -189,6 +193,7 @@ INSTALLED_APPS = [
     "core",
     "current_user",    
     "places",
+    "boundaries",
     "en",
     #"api",
     #"tweets",

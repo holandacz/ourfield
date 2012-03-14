@@ -1,8 +1,8 @@
 {% extends "theme_base.html" %}
 {% load staticfiles %}
 {% load ifsetting_tag %}
+{% load googleanalytics %}
 
-{% load metron_tags %}
 {% load i18n %}
 
 {% block style_base %}
@@ -53,6 +53,6 @@
 {% endblock %}
 
 {% block extra_body_base %}
-    {% analytics %}
+    {% block google_analytics_js %}{% googleanalyticsjs %}{% endblock %}
     {% block extra_body %}{% endblock %}
 {% endblock %}

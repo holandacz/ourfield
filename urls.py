@@ -3,11 +3,13 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from tastypie.api import Api
 from places.api import PlaceResource
+from boundaries.api import BoundaryResource
 from en.api import ENNoteResource
 #from tweets.api import TweetResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(PlaceResource())
+v1_api.register(BoundaryResource())
 v1_api.register(ENNoteResource())
 
 
@@ -26,7 +28,6 @@ urlpatterns = patterns("",
     #url(r"", include('tweets.urls')),
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
-    url(r"^about/", include("about.urls")),
     url(r"^map/", include("map.urls")),
     url(r"^places/", include("places.urls")),
     url(r"^en/", include("en.urls")),
