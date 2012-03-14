@@ -197,7 +197,11 @@
           case "1-2-1":
             ll = "9.92111127977427,-84.1474170057183";
             zoom = 14;
-            return pageheader = "San Jose/Escazu/Escazu";
+            return pageheader = "San Jose/Escazu/Escazu/West";
+          case "1-2-2":
+            ll = "9.92111127977427,-84.1474170057183";
+            zoom = 14;
+            return pageheader = "San Jose/Escazu/Escazu/East";
           case "4-1-2":
             ll = "10.001025,-84.134588";
             pageheader = "Heredea/Heredia/Mercedes";
