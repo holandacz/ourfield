@@ -185,6 +185,7 @@ INSTALLED_APPS = [
     "pinax.apps.signup_codes",
     
     # project
+    "about",
     "flatblocks",
     "map",
     "profiles",
