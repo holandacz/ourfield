@@ -18,6 +18,15 @@
 		},
 		{
 			"path": "/C/Users/Larry/__prjs/z_others/OpenData-Bremen/app/assets"
+		},
+		{
+			"path": "/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts"
+		},
+		{
+			"path": "/C/Users/Larry/__prjs/z_others/Google-Maps-for-Rails/app/assets/javascripts"
+		},
+		{
+			"path": "/C/Users/Larry/__prjs/z_others/hazard"
 		}
 	]
 }

@@ -118,6 +118,132 @@
 
   })(Backbone.Model);
 
+  this.Boundaries = (function(_super) {
+
+    __extends(Boundaries, _super);
+
+    Boundaries.name = 'Boundaries';
+
+    function Boundaries() {
+      return Boundaries.__super__.constructor.apply(this, arguments);
+    }
+
+    Boundaries.prototype.model = Boundary;
+
+    Boundaries.prototype.initialize = function(models, options) {
+      this.queryParams = {};
+      return this.resetUrl();
+    };
+
+    Boundaries.prototype.setQueryParam = function(name, value) {
+      this.queryParams[name] = value;
+      return this.resetUrl();
+    };
+
+    Boundaries.prototype.resetUrl = function() {
+      var params;
+      params = $.param(_.defaults(this.queryParams, DefaultParams));
+      return this.url = "/api/v1/boundary/?" + params;
+    };
+
+    return Boundaries;
+
+  })(Backbone.Collection);
+
+  this.Places = (function(_super) {
+
+    __extends(Places, _super);
+
+    Places.name = 'Places';
+
+    function Places() {
+      return Places.__super__.constructor.apply(this, arguments);
+    }
+
+    Places.prototype.model = Place;
+
+    Places.prototype.initialize = function(models, options) {
+      this.queryParams = {};
+      return this.resetUrl();
+    };
+
+    Places.prototype.setQueryParam = function(name, value) {
+      this.queryParams[name] = value;
+      return this.resetUrl();
+    };
+
+    Places.prototype.resetUrl = function() {
+      var params;
+      params = $.param(_.defaults(this.queryParams, DefaultParams));
+      return this.url = "/api/v1/place/?" + params;
+    };
+
+    Places.prototype.show = function() {
+      var _this = this;
+      this.trigger('show');
+      return this.each(function(place) {
+        return place.trigger('show');
+      });
+    };
+
+    Places.prototype.hide = function() {
+      var _this = this;
+      this.trigger('hide');
+      return this.each(function(place) {
+        return place.trigger('hide');
+      });
+    };
+
+    return Places;
+
+  })(Backbone.Collection);
+
+  this.PlaceType = (function(_super) {
+
+    __extends(PlaceType, _super);
+
+    PlaceType.name = 'PlaceType';
+
+    function PlaceType() {
+      return PlaceType.__super__.constructor.apply(this, arguments);
+    }
+
+    PlaceType.prototype.idAttribute = 'id';
+
+    PlaceType.prototype.initialize = function() {
+      return this.places = new Places();
+    };
+
+    PlaceType.prototype.show = function() {
+      this.trigger('show');
+      return this.places.show();
+    };
+
+    PlaceType.prototype.hide = function() {
+      this.trigger('hide');
+      return this.places.hide();
+    };
+
+    return PlaceType;
+
+  })(Backbone.Model);
+
+  this.PlaceTypes = (function(_super) {
+
+    __extends(PlaceTypes, _super);
+
+    PlaceTypes.name = 'PlaceTypes';
+
+    function PlaceTypes() {
+      return PlaceTypes.__super__.constructor.apply(this, arguments);
+    }
+
+    PlaceTypes.prototype.model = PlaceType;
+
+    return PlaceTypes;
+
+  })(Backbone.Collection);
+
   this.AppView = (function(_super) {
 
     __extends(AppView, _super);
@@ -281,7 +407,11 @@
       this.map = new google.maps.Map(this.$('#map-canvas').get(0), {
         zoom: this.preferences.get('zoom'),
         center: new google.maps.LatLng(this.preferences.get('centerLat'), this.preferences.get('centerLng')),
-        mapTypeId: this.model.get('mapTypeId')
+        mapTypeId: this.model.get('mapTypeId'),
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+          mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+        }
       });
       controlDiv = document.createElement('DIV');
       controlDiv.style.padding = '5px';
@@ -859,131 +989,5 @@
   };
 
   _.extend(this.Log, Backbone.Events);
-
-  this.Places = (function(_super) {
-
-    __extends(Places, _super);
-
-    Places.name = 'Places';
-
-    function Places() {
-      return Places.__super__.constructor.apply(this, arguments);
-    }
-
-    Places.prototype.model = Place;
-
-    Places.prototype.initialize = function(models, options) {
-      this.queryParams = {};
-      return this.resetUrl();
-    };
-
-    Places.prototype.setQueryParam = function(name, value) {
-      this.queryParams[name] = value;
-      return this.resetUrl();
-    };
-
-    Places.prototype.resetUrl = function() {
-      var params;
-      params = $.param(_.defaults(this.queryParams, DefaultParams));
-      return this.url = "/api/v1/place/?" + params;
-    };
-
-    Places.prototype.show = function() {
-      var _this = this;
-      this.trigger('show');
-      return this.each(function(place) {
-        return place.trigger('show');
-      });
-    };
-
-    Places.prototype.hide = function() {
-      var _this = this;
-      this.trigger('hide');
-      return this.each(function(place) {
-        return place.trigger('hide');
-      });
-    };
-
-    return Places;
-
-  })(Backbone.Collection);
-
-  this.PlaceType = (function(_super) {
-
-    __extends(PlaceType, _super);
-
-    PlaceType.name = 'PlaceType';
-
-    function PlaceType() {
-      return PlaceType.__super__.constructor.apply(this, arguments);
-    }
-
-    PlaceType.prototype.idAttribute = 'id';
-
-    PlaceType.prototype.initialize = function() {
-      return this.places = new Places();
-    };
-
-    PlaceType.prototype.show = function() {
-      this.trigger('show');
-      return this.places.show();
-    };
-
-    PlaceType.prototype.hide = function() {
-      this.trigger('hide');
-      return this.places.hide();
-    };
-
-    return PlaceType;
-
-  })(Backbone.Model);
-
-  this.PlaceTypes = (function(_super) {
-
-    __extends(PlaceTypes, _super);
-
-    PlaceTypes.name = 'PlaceTypes';
-
-    function PlaceTypes() {
-      return PlaceTypes.__super__.constructor.apply(this, arguments);
-    }
-
-    PlaceTypes.prototype.model = PlaceType;
-
-    return PlaceTypes;
-
-  })(Backbone.Collection);
-
-  this.Boundaries = (function(_super) {
-
-    __extends(Boundaries, _super);
-
-    Boundaries.name = 'Boundaries';
-
-    function Boundaries() {
-      return Boundaries.__super__.constructor.apply(this, arguments);
-    }
-
-    Boundaries.prototype.model = Boundary;
-
-    Boundaries.prototype.initialize = function(models, options) {
-      this.queryParams = {};
-      return this.resetUrl();
-    };
-
-    Boundaries.prototype.setQueryParam = function(name, value) {
-      this.queryParams[name] = value;
-      return this.resetUrl();
-    };
-
-    Boundaries.prototype.resetUrl = function() {
-      var params;
-      params = $.param(_.defaults(this.queryParams, DefaultParams));
-      return this.url = "/api/v1/boundary/?" + params;
-    };
-
-    return Boundaries;
-
-  })(Backbone.Collection);
 
 }).call(this);

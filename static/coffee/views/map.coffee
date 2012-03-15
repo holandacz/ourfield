@@ -17,6 +17,13 @@ class @MapView extends Backbone.View
       center: new google.maps.LatLng(@preferences.get('centerLat'), @preferences.get('centerLng'))
       mapTypeId: @model.get('mapTypeId')
 
+      mapTypeControl: true
+
+      mapTypeControlOptions: 
+        # style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+        mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+
+
     # http://code.google.com/apis/maps/documentation/javascript/controls.html#Adding_Controls_to_the_Map
     controlDiv = document.createElement('DIV')
     controlDiv.style.padding = '5px'
