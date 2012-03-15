@@ -4,6 +4,12 @@ class @AppView extends Backbone.View
 
     @collection.bind 'sync', => 
       @collection.fetch()
+
+    # @boundaries = @options.boundaries
+    # @boundaries.bind 'sync', => 
+    #   @boundaries.fetch()
+
+
     @render()
 
   render : ->
@@ -11,11 +17,16 @@ class @AppView extends Backbone.View
       el: '#map'
       model: @model
       collection: @collection
+      # boundaries: @boundaries
       preferences: @preferences
+      
+      #@boundaries.fetch()
+      #console.log @boundaries
+
 
       territoryno = @preferences.get('territoryno')
       zoom = @preferences.get('zoom')
-      console.log territoryno
+
       switch territoryno
         when "1-2-1" 
           ll = "9.92111127977427,-84.1474170057183"

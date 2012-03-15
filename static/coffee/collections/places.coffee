@@ -1,5 +1,5 @@
-class @Boundaries extends Backbone.Collection
-  model: Boundary
+class @Places extends Backbone.Collection
+  model: Place
 
   initialize: (models, options) ->
     @queryParams = {}
@@ -14,34 +14,34 @@ class @Boundaries extends Backbone.Collection
     #
     # Would like to determine bounds of points in this collection and then set center and best fit zoom
     #
-    @url = "/api/v1/boundary/?#{params}"
+    @url = "/api/v1/place/?#{params}"
 
   show: ->
     @trigger 'show'
-    @each (boundary) => boundary.trigger 'show'
+    @each (place) => place.trigger 'show'
 
   hide: ->
     @trigger 'hide'
-    @each (boundary) => boundary.trigger 'hide'
+    @each (place) => place.trigger 'hide'
 
-class @BoundaryType extends Backbone.Model
+class @PlaceType extends Backbone.Model
   idAttribute: 'id'
 
   initialize: ->
-    @boundaries = new Boundaries()
+    @places = new Places()
 
     # params = {}
     # params = $.param(_.defaults(params, DefaultParams))
-    # @boundaries.url = "/api/v1/boundary/?#{params}"
+    # @places.url = "/api/v1/place/?#{params}"
     #?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295
 
   show: ->
     @trigger 'show'
-    @boundaries.show()
+    @places.show()
 
   hide: ->
     @trigger 'hide'
-    @boundaries.hide()
+    @places.hide()
 
-class @BoundaryTypes extends Backbone.Collection
-  model: BoundaryType
+class @PlaceTypes extends Backbone.Collection
+  model: PlaceType

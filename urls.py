@@ -25,7 +25,6 @@ urlpatterns = patterns("",
     url(r"^$", direct_to_template, {
         "template": "homepage.html",
     }, name="home"),
-    #url(r"", include('tweets.urls')),
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
     url(r"^map/", include("map.urls")),
@@ -44,4 +43,3 @@ if settings.SERVE_MEDIA:
     urlpatterns += patterns("",
         url(r"", include("staticfiles.urls")),
     )
-#curl http://localhost/api/v1/place/660/?username=larry;api_key=d65af2857fc77e4ce56299e53f6858178dfab295;format=json

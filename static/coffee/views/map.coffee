@@ -61,6 +61,11 @@ class @MapView extends Backbone.View
     # location: event.latLng
     # centered: false
 
+    # if @userid > 0
+    #   @boundaries = new BoundariesView(model: boundary, collection: boundaries, map: @map)
+    #   console.log '@boundaries = new BoundariesView'
+
+      
     if @userid > 0
       @collection.each (placeType) =>
         new PlaceTypeView(model: placeType, collection: placeType.places, map: @map)
