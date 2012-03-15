@@ -1,2 +1,0 @@
-@echo off
-node utils/node_modules/coffee-script/bin/coffee %*

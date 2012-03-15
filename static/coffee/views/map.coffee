@@ -1,4 +1,22 @@
 class @MapView extends Backbone.View
+
+  roadmapPolyOpts:
+    strokeWeight: .5
+    strokeColor: '#000000'
+    fillColor: '#000000'
+    fillOpacity: 0.3
+    
+  hybridPolyOpts:
+    strokeWeight: .5
+    strokeColor: '#ffffff'
+    fillColor: '#ffffff'
+    fillOpacity: 0.3
+  
+  hoverPolyOpts:
+    strokeWeight: 2
+    fillColor: '#ffd700'
+    fillOpacity: 0.01
+
   events:
     'click input[type="checkbox"]': '_togglePlaceType'
     'click button#add-place': '_addPlace'
@@ -10,7 +28,9 @@ class @MapView extends Backbone.View
   render: ->
     #console.log 'preferences', @preferences.items
 
-
+    @polys = {}
+    @placeName = $('#placeName')
+    @currentPolyOpts = @roadmapPolyOpts
     @map = new google.maps.Map @$('#map-canvas').get(0),
       zoom: @preferences.get('zoom')
       # center: new google.maps.LatLng(@model.get('centerLat'), @model.get('centerLng'))
@@ -47,6 +67,9 @@ class @MapView extends Backbone.View
     controlText.innerHTML = 'Add Place'
     controlUI.appendChild(controlText)
 
+    google.maps.event.addListener @map, 'idle', @onIdle
+    google.maps.event.addListener @map, 'maptypeid_changed', @onMapTypeChange
+
     google.maps.event.addDomListener controlUI, 'click', =>
       @_addPlace()
 
@@ -57,11 +80,6 @@ class @MapView extends Backbone.View
       @preferences.set('zoom', @map.getZoom())
 
     @userid = @model.get('userid')
-
-
-
-      # window.placeTypes.models[0].places.add({id:3, point: 'POINT (10.001 -84.134)'})
-      # make into a function: @addPlace(event)
 
     # google.maps.event.addListener @map, "click", => @addPlace()
     # location: event.latLng
@@ -96,3 +114,62 @@ class @MapView extends Backbone.View
     console.log 'preferences', @preferences.items
     @collection.get(1).places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
 
+  onIdle: =>
+    showError(off)
+    showBusy(on)
+    bounds = @map.getBounds()
+    sw = bounds.getSouthWest()
+    ne = bounds.getNorthEast()
+
+
+    params = {}
+    params = $.param(_.defaults(params, DefaultParams))
+    # if @has('resource_uri')
+    #   @url = @get('resource_uri') + "?#{params}"
+    # console.log params
+
+    # $.get '/api/places', { swLat: sw.lat(), swLng: sw.lng(), neLat: ne.lat(), neLng: ne.lng() }, (data) =>
+    $.get '/api/v1/boundary/?' + params, (data) =>
+      poly.setMap(null) for id, poly of @polys
+      @polys = {}
+      #console.log 'call createPoly'
+
+      @createPoly(poly) for poly in data.objects
+
+      showBusy(off)
+    showBusy(off)
+
+  # When map type changes we need to change color of polygons
+  # Note:  needs fat arrow because this is used as a callback
+
+  onMapTypeChange: =>
+    switch @map.getMapTypeId()
+      when google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID
+        @currentPolyOpts = @roadmapPolyOpts
+      else
+        @currentPolyOpts = @hybridPolyOpts
+    
+  # Add a polygon to our map
+  #
+  createPoly: (placepoly) ->
+    poly = new google.maps.Polygon(@currentPolyOpts)
+
+    points = (point.split(' ') for point in placepoly.poly?.match(/(-?\d+(?:\.\d+)?)\s(-?\d+(?:\.\d+)?)/mg))
+    lls = (new google.maps.LatLng(point[1], point[0]) for point in points)
+
+    poly.setPath(lls)
+    poly.setMap(@map)
+    @polys[placepoly.id] = poly
+    
+    google.maps.event.addListener poly, 'mouseover', =>
+      poly.setOptions(@hoverPolyOpts)
+      @placeName.text(placepoly.previousnumber)
+      @placeName.show()
+      
+    google.maps.event.addListener poly, 'mousemove', =>
+      @placeName.css('left', mouseX)
+      @placeName.css('top', mouseY)
+
+    google.maps.event.addListener poly, 'mouseout', =>
+      poly.setOptions(@currentPolyOpts)
+      @placeName.hide()

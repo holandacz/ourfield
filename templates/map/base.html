@@ -37,6 +37,10 @@ section {
     {% if user.is_authenticated %}
     <section id="section-map">
       {% include "map/subnav.html" %}
+
+      <img id="busy" src="{% static "img/map/loading.gif" %}" alt="loading"/>
+      <img id="error" src="{% static "img/map/error.png" %}" alt="error" title="An error occurred communicating with the server. Move the map to restart."/>
+    
     {% endif %}
       <div id="map">
         <div class="container">
@@ -51,6 +55,7 @@ section {
 
         </div><!-- container -->
       </div>
+      <div id="placeName"></div>
     {% if user.is_authenticated %}
       </section>
     {% endif %}
@@ -101,9 +106,7 @@ section {
       var center = "10.001025,-84.134588"; //"{{center}}"
 
       var preferences = new Preferences();
-      if (territoryno) {
-        preferences.set('territoryno', territoryno);
-      }
+      preferences.set('territoryno', territoryno);
 
       preferences.setDefault('zoom', zoom);
       preferences.setDefault('center', center);

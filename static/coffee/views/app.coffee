@@ -26,7 +26,6 @@ class @AppView extends Backbone.View
 
       territoryno = @preferences.get('territoryno')
       zoom = @preferences.get('zoom')
-
       switch territoryno
         when "1-2-1" 
           ll = "9.92111127977427,-84.1474170057183"
@@ -55,9 +54,14 @@ class @AppView extends Backbone.View
         @preferences.set('territoryno', territoryno)
         @preferences.set('center', ll)
         @preferences.set('zoom', zoom)
-        ll = ll.split(',')
-        @preferences.set('centerLat', ll[0])
-        @preferences.set('centerLng', ll[1])
+      else
+        @preferences.set('zoom', 13)
+        ll = "9.981192,-84.185314" # Belen English CR
+        @preferences.set('center', ll)
+
+      ll = ll.split(',')
+      @preferences.set('centerLat', ll[0])
+      @preferences.set('centerLng', ll[1])
 
     @listView = new ListView
       el: '#list'

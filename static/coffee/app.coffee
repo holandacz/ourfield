@@ -1,4 +1,22 @@
+#
+# Set the little ajax busy loading indicator visible or not
+#
+showBusy = (x) ->
+  if x then $('#busy').show() else $('#busy').hide()
+showError = (x) ->
+  if x then $('#error').show() else $('#error').hide()
+  
+
+# Tracks mouse movement in a variable
+
+mouseX = null
+mouseY = null
+document.onmousemove = (e) ->
+  mouseX = e.clientX
+  mouseY = e.clientY
+
 CR = "10.001025 -84.134588" # no space between
+
 
 @DefaultParams =
   user_id: 0
@@ -18,6 +36,11 @@ class @AppData extends Backbone.Model
     ll = attributes.center.split(',')
     @set('centerLat', ll[0])
     @set('centerLng', ll[1])
+
+    
+    $(document).ajaxError ->
+      showBusy(off)
+      showError(on)
 
 
 class @Preferences

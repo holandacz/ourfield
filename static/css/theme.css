@@ -24,3 +24,17 @@ body {
 section {
   padding-top: 0;
 }
+
+#busy {
+  display: none;
+  position: fixed;
+  left: 50%;
+  margin-left: 13em;
+  top: 13px; }
+
+#error {
+  display: none;
+  position: fixed;
+  left: 50%;
+  margin-left: 13.5em;
+  top: 10px; }
