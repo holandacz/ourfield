@@ -39,7 +39,7 @@ class @AppView extends Backbone.View
         when "4-1-2" 
           ll = "10.001025,-84.134588"
           pageheader = "Heredea/Heredia/Mercedes"
-          zoom = 15
+          zoom = 17
         when "4-7-1" 
           ll = "9.98713594918928,-84.1771144239311"
           zoom = 15
@@ -55,7 +55,6 @@ class @AppView extends Backbone.View
         @preferences.set('territoryno', territoryno)
         @preferences.set('center', ll)
         @preferences.set('zoom', zoom)
-
         ll = ll.split(',')
         @preferences.set('centerLat', ll[0])
         @preferences.set('centerLng', ll[1])

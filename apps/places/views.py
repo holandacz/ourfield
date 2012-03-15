@@ -5,7 +5,31 @@ from django.http import HttpResponse
 from models import Place
 from django.utils import simplejson as json
 
-import wingdbstub
+#import wingdbstub
+
+def admin_restore(request, territoryno = None):
+    from django.db import connection
+    from django.http import HttpResponseRedirect
+
+    #return HttpResponse('')
+
+    territoryno = request.session.get('territoryno', territoryno)
+    # SQL DELETE
+    if not territoryno:
+        raise ValueError("No territoryno!")
+
+    cursor = connection.cursor()
+    sql = 'DELETE FROM %s WHERE territoryno = "%s"' % (Place._meta.db_table, territoryno)
+    cursor.execute(sql)
+
+    # clone Places 
+    places = Place.objects.filter(territoryno = '_' + territoryno)
+    for place in places:
+        place.id = None
+        place.territoryno = territoryno
+        place.save(handleMarkernos = False)
+
+    return HttpResponseRedirect("/map/?territoryno=%s" % territoryno)
 
 def admin_backup(request, territoryno = None):
     from django.db import connections, connection, transaction
@@ -15,7 +39,6 @@ def admin_backup(request, territoryno = None):
     # SQL DELETE
     if not territoryno:
         raise ValueError("No territoryno!")
-
 
     #cursor_live = connections['live'].cursor()
     #print cursor_live

@@ -283,7 +283,7 @@
           case "4-1-2":
             ll = "10.001025,-84.134588";
             pageheader = "Heredea/Heredia/Mercedes";
-            return zoom = 15;
+            return zoom = 17;
           case "4-7-1":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 15;

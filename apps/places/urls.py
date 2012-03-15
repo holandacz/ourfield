@@ -13,5 +13,6 @@ urlpatterns = patterns('',
 
 
     url(r'^admin/backup/?(?P<territoryno>[0-9\-]+)*/$', admin_backup, name="places_admin_backup"),
+    url(r'^admin/restore/?(?P<territoryno>[0-9\-]+)*/$', admin_restore, name="places_admin_restore"),
     (r'^api/', include(place_resource.urls)),
 )

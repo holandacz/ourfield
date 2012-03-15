@@ -24,6 +24,8 @@ class @MapView extends Backbone.View
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
 
 
+    # console.log 'MapView.render zoom', @map.getZoom()
+
     # http://code.google.com/apis/maps/documentation/javascript/controls.html#Adding_Controls_to_the_Map
     controlDiv = document.createElement('DIV')
     controlDiv.style.padding = '5px'

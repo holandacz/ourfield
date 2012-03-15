@@ -4,7 +4,6 @@
 from django.db.models import Max, Min
 from django.db import connection, transaction
 
-
 class PlaceMarkernos:
     def __init__(self, currentPlace, isnew = False, isdeleted = False):
         from models import Place
@@ -19,16 +18,16 @@ class PlaceMarkernos:
 
         # perform a few integrety checks
         # if currentMaxTerritoryMarkerno != currentPlaceCount
-        #if self.currentMinTerritoryMarkerno > 1 or self.currentMaxTerritoryMarkerno != self.currentPlaceCount:
-            #self.fixUnnumberedMarkers(self.currentPlace)
-            ## recalc self.currentMaxTerritoryMarkerno
+        if self.currentMinTerritoryMarkerno > 1 or self.currentMaxTerritoryMarkerno != self.currentPlaceCount:
+            self.fixUnnumberedMarkers(self.currentPlace)
+            # recalc self.currentMaxTerritoryMarkerno
             
-            ## reload currentPlace since the markerno may have be updated
-            #self.currentPlace = self.Place.objects.get(id = currentPlace.id)
-            #self.currentPlaceMarkerno = currentPlace.markerno
-            #self.currentMinTerritoryMarkerno = self._minTerritoryMarkerno(currentPlace.territoryno)            
-            #self.currentMaxTerritoryMarkerno = self._maxTerritoryMarkerno(currentPlace.territoryno)
-            #print "MAX markerno did not match total number of places. Automatically numbered unnumbered markers."
+            # reload currentPlace since the markerno may have be updated
+            self.currentPlace = self.Place.objects.get(id = currentPlace.id)
+            self.currentPlaceMarkerno = currentPlace.markerno
+            self.currentMinTerritoryMarkerno = self._minTerritoryMarkerno(currentPlace.territoryno)            
+            self.currentMaxTerritoryMarkerno = self._maxTerritoryMarkerno(currentPlace.territoryno)
+            print "MAX markerno did not match total number of places. Automatically numbered unnumbered markers."
 
         self.isnew = isnew
         self.isdeleted = isdeleted
@@ -36,13 +35,35 @@ class PlaceMarkernos:
         # get previous data in case use changed pertinent details
         self._getPreviousPlace()
         
-        # if point has not changed, return
-        if self.currentPlace.point.x == self.previousPlace.point.x \
-           and self.currentPlace.point.y == self.previousPlace.point.y:
-            print 'Place not moved'
-            return self.currentPlace.markerno
+        currentMarkerno = self.currentPlace.markerno        
         
-        currentMarkerno = self.currentPlace.markerno
+        # if point and markerno has not changed, return
+        if currentMarkerno == self.previousPlaceMarkerno \
+           and self.currentPlace.point.x == self.previousPlace.point.x \
+           and self.currentPlace.point.y == self.previousPlace.point.y:
+            return currentMarkerno     
+
+
+        # Place was changed but markerno was not
+        if currentMarkerno != self.previousPlaceMarkerno:  
+            # does the previousPlaceMarkerno exist, then just swap 
+            if self.Place.objects.filter(territoryno = '4-1-2').filter(markerno=currentMarkerno).exists():
+                # Let's swap self.previousPlaceMarkerno with currentMarkerno
+                cursor = connection.cursor()
+                
+                # if there is a gap between currentMarkerno and the one previous, set markerno to become one after previous one
+                # self.currentPlace.markerno
+                
+                # look for and update Place where markerno = new markerno and set to prev Place markerno
+                sql = '''
+                update %s set markerno = %d 
+                where (territoryno = "%s" and markerno = %d)
+                limit 1
+                ''' % (self.Place._meta.db_table, self.previousPlaceMarkerno, self.currentPlaceTerritoryno, currentMarkerno)
+                cursor.execute(sql)
+                transaction.commit_unless_managed() 
+               
+            return currentMarkerno 
         
         # Was this Place moved from a previous territory?
         if self.previousPlaceTerritoryno and self.currentPlaceTerritoryno != self.previousPlaceTerritoryno:
@@ -59,7 +80,6 @@ class PlaceMarkernos:
             # if no change
             if currentMarkerno == self.currentPlace.markerno:
                 return currentMarkerno
-            
 
         # handle if target self.currentPlaceMarkerno is less than self.previousPlaceMarkerno
         if currentMarkerno < self.previousPlaceMarkerno:
@@ -222,7 +242,7 @@ class PlaceMarkernos:
         for place in self.Place.objects.filter(territoryno=place.territoryno).exclude(deleted=True).order_by('markerno'):
             sql = 'UPDATE %s SET markerno = %d WHERE (id = %d)' % (self.Place._meta.db_table, newmarkerno, place.id)
             cursor.execute(sql)
-            print newmarkerno
+            #print newmarkerno
             newmarkerno += 1
 
         cursor.execute('COMMIT')
