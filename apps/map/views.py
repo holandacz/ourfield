@@ -36,6 +36,9 @@ def index(request):
         userisstaff = 1 if request.user.is_staff else 0
         userissuperuser = 1 if request.user.is_superuser else 0
         
+    territoryno = request.GET.get('territoryno', '')
+    print territoryno
+    request.session['territoryno'] = territoryno
     context = {
         'user' : request.user,
         'usergroups' : usergroups,
@@ -44,7 +47,7 @@ def index(request):
         'api_key' : api_key,
         'center' : request.GET.get('ll', ""),
         'zoom' : request.GET.get('z', 0),
-        'territoryno' : request.GET.get('territoryno', ''),
+        'territoryno' : territoryno,
         'polys' : polys,
         'enpts' : enpts,
         'placepts' : placepts,

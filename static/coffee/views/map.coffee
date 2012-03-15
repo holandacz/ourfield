@@ -45,11 +45,8 @@ class @MapView extends Backbone.View
     controlText.innerHTML = 'Add Place'
     controlUI.appendChild(controlText)
 
-
-
     google.maps.event.addDomListener controlUI, 'click', =>
       @_addPlace()
-
 
     @map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv)
 

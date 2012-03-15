@@ -5,7 +5,36 @@ from django.http import HttpResponse
 from models import Place
 from django.utils import simplejson as json
 
-#import wingdbstub
+import wingdbstub
+
+def admin_backup(request, territoryno = None):
+    from django.db import connections, connection, transaction
+    #return HttpResponse('')
+
+    territoryno = request.session.get('territoryno', territoryno)
+    # SQL DELETE
+    if not territoryno:
+        raise ValueError("No territoryno!")
+
+
+    #cursor_live = connections['live'].cursor()
+    #print cursor_live
+    #exit()
+
+    cursor = connection.cursor()
+    sql = 'DELETE FROM %s WHERE territoryno = "_%s"' % (Place._meta.db_table, territoryno)
+    cursor.execute(sql)
+
+    # clone Places 
+    places = Place.objects.filter(territoryno=territoryno)
+    for place in places:
+        place.id = None
+        place.territoryno = '_' + territoryno
+        place.save(handleMarkernos = False)
+
+
+
+    return render_to_response("places/base.html", locals(), context_instance=RequestContext(request))
 
 @csrf_exempt
 def post_handler(request, *args, **kwargs):

@@ -131,3 +131,31 @@ def backup():
     get('_bu/' + fname, os.path.basename(fname))
     run('rm "%s"' % fname)
     
+"""
+TODO: Enable pulling down live tables to local
+# http://stackoverflow.com/questions/8911811/partial-database-synchronization-with-mysql
+
+LIVEDB_IP=192.168.1.10
+MYSQL_SRCUSER=whateverusername
+MYSQL_SRCPASS=whateverpassword
+MYSQL_SRCCONN="-h${LIVEDB_IP} -u${MYSQL_SRCUSER} -p${MYSQL_SRCPASS}"
+SOURCE_DB=mydb_source
+
+MYSQL_TGTUSER=whateverusername2
+MYSQL_TGTPASS=whateverpassword2
+MYSQL_TGTCONN="-h127.0.0.1 -u${MYSQL_TGTUSER} -p${MYSQL_TGTPASS}"
+TARGET_DB=mydb_target
+
+TBLLIST="tb1 tb2 tb3"
+for TB in `echo "${TBLLIST}"`
+do
+    mysqldump ${MYSQL_SRCCONN} --single-transaction ${SOURCE_DB} ${TB} | gzip > ${TB}.sql.gz &
+done
+wait
+
+for TB in `echo "${TBLLIST}"`
+do
+    gzip -d < ${TB}.sql.gz | mysql ${MYSQL_TGTCONN} -A -D${TARGET_DB} &
+done
+wait
+"""    

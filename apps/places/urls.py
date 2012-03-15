@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     #url(r'^pt/(?P<id>\d+)/$', 'ajax_post_point', name="ajax_post_point"),
     #url(r'^post_test/$', index, name="index"),
     url(r'^post_test/$', post_handler, name="post_handler"),
-    url(r'^get_point/(?P<id>\d+)/$', get_point, name="get_point"),
+
+
+    url(r'^admin/backup/?(?P<territoryno>[0-9\-]+)*/$', admin_backup, name="places_admin_backup"),
     (r'^api/', include(place_resource.urls)),
 )
