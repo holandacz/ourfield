@@ -26,6 +26,16 @@
   <div id="app">
     
     {% if user.is_authenticated %}
+      {% if territoryno %}
+        <section id="section-terr-map-overview">
+          <div id="terr-map-overview">
+            {% include "map/subnav.html" %}
+            <img src="{% static "img/territory/652/overview.png" %}" />
+          </div>
+        </section>
+      {% endif %}
+
+
       <section id="section-map">
         {% if territoryno %}
           {% include "map/subnav.html" %}
@@ -62,8 +72,9 @@
         
         <span style="page-break-before: always;"> </span>
         <section id="section-terr-instructions">
-          {% include "map/subnav.html" %}
-          <div id="terr-instructions"></div>
+          <div id="terr-instructions">
+            {% include "map/subnav.html" %}
+          </div>
         </section>
       {% endif %}
     {% endif %}

@@ -197,7 +197,14 @@ class @ListItemView extends Backbone.View
 
     html = ''
     html += '<div class="list-item-row" id="list-item-row-' + @model.get('id') + '">'
-    html += '<img src="/static/img/mapicons/25x30/numbers/number_' + @model.get('markerno') + '.png" />'
+
+
+    if @model.get('interestlevel')
+      html += '<img src="/static/img/mapicons/25x30/green/numbers/number_' + @model.get('markerno') + '.png" />'
+    else
+      html += '<img src="/static/img/mapicons/25x30/white/numbers/number_' + @model.get('markerno') + '.png" />'
+
+
 
     if @model.get('multiunit')
       html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>'

@@ -917,7 +917,11 @@
       $('#list').append(this.el);
       html = '';
       html += '<div class="list-item-row" id="list-item-row-' + this.model.get('id') + '">';
-      html += '<img src="/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png" />';
+      if (this.model.get('interestlevel')) {
+        html += '<img src="/static/img/mapicons/25x30/green/numbers/number_' + this.model.get('markerno') + '.png" />';
+      } else {
+        html += '<img src="/static/img/mapicons/25x30/white/numbers/number_' + this.model.get('markerno') + '.png" />';
+      }
       if (this.model.get('multiunit')) {
         html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>';
       }
