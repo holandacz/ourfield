@@ -289,7 +289,7 @@
             zoom = 15;
             return pageheader = "Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen";
           case "4-7-3":
-            ll = "9.825448,-84.400406";
+            ll = "9.970288,-84.156647";
             zoom = 13;
             return pageheader = "Heredea/Asuncion/Cariari/Ciudad Cariari";
           case "999":
