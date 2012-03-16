@@ -23,12 +23,12 @@ class @MapView extends Backbone.View
 
   initialize: ->
     @preferences = @options.preferences
+    @polys = {}
     @render()
 
   render: ->
     #console.log 'preferences', @preferences.items
 
-    @polys = {}
     @placeName = $('#placeName')
     @currentPolyOpts = @roadmapPolyOpts
     @map = new google.maps.Map @$('#map-canvas').get(0),
@@ -135,8 +135,11 @@ class @MapView extends Backbone.View
       #console.log 'call createPoly'
 
       @createPoly(poly) for poly in data.objects
-
+      @test = 7
       showBusy(off)
+    
+    console.log '@currentPoly', @currentPoly
+    console.log '@test', @test
     showBusy(off)
 
   # When map type changes we need to change color of polygons
@@ -161,7 +164,7 @@ class @MapView extends Backbone.View
     poly.setMap(@map)
 
     @polys[placepoly.id] = placepoly
-    
+
     google.maps.event.addListener poly, 'mouseover', =>
       poly.setOptions(@hoverPolyOpts)
       @placeName.text(placepoly.previousnumber + ' ' + placepoly.name)

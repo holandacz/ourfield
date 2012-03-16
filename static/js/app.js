@@ -264,7 +264,7 @@
     };
 
     AppView.prototype.render = function() {
-      var ll, pageheader, territoryno, zoom;
+      var ll, pageheader, poly, territoryno, zoom;
       this.mapView = new MapView({
         el: '#map',
         model: this.model,
@@ -288,12 +288,22 @@
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 15;
             return pageheader = "Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen";
+          case "4-7-3":
+            ll = "9.825448,-84.400406";
+            zoom = 13;
+            return pageheader = "Heredea/Asuncion/Cariari/Ciudad Cariari";
           case "999":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 13;
             return pageheader = "Unassigned";
         }
-      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), console.log('polys', this.polys), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
+      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
+      console.log('mapView', this.mapView);
+      console.log('mapView.polys', this.mapView.polys);
+      if (this.preferences.get('territoryno') === '4-1-2') {
+        poly = this.mapView.polys[652];
+        console.log('poly', poly);
+      }
       this.listView = new ListView({
         el: '#list',
         model: this.model,
@@ -421,13 +431,13 @@
 
     MapView.prototype.initialize = function() {
       this.preferences = this.options.preferences;
+      this.polys = {};
       return this.render();
     };
 
     MapView.prototype.render = function() {
       var controlDiv, controlText, controlUI,
         _this = this;
-      this.polys = {};
       this.placeName = $('#placeName');
       this.currentPolyOpts = this.roadmapPolyOpts;
       this.map = new google.maps.Map(this.$('#map-canvas').get(0), {
@@ -527,8 +537,11 @@
           poly = _ref2[_i];
           _this.createPoly(poly);
         }
+        _this.test = 7;
         return showBusy(false);
       });
+      console.log('@currentPoly', this.currentPoly);
+      console.log('@test', this.test);
       return showBusy(false);
     };
 

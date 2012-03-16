@@ -43,6 +43,10 @@ class @AppView extends Backbone.View
           ll = "9.98713594918928,-84.1771144239311"
           zoom = 15
           pageheader = "Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen"
+        when "4-7-3" 
+          ll = "9.825448,-84.400406"
+          zoom = 13
+          pageheader = "Heredea/Asuncion/Cariari/Ciudad Cariari"
         when "999" 
           ll = "9.98713594918928,-84.1771144239311"
           zoom = 13
@@ -59,11 +63,24 @@ class @AppView extends Backbone.View
         ll = "9.981192,-84.185314" # Belen English CR
         @preferences.set('center', ll)
 
-      console.log 'polys', @polys
-
       ll = ll.split(',')
       @preferences.set('centerLat', ll[0])
       @preferences.set('centerLng', ll[1])
+
+
+    #console.log 'mapView.polys', @mapView.polys
+    #console.log 'territoryno', @preferences.get('territoryno')
+
+    #poly = @mapView.polys[652]
+
+    console.log 'mapView', @mapView
+    console.log 'mapView.polys', @mapView.polys
+
+    #console.log 'poly', poly
+
+    if @preferences.get('territoryno') == '4-1-2'
+      poly = @mapView.polys[652]
+      console.log 'poly', poly
 
     @listView = new ListView
       el: '#list'
