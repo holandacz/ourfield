@@ -59,6 +59,9 @@
         </ul>
     {% endif %}
 
+    <img id="busy" src="{% static "img/map/loading.gif" %}" alt="loading"/>
+    <!--<img id="error" src="{% static "img/map/error.png" %}" alt="error" title="An error occurred communicating with the server. Move the map to restart."/>-->
+
     {% if user.is_authenticated %}
         <ul class="nav">{% spaceless %}
             <li id="tab_profile"><a href="{% url profile_detail user.username %}">{% trans "Profile" %}</a></li>

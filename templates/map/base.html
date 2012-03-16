@@ -23,24 +23,13 @@
 {% endblock %}
 
 {% block body %}
-<style>
-section {
-  padding-top: 40px;
-}
-</style>
-
-
-
-
   <div id="app">
     
     {% if user.is_authenticated %}
-    <section id="section-map">
-      {% include "map/subnav.html" %}
-
-      <img id="busy" src="{% static "img/map/loading.gif" %}" alt="loading"/>
-      <img id="error" src="{% static "img/map/error.png" %}" alt="error" title="An error occurred communicating with the server. Move the map to restart."/>
-    
+      <section id="section-map">
+        {% if territoryno %}
+          {% include "map/subnav.html" %}
+        {% endif %}
     {% endif %}
       <div id="map">
         <div class="container">
@@ -64,18 +53,19 @@ section {
       <section id="section-log">
         <div id="log"></div>
       </section>
-
-      <span style="page-break-before: always;"> </span>
-      <section id="section-list">
-        {% include "map/subnav.html" %}
-        <div id="list"></div>
-      </section>
-      
-      <span style="page-break-before: always;"> </span>
-      <section id="section-terr-instructions">
-        {% include "map/subnav.html" %}
-        <div id="terr-instructions"></div>
-      </section>
+      {% if territoryno %}
+        <span style="page-break-before: always;"> </span>
+        <section id="section-list">
+          {% include "map/subnav.html" %}
+          <div id="list"></div>
+        </section>
+        
+        <span style="page-break-before: always;"> </span>
+        <section id="section-terr-instructions">
+          {% include "map/subnav.html" %}
+          <div id="terr-instructions"></div>
+        </section>
+      {% endif %}
     {% endif %}
 
 
