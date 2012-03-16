@@ -264,7 +264,7 @@
     };
 
     AppView.prototype.render = function() {
-      var ll, pageheader, poly, territoryno, zoom;
+      var ll, pageheader, territoryno, zoom;
       this.mapView = new MapView({
         el: '#map',
         model: this.model,
@@ -298,12 +298,6 @@
             return pageheader = "Unassigned";
         }
       })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
-      console.log('mapView', this.mapView);
-      console.log('mapView.polys', this.mapView.polys);
-      if (this.preferences.get('territoryno') === '4-1-2') {
-        poly = this.mapView.polys[652];
-        console.log('poly', poly);
-      }
       this.listView = new ListView({
         el: '#list',
         model: this.model,
@@ -507,7 +501,6 @@
       var lat, lng;
       lat = this.map.getCenter().lat();
       lng = this.map.getCenter().lng();
-      console.log('preferences', this.preferences.items);
       return this.collection.get(1).places.create({
         territoryno: this.preferences.get('territoryno'),
         point: "POINT (" + lat + " " + lng + ")"
@@ -537,11 +530,8 @@
           poly = _ref2[_i];
           _this.createPoly(poly);
         }
-        _this.test = 7;
         return showBusy(false);
       });
-      console.log('@currentPoly', this.currentPoly);
-      console.log('@test', this.test);
       return showBusy(false);
     };
 

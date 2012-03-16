@@ -111,7 +111,7 @@ class @MapView extends Backbone.View
   _addPlace: () ->
     lat = @map.getCenter().lat()
     lng = @map.getCenter().lng()
-    console.log 'preferences', @preferences.items
+    # console.log 'preferences', @preferences.items
     @collection.get(1).places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
 
   onIdle: =>
@@ -135,11 +135,11 @@ class @MapView extends Backbone.View
       #console.log 'call createPoly'
 
       @createPoly(poly) for poly in data.objects
-      @test = 7
+      # @test = 7
       showBusy(off)
     
-    console.log '@currentPoly', @currentPoly
-    console.log '@test', @test
+    # console.log '@currentPoly', @currentPoly
+    # console.log '@test', @test
     showBusy(off)
 
   # When map type changes we need to change color of polygons

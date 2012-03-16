@@ -73,14 +73,14 @@ class @AppView extends Backbone.View
 
     #poly = @mapView.polys[652]
 
-    console.log 'mapView', @mapView
-    console.log 'mapView.polys', @mapView.polys
+    # console.log 'mapView', @mapView
+    # console.log 'mapView.polys', @mapView.polys
 
     #console.log 'poly', poly
 
-    if @preferences.get('territoryno') == '4-1-2'
-      poly = @mapView.polys[652]
-      console.log 'poly', poly
+    # if @preferences.get('territoryno') == '4-1-2'
+    #   poly = @mapView.polys[652]
+    #   console.log 'poly', poly
 
     @listView = new ListView
       el: '#list'
