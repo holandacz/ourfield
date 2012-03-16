@@ -59,6 +59,8 @@ class @AppView extends Backbone.View
         ll = "9.981192,-84.185314" # Belen English CR
         @preferences.set('center', ll)
 
+      console.log 'polys', @polys
+
       ll = ll.split(',')
       @preferences.set('centerLat', ll[0])
       @preferences.set('centerLng', ll[1])

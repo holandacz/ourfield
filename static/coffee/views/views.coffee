@@ -91,10 +91,15 @@ class @PlaceItemView extends Backbone.View
 
     @marker.setTitle(title)
 
+
     if @model.get('markerno')
-      @marker.setIcon('/static/img/mapicons/25x30/numbers/number_' +  @model.get('markerno') + '.png')
+
+      if @model.get('interestlevel')
+        @marker.setIcon('/static/img/mapicons/25x30/green/numbers/number_' +  @model.get('markerno') + '.png')
+      else
+        @marker.setIcon('/static/img/mapicons/25x30/white/numbers/number_' +  @model.get('markerno') + '.png')
     else
-      @marker.setIcon('/static/img/mapicons/25x30/symbol_blank.png')
+      @marker.setIcon('/static/img/mapicons/25x30/white/symbol_blank.png')
     
     @marker.setMap(@map)
 

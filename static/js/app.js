@@ -293,7 +293,7 @@
             zoom = 13;
             return pageheader = "Unassigned";
         }
-      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
+      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), console.log('polys', this.polys), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
       this.listView = new ListView({
         el: '#list',
         model: this.model,
@@ -567,10 +567,10 @@
       })();
       poly.setPath(lls);
       poly.setMap(this.map);
-      this.polys[placepoly.id] = poly;
+      this.polys[placepoly.id] = placepoly;
       google.maps.event.addListener(poly, 'mouseover', function() {
         poly.setOptions(_this.hoverPolyOpts);
-        _this.placeName.text(placepoly.previousnumber);
+        _this.placeName.text(placepoly.previousnumber + ' ' + placepoly.name);
         return _this.placeName.show();
       });
       google.maps.event.addListener(poly, 'mousemove', function() {
@@ -738,9 +738,13 @@
       }
       this.marker.setTitle(title);
       if (this.model.get('markerno')) {
-        this.marker.setIcon('/static/img/mapicons/25x30/numbers/number_' + this.model.get('markerno') + '.png');
+        if (this.model.get('interestlevel')) {
+          this.marker.setIcon('/static/img/mapicons/25x30/green/numbers/number_' + this.model.get('markerno') + '.png');
+        } else {
+          this.marker.setIcon('/static/img/mapicons/25x30/white/numbers/number_' + this.model.get('markerno') + '.png');
+        }
       } else {
-        this.marker.setIcon('/static/img/mapicons/25x30/symbol_blank.png');
+        this.marker.setIcon('/static/img/mapicons/25x30/white/symbol_blank.png');
       }
       return this.marker.setMap(this.map);
     };

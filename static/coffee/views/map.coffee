@@ -159,11 +159,12 @@ class @MapView extends Backbone.View
 
     poly.setPath(lls)
     poly.setMap(@map)
-    @polys[placepoly.id] = poly
+
+    @polys[placepoly.id] = placepoly
     
     google.maps.event.addListener poly, 'mouseover', =>
       poly.setOptions(@hoverPolyOpts)
-      @placeName.text(placepoly.previousnumber)
+      @placeName.text(placepoly.previousnumber + ' ' + placepoly.name)
       @placeName.show()
       
     google.maps.event.addListener poly, 'mousemove', =>
