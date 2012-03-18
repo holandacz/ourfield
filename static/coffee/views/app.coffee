@@ -82,18 +82,11 @@ class @AppView extends Backbone.View
     #   poly = @mapView.polys[652]
     #   console.log 'poly', poly
 
-    @listView = new ListView
-      el: '#list'
-      model: @model
-      collection: @placeTypes.get(1).places
-      preferences: @preferences
-
     # @logView = new LogView 
     #   el: '#log'
 
     @searchView = new SearchView
       el: '#search'
       model: @model
-      collection: @placeTypes
       preferences: @preferences
 

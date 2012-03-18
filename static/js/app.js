@@ -321,16 +321,9 @@
             return pageheader = "Unassigned";
         }
       })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
-      this.listView = new ListView({
-        el: '#list',
-        model: this.model,
-        collection: this.placeTypes.get(1).places,
-        preferences: this.preferences
-      });
       return this.searchView = new SearchView({
         el: '#search',
         model: this.model,
-        collection: this.placeTypes,
         preferences: this.preferences
       });
     };
@@ -522,6 +515,9 @@
           collection: this.places,
           map: this.map
         });
+        new ListView({
+          collection: this.places
+        });
         this.places.fetch();
         this.boundaries = new Boundaries();
         new BoundariesView({
@@ -547,7 +543,7 @@
       var lat, lng;
       lat = this.map.getCenter().lat();
       lng = this.map.getCenter().lng();
-      return this.collection.get(1).places.create({
+      return this.places.create({
         territoryno: this.preferences.get('territoryno'),
         point: "POINT (" + lat + " " + lng + ")"
       });

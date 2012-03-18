@@ -60,12 +60,15 @@ class @MapView extends Backbone.View
       # load places
       @places = new Places()
       new PlacesView(collection: @places, map: @map)
+      new ListView(collection: @places)
       @places.fetch()
 
       # load boundaries
       @boundaries = new Boundaries()
       new BoundariesView(collection: @boundaries, map: @map)
       @boundaries.fetch()
+
+
 
   _togglePlaceType: (e) ->
     inputEl = @$(e.target)
@@ -78,7 +81,7 @@ class @MapView extends Backbone.View
   _addPlace: () ->
     lat = @map.getCenter().lat()
     lng = @map.getCenter().lng()
-    @collection.get(1).places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
+    @places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
 
   # When map type changes we need to change color of polygons
   # Note:  needs fat arrow because this is used as a callback

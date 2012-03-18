@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#import wingdbstub
+# import wingdbstub
 
 from django.db.models import Max, Min
 from django.db import connection, transaction
@@ -16,9 +16,12 @@ class PlaceMarkernos:
         self.currentMaxTerritoryMarkerno = self._maxTerritoryMarkerno(currentPlace.territoryno)
         self.currentPlaceCount = self._countTerritoryPlaces(currentPlace.territoryno)
 
+        self.isnew = isnew
+        self.isdeleted = isdeleted
+        
         # perform a few integrety checks
         # if currentMaxTerritoryMarkerno != currentPlaceCount
-        if self.currentMinTerritoryMarkerno > 1 or self.currentMaxTerritoryMarkerno != self.currentPlaceCount:
+        if not isnew and (self.currentMinTerritoryMarkerno > 1 or self.currentMaxTerritoryMarkerno != self.currentPlaceCount):
             self.fixUnnumberedMarkers(self.currentPlace)
             # recalc self.currentMaxTerritoryMarkerno
             
@@ -29,14 +32,20 @@ class PlaceMarkernos:
             self.currentMaxTerritoryMarkerno = self._maxTerritoryMarkerno(currentPlace.territoryno)
             print "MAX markerno did not match total number of places. Automatically numbered unnumbered markers."
 
-        self.isnew = isnew
-        self.isdeleted = isdeleted
     def _handleChanged(self):
         # get previous data in case use changed pertinent details
         self._getPreviousPlace()
         
+        # Was this Place moved from a previous territory?
+        # TODO: When moved to a new territoryno, NEW markerno's need adjusting!
+        if self.previousPlaceTerritoryno and self.currentPlaceTerritoryno != self.previousPlaceTerritoryno:
+            # need to renumber Places in the territory that lost the moved Place
+            # decrement prevPlace markerno's greater_than > prev_markerno, thus filling in the resulting gap
+            self._updateMarkernos(self.previousPlaceTerritoryno, greater_than = self.previousPlaceMarkerno, decrement = True) 
+        
         currentMarkerno = self.currentPlace.markerno        
         
+                
         # if point and markerno has not changed, return
         if currentMarkerno == self.previousPlaceMarkerno \
            and self.currentPlace.point.x == self.previousPlace.point.x \
@@ -64,13 +73,6 @@ class PlaceMarkernos:
                 transaction.commit_unless_managed() 
                
             return currentMarkerno 
-        
-        # Was this Place moved from a previous territory?
-        if self.previousPlaceTerritoryno and self.currentPlaceTerritoryno != self.previousPlaceTerritoryno:
-            # need to renumber Places in the territory that lost the moved Place
-            # decrement prevPlace markerno's greater_than > prev_markerno, thus filling in the resulting gap
-            self._updateMarkernos(self.previousPlaceTerritoryno, greater_than = prev_markerno, decrement = True) 
-            
         # Place was changed but markerno was not
         if currentMarkerno == self.previousPlaceMarkerno:
             # calcMarkerno
