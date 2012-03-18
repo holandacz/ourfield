@@ -7,8 +7,20 @@ class @Boundary extends Backbone.Model
       id: @get "id"
 
   initialize: (attributes) ->
-    points = (point for point in attributes.poly?.match(/(-?\d+(?:\.\d+)?)\s(-?\d+(?:\.\d+)?)/mg))
-    
+    match = attributes.poly?.match(/(-?\d+(?:\.\d+)?)\s(-?\d+(?:\.\d+)?)/mg)
+                                   
+    if match?
+      #console.log 'match', match
+      points = (point.split(' ') for point in match)
+      #console.log 'Backbone.points',  points
+      latlngs = (new google.maps.LatLng(point[1], point[0]) for point in points)
+
+      #console.log 'latlngs',  latlngs
+      # for latlng in latlngs
+      #   console.log 'latlng', latlng.lat(), latlng.lng()
+
+      @set('latlngs', latlngs)
+
     params = {}
     params = $.param(_.defaults(params, DefaultParams))
     if @has('resource_uri')
@@ -16,4 +28,3 @@ class @Boundary extends Backbone.Model
 
   toJSON: ->
     poly: @get('poly')
-

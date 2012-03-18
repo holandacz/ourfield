@@ -16,3 +16,12 @@ class @Boundaries extends Backbone.Collection
     #
     @url = "/api/v1/boundary/?#{params}"
 
+
+  show: ->
+    #console.log 'Boundaries.show'
+    @trigger 'show'
+    @each (boundary) => boundary.trigger 'show'
+
+  hide: ->
+    @trigger 'hide'
+    @each (boundary) => boundary.trigger 'hide'

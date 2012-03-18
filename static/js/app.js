@@ -23,17 +23,29 @@
     };
 
     Boundary.prototype.initialize = function(attributes) {
-      var params, point, points;
-      points = (function() {
-        var _i, _len, _ref, _ref2, _results;
-        _ref2 = (_ref = attributes.poly) != null ? _ref.match(/(-?\d+(?:\.\d+)?)\s(-?\d+(?:\.\d+)?)/mg) : void 0;
-        _results = [];
-        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-          point = _ref2[_i];
-          _results.push(point);
-        }
-        return _results;
-      })();
+      var latlngs, match, params, point, points, _ref;
+      match = (_ref = attributes.poly) != null ? _ref.match(/(-?\d+(?:\.\d+)?)\s(-?\d+(?:\.\d+)?)/mg) : void 0;
+      if (match != null) {
+        points = (function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = match.length; _i < _len; _i++) {
+            point = match[_i];
+            _results.push(point.split(' '));
+          }
+          return _results;
+        })();
+        latlngs = (function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = points.length; _i < _len; _i++) {
+            point = points[_i];
+            _results.push(new google.maps.LatLng(point[1], point[0]));
+          }
+          return _results;
+        })();
+        this.set('latlngs', latlngs);
+      }
       params = {};
       params = $.param(_.defaults(params, DefaultParams));
       if (this.has('resource_uri')) {
@@ -146,6 +158,22 @@
       return this.url = "/api/v1/boundary/?" + params;
     };
 
+    Boundaries.prototype.show = function() {
+      var _this = this;
+      this.trigger('show');
+      return this.each(function(boundary) {
+        return boundary.trigger('show');
+      });
+    };
+
+    Boundaries.prototype.hide = function() {
+      var _this = this;
+      this.trigger('hide');
+      return this.each(function(boundary) {
+        return boundary.trigger('hide');
+      });
+    };
+
     return Boundaries;
 
   })(Backbone.Collection);
@@ -255,11 +283,7 @@
     }
 
     AppView.prototype.initialize = function() {
-      var _this = this;
       this.preferences = this.options.preferences;
-      this.collection.bind('sync', function() {
-        return _this.collection.fetch();
-      });
       return this.render();
     };
 
@@ -268,7 +292,6 @@
       this.mapView = new MapView({
         el: '#map',
         model: this.model,
-        collection: this.collection,
         preferences: this.preferences
       }, territoryno = this.preferences.get('territoryno'), zoom = this.preferences.get('zoom'), (function() {
         switch (territoryno) {
@@ -301,13 +324,13 @@
       this.listView = new ListView({
         el: '#list',
         model: this.model,
-        collection: this.collection.get(1).places,
+        collection: this.placeTypes.get(1).places,
         preferences: this.preferences
       });
       return this.searchView = new SearchView({
         el: '#search',
         model: this.model,
-        collection: this.collection,
+        collection: this.placeTypes,
         preferences: this.preferences
       });
     };
@@ -330,11 +353,14 @@
     }
 
     BoundariesView.prototype.initialize = function() {
+      var _this = this;
       this.map = this.options.map;
       this.boundaryItemViews = [];
-      this.boundaries.bind('add', this.addBoundaryItemView);
-      this.boundaries.bind('reset', this.render);
-      if (this.boundaries.length > 0) return this.render();
+      this.collection.bind('sync', function() {
+        return _this.collection.fetch();
+      });
+      this.collection.bind('reset', this.render);
+      if (this.collection.length > 0) return this.render();
     };
 
     BoundariesView.prototype.render = function() {
@@ -343,13 +369,13 @@
         return boundaryItemView.hide();
       });
       this.boundaryItemViews = [];
-      return this.boundaries.each(this.addBoundaryItemView);
+      return this.collection.each(this.addBoundaryItemView);
     };
 
     BoundariesView.prototype.addBoundaryItemView = function(boundary) {
       var _this = this;
       boundary.bind('sync', function() {
-        return _this.boundaries.fetch();
+        return _this.collection.fetch();
       });
       return this.boundaryItemViews.push(new BoundaryItemView({
         model: boundary,
@@ -368,8 +394,31 @@
     BoundaryItemView.name = 'BoundaryItemView';
 
     function BoundaryItemView() {
+      this.hide = __bind(this.hide, this);
+
+      this.show = __bind(this.show, this);
       return BoundaryItemView.__super__.constructor.apply(this, arguments);
     }
+
+    BoundaryItemView.prototype.roadmapPolyOpts = {
+      strokeWeight: .5,
+      strokeColor: '#000000',
+      fillColor: '#000000',
+      fillOpacity: 0.3
+    };
+
+    BoundaryItemView.prototype.hybridPolyOpts = {
+      strokeWeight: .5,
+      strokeColor: '#ffffff',
+      fillColor: '#ffffff',
+      fillOpacity: 0.3
+    };
+
+    BoundaryItemView.prototype.hoverPolyOpts = {
+      strokeWeight: 2,
+      fillColor: '#ffd700',
+      fillOpacity: 0.01
+    };
 
     BoundaryItemView.prototype.initialize = function() {
       this.map = this.options.map;
@@ -378,8 +427,32 @@
     };
 
     BoundaryItemView.prototype.render = function() {
-      return this.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
+      var poly,
+        _this = this;
+      this.currentPolyOpts = this.roadmapPolyOpts;
+      this.placeName = $('#placeName');
+      poly = new google.maps.Polygon(this.currentPolyOpts);
+      poly.setPath(this.model.get('latlngs'));
+      poly.setMap(this.map);
+      google.maps.event.addListener(poly, 'mouseover', function() {
+        poly.setOptions(_this.hoverPolyOpts);
+        _this.placeName.text(_this.model.get('previousnumber') + ' ' + _this.model.get('name'));
+        return _this.placeName.show();
+      });
+      google.maps.event.addListener(poly, 'mousemove', function() {
+        _this.placeName.css('left', mouseX);
+        return _this.placeName.css('top', mouseY);
+      });
+      google.maps.event.addListener(poly, 'mouseout', function() {
+        poly.setOptions(_this.currentPolyOpts);
+        return _this.placeName.hide();
+      });
+      return this.show();
     };
+
+    BoundaryItemView.prototype.show = function() {};
+
+    BoundaryItemView.prototype.hide = function() {};
 
     return BoundaryItemView;
 
@@ -393,47 +466,21 @@
 
     function MapView() {
       this.onMapTypeChange = __bind(this.onMapTypeChange, this);
-
-      this.onIdle = __bind(this.onIdle, this);
       return MapView.__super__.constructor.apply(this, arguments);
     }
 
-    MapView.prototype.roadmapPolyOpts = {
-      strokeWeight: .5,
-      strokeColor: '#000000',
-      fillColor: '#000000',
-      fillOpacity: 0.3
-    };
-
-    MapView.prototype.hybridPolyOpts = {
-      strokeWeight: .5,
-      strokeColor: '#ffffff',
-      fillColor: '#ffffff',
-      fillOpacity: 0.3
-    };
-
-    MapView.prototype.hoverPolyOpts = {
-      strokeWeight: 2,
-      fillColor: '#ffd700',
-      fillOpacity: 0.01
-    };
-
     MapView.prototype.events = {
-      'click input[type="checkbox"]': '_togglePlaceType',
       'click button#add-place': '_addPlace'
     };
 
     MapView.prototype.initialize = function() {
       this.preferences = this.options.preferences;
-      this.polys = {};
       return this.render();
     };
 
     MapView.prototype.render = function() {
       var controlDiv, controlText, controlUI,
         _this = this;
-      this.placeName = $('#placeName');
-      this.currentPolyOpts = this.roadmapPolyOpts;
       this.map = new google.maps.Map(this.$('#map-canvas').get(0), {
         zoom: this.preferences.get('zoom'),
         center: new google.maps.LatLng(this.preferences.get('centerLat'), this.preferences.get('centerLng')),
@@ -460,7 +507,6 @@
       controlText.style.paddingRight = '4px';
       controlText.innerHTML = 'Add Place';
       controlUI.appendChild(controlText);
-      google.maps.event.addListener(this.map, 'idle', this.onIdle);
       google.maps.event.addListener(this.map, 'maptypeid_changed', this.onMapTypeChange);
       google.maps.event.addDomListener(controlUI, 'click', function() {
         return _this._addPlace();
@@ -471,18 +517,18 @@
       });
       this.userid = this.model.get('userid');
       if (this.userid > 0) {
-        this.collection.each(function(placeType) {
-          return new PlaceTypeView({
-            model: placeType,
-            collection: placeType.places,
-            map: _this.map
-          });
+        this.places = new Places();
+        new PlacesView({
+          collection: this.places,
+          map: this.map
         });
-        return this.$('input[type="checkbox"]:checked').each(function(index, el) {
-          var model;
-          model = _this.collection.get($(el).val());
-          return model.show();
+        this.places.fetch();
+        this.boundaries = new Boundaries();
+        new BoundariesView({
+          collection: this.boundaries,
+          map: this.map
         });
+        return this.boundaries.fetch();
       }
     };
 
@@ -507,34 +553,6 @@
       });
     };
 
-    MapView.prototype.onIdle = function() {
-      var bounds, ne, params, sw,
-        _this = this;
-      showError(false);
-      showBusy(true);
-      bounds = this.map.getBounds();
-      sw = bounds.getSouthWest();
-      ne = bounds.getNorthEast();
-      params = {};
-      params = $.param(_.defaults(params, DefaultParams));
-      $.get('/api/v1/boundary/?' + params, function(data) {
-        var id, poly, _i, _len, _ref, _ref2;
-        _ref = _this.polys;
-        for (id in _ref) {
-          poly = _ref[id];
-          poly.setMap(null);
-        }
-        _this.polys = {};
-        _ref2 = data.objects;
-        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-          poly = _ref2[_i];
-          _this.createPoly(poly);
-        }
-        return showBusy(false);
-      });
-      return showBusy(false);
-    };
-
     MapView.prototype.onMapTypeChange = function() {
       switch (this.map.getMapTypeId()) {
         case google.maps.MapTypeId.ROADMAP:
@@ -545,87 +563,123 @@
       }
     };
 
-    MapView.prototype.createPoly = function(placepoly) {
-      var lls, point, points, poly,
-        _this = this;
-      poly = new google.maps.Polygon(this.currentPolyOpts);
-      points = (function() {
-        var _i, _len, _ref, _ref2, _results;
-        _ref2 = (_ref = placepoly.poly) != null ? _ref.match(/(-?\d+(?:\.\d+)?)\s(-?\d+(?:\.\d+)?)/mg) : void 0;
-        _results = [];
-        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-          point = _ref2[_i];
-          _results.push(point.split(' '));
-        }
-        return _results;
-      })();
-      lls = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = points.length; _i < _len; _i++) {
-          point = points[_i];
-          _results.push(new google.maps.LatLng(point[1], point[0]));
-        }
-        return _results;
-      })();
-      poly.setPath(lls);
-      poly.setMap(this.map);
-      this.polys[placepoly.id] = placepoly;
-      google.maps.event.addListener(poly, 'mouseover', function() {
-        poly.setOptions(_this.hoverPolyOpts);
-        _this.placeName.text(placepoly.previousnumber + ' ' + placepoly.name);
-        return _this.placeName.show();
-      });
-      google.maps.event.addListener(poly, 'mousemove', function() {
-        _this.placeName.css('left', mouseX);
-        return _this.placeName.css('top', mouseY);
-      });
-      return google.maps.event.addListener(poly, 'mouseout', function() {
-        poly.setOptions(_this.currentPolyOpts);
-        return _this.placeName.hide();
-      });
-    };
-
     return MapView;
 
   })(Backbone.View);
 
-  this.PlaceTypeView = (function(_super) {
+  showBusy = function(x) {
+    if (x) {
+      return $('#busy').show();
+    } else {
+      return $('#busy').hide();
+    }
+  };
 
-    __extends(PlaceTypeView, _super);
+  showError = function(x) {
+    if (x) {
+      return $('#error').show();
+    } else {
+      return $('#error').hide();
+    }
+  };
 
-    PlaceTypeView.name = 'PlaceTypeView';
+  mouseX = null;
 
-    function PlaceTypeView() {
-      this.hide = __bind(this.hide, this);
+  mouseY = null;
 
-      this.show = __bind(this.show, this);
-      return PlaceTypeView.__super__.constructor.apply(this, arguments);
+  document.onmousemove = function(e) {
+    mouseX = e.clientX;
+    return mouseY = e.clientY;
+  };
+
+  CR = "10.001025 -84.134588";
+
+  this.DefaultParams = {
+    user_id: 0,
+    username: "",
+    api_key: "",
+    format: "json",
+    limit: 0
+  };
+
+  this.AppData = (function(_super) {
+
+    __extends(AppData, _super);
+
+    AppData.name = 'AppData';
+
+    function AppData() {
+      return AppData.__super__.constructor.apply(this, arguments);
     }
 
-    PlaceTypeView.prototype.initialize = function() {
-      this.map = this.options.map;
-      this.model.bind('show', this.show);
-      this.model.bind('hide', this.hide);
-      return this.render();
+    AppData.prototype.defaults = {
+      center: CR,
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
-    PlaceTypeView.prototype.render = function() {
-      return this.placesView = new PlacesView({
-        collection: this.collection,
-        map: this.map
+    AppData.prototype.initialize = function(attributes) {
+      var ll;
+      ll = attributes.center.split(',');
+      this.set('centerLat', ll[0]);
+      this.set('centerLng', ll[1]);
+      return $(document).ajaxError(function() {
+        showBusy(false);
+        return showError(true);
       });
     };
 
-    PlaceTypeView.prototype.show = function() {
-      return this.collection.fetch();
+    return AppData;
+
+  })(Backbone.Model);
+
+  this.Preferences = (function() {
+
+    Preferences.name = 'Preferences';
+
+    function Preferences() {
+      this.cookieName = "preferences";
+      this.items = {};
+      this.load();
+    }
+
+    Preferences.prototype.load = function() {
+      var rawValue;
+      rawValue = $.cookie(this.cookieName);
+      if (rawValue) return this.items = JSON.parse(rawValue);
     };
 
-    PlaceTypeView.prototype.hide = function() {};
+    Preferences.prototype.save = function() {
+      return $.cookie(this.cookieName, JSON.stringify(this.items), {
+        expires: 365
+      });
+    };
 
-    return PlaceTypeView;
+    Preferences.prototype.get = function(key) {
+      return this.items[key];
+    };
 
-  })(Backbone.View);
+    Preferences.prototype.set = function(key, value) {
+      this.items[key] = value;
+      return this.save();
+    };
+
+    Preferences.prototype.setDefault = function(key, defaultValue) {
+      if (!this.items[key]) this.items[key] = defaultValue;
+      return this.save();
+    };
+
+    return Preferences;
+
+  })();
+
+  this.Log = {
+    log: function(message) {
+      return this.trigger('log', message);
+    }
+  };
+
+  _.extend(this.Log, Backbone.Events);
 
   this.PlacesView = (function(_super) {
 
@@ -1022,119 +1076,5 @@
     return SearchView;
 
   })(Backbone.View);
-
-  showBusy = function(x) {
-    if (x) {
-      return $('#busy').show();
-    } else {
-      return $('#busy').hide();
-    }
-  };
-
-  showError = function(x) {
-    if (x) {
-      return $('#error').show();
-    } else {
-      return $('#error').hide();
-    }
-  };
-
-  mouseX = null;
-
-  mouseY = null;
-
-  document.onmousemove = function(e) {
-    mouseX = e.clientX;
-    return mouseY = e.clientY;
-  };
-
-  CR = "10.001025 -84.134588";
-
-  this.DefaultParams = {
-    user_id: 0,
-    username: "",
-    api_key: "",
-    format: "json",
-    limit: 0
-  };
-
-  this.AppData = (function(_super) {
-
-    __extends(AppData, _super);
-
-    AppData.name = 'AppData';
-
-    function AppData() {
-      return AppData.__super__.constructor.apply(this, arguments);
-    }
-
-    AppData.prototype.defaults = {
-      center: CR,
-      zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    AppData.prototype.initialize = function(attributes) {
-      var ll;
-      ll = attributes.center.split(',');
-      this.set('centerLat', ll[0]);
-      this.set('centerLng', ll[1]);
-      return $(document).ajaxError(function() {
-        showBusy(false);
-        return showError(true);
-      });
-    };
-
-    return AppData;
-
-  })(Backbone.Model);
-
-  this.Preferences = (function() {
-
-    Preferences.name = 'Preferences';
-
-    function Preferences() {
-      this.cookieName = "preferences";
-      this.items = {};
-      this.load();
-    }
-
-    Preferences.prototype.load = function() {
-      var rawValue;
-      rawValue = $.cookie(this.cookieName);
-      if (rawValue) return this.items = JSON.parse(rawValue);
-    };
-
-    Preferences.prototype.save = function() {
-      return $.cookie(this.cookieName, JSON.stringify(this.items), {
-        expires: 365
-      });
-    };
-
-    Preferences.prototype.get = function(key) {
-      return this.items[key];
-    };
-
-    Preferences.prototype.set = function(key, value) {
-      this.items[key] = value;
-      return this.save();
-    };
-
-    Preferences.prototype.setDefault = function(key, defaultValue) {
-      if (!this.items[key]) this.items[key] = defaultValue;
-      return this.save();
-    };
-
-    return Preferences;
-
-  })();
-
-  this.Log = {
-    log: function(message) {
-      return this.trigger('log', message);
-    }
-  };
-
-  _.extend(this.Log, Backbone.Events);
 
 }).call(this);

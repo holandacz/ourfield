@@ -1,14 +1,14 @@
 class @AppView extends Backbone.View
   initialize: ->
     @preferences = @options.preferences
-
-    @collection.bind 'sync', => 
-      @collection.fetch()
-
+    # @placeTypes = @options.placeTypes
     # @boundaries = @options.boundaries
+
+    # @placeTypes.bind 'sync', => 
+    #   @placeTypes.fetch()
+
     # @boundaries.bind 'sync', => 
     #   @boundaries.fetch()
-
 
     @render()
 
@@ -16,7 +16,7 @@ class @AppView extends Backbone.View
     @mapView = new MapView
       el: '#map'
       model: @model
-      collection: @collection
+      # collection: @placeTypes
       # boundaries: @boundaries
       preferences: @preferences
       
@@ -68,7 +68,7 @@ class @AppView extends Backbone.View
       @preferences.set('centerLng', ll[1])
 
 
-    #console.log 'mapView.polys', @mapView.polys
+    # console.log 'mapView.boundaries', @mapView.boundaries
     #console.log 'territoryno', @preferences.get('territoryno')
 
     #poly = @mapView.polys[652]
@@ -85,7 +85,7 @@ class @AppView extends Backbone.View
     @listView = new ListView
       el: '#list'
       model: @model
-      collection: @collection.get(1).places
+      collection: @placeTypes.get(1).places
       preferences: @preferences
 
     # @logView = new LogView 
@@ -94,6 +94,6 @@ class @AppView extends Backbone.View
     @searchView = new SearchView
       el: '#search'
       model: @model
-      collection: @collection
+      collection: @placeTypes
       preferences: @preferences
 

@@ -1,18 +1,3 @@
-class @PlaceTypeView extends Backbone.View
-  initialize: ->
-    @map = @options.map
-    @model.bind 'show', @show
-    @model.bind 'hide', @hide
-    @render()
-
-  render: ->
-    @placesView = new PlacesView(collection: @collection, map: @map)
-
-  show: =>
-    @collection.fetch()
-
-  hide: =>
-
 class @PlacesView extends Backbone.View
   initialize: ->
     @map = @options.map
@@ -104,6 +89,7 @@ class @PlaceItemView extends Backbone.View
     @marker.setMap(@map)
 
   hide: =>
+
     @marker.setMap(null)
 
   click: =>
