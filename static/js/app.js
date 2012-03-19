@@ -298,27 +298,39 @@
           case "1-2-1":
             ll = "9.92111127977427,-84.1474170057183";
             zoom = 14;
-            return pageheader = "San Jose/Escazu/Escazu/West";
+            return pageheader = "1-2-1 San Jose/Escazu/Escazu/West";
           case "1-2-2":
             ll = "9.92111127977427,-84.1474170057183";
             zoom = 14;
-            return pageheader = "San Jose/Escazu/Escazu/East";
+            return pageheader = "1-2-2 San Jose/Escazu/Escazu/East";
+          case "1-2-3 (A)":
+            ll = "9.93246946647039,-84.1332120267754";
+            zoom = 17;
+            return pageheader = "1-2-3 (A) San Jose/Escazu/San Rafael/A";
+          case "1-2-3 (B)":
+            ll = "9.93162666503805,-84.1328338353043";
+            zoom = 17;
+            return pageheader = "1-2-3 (B) San Jose/Escazu/San Rafael/B";
+          case "1-2-3 (3)":
+            ll = "9.93138888367707,-84.1331557003861";
+            zoom = 17;
+            return pageheader = "1-2-3 (3) San Jose/Escazu/San Rafael/3";
           case "4-1-2":
             ll = "10.001025,-84.134588";
-            pageheader = "Heredea/Heredia/Mercedes";
+            pageheader = "4-1-2 Heredea/Heredia/Mercedes";
             return zoom = 17;
           case "4-7-1":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 15;
-            return pageheader = "Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen";
+            return pageheader = "4-7-1 Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen";
           case "4-7-3":
             ll = "9.970288,-84.156647";
             zoom = 17;
-            return pageheader = "Heredea/Asuncion/Cariari/Ciudad Cariari";
+            return pageheader = "4-7-3 Heredea/Asuncion/Cariari/Ciudad Cariari";
           case "999":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 13;
-            return pageheader = "Unassigned";
+            return pageheader = "999 Unassigned";
         }
       })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
       return this.searchView = new SearchView({
@@ -562,120 +574,6 @@
     return MapView;
 
   })(Backbone.View);
-
-  showBusy = function(x) {
-    if (x) {
-      return $('#busy').show();
-    } else {
-      return $('#busy').hide();
-    }
-  };
-
-  showError = function(x) {
-    if (x) {
-      return $('#error').show();
-    } else {
-      return $('#error').hide();
-    }
-  };
-
-  mouseX = null;
-
-  mouseY = null;
-
-  document.onmousemove = function(e) {
-    mouseX = e.clientX;
-    return mouseY = e.clientY;
-  };
-
-  CR = "10.001025 -84.134588";
-
-  this.DefaultParams = {
-    user_id: 0,
-    username: "",
-    api_key: "",
-    format: "json",
-    limit: 0
-  };
-
-  this.AppData = (function(_super) {
-
-    __extends(AppData, _super);
-
-    AppData.name = 'AppData';
-
-    function AppData() {
-      return AppData.__super__.constructor.apply(this, arguments);
-    }
-
-    AppData.prototype.defaults = {
-      center: CR,
-      zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    AppData.prototype.initialize = function(attributes) {
-      var ll;
-      ll = attributes.center.split(',');
-      this.set('centerLat', ll[0]);
-      this.set('centerLng', ll[1]);
-      return $(document).ajaxError(function() {
-        showBusy(false);
-        return showError(true);
-      });
-    };
-
-    return AppData;
-
-  })(Backbone.Model);
-
-  this.Preferences = (function() {
-
-    Preferences.name = 'Preferences';
-
-    function Preferences() {
-      this.cookieName = "preferences";
-      this.items = {};
-      this.load();
-    }
-
-    Preferences.prototype.load = function() {
-      var rawValue;
-      rawValue = $.cookie(this.cookieName);
-      if (rawValue) return this.items = JSON.parse(rawValue);
-    };
-
-    Preferences.prototype.save = function() {
-      return $.cookie(this.cookieName, JSON.stringify(this.items), {
-        expires: 365
-      });
-    };
-
-    Preferences.prototype.get = function(key) {
-      return this.items[key];
-    };
-
-    Preferences.prototype.set = function(key, value) {
-      this.items[key] = value;
-      return this.save();
-    };
-
-    Preferences.prototype.setDefault = function(key, defaultValue) {
-      if (!this.items[key]) this.items[key] = defaultValue;
-      return this.save();
-    };
-
-    return Preferences;
-
-  })();
-
-  this.Log = {
-    log: function(message) {
-      return this.trigger('log', message);
-    }
-  };
-
-  _.extend(this.Log, Backbone.Events);
 
   this.PlacesView = (function(_super) {
 
@@ -1072,5 +970,119 @@
     return SearchView;
 
   })(Backbone.View);
+
+  showBusy = function(x) {
+    if (x) {
+      return $('#busy').show();
+    } else {
+      return $('#busy').hide();
+    }
+  };
+
+  showError = function(x) {
+    if (x) {
+      return $('#error').show();
+    } else {
+      return $('#error').hide();
+    }
+  };
+
+  mouseX = null;
+
+  mouseY = null;
+
+  document.onmousemove = function(e) {
+    mouseX = e.clientX;
+    return mouseY = e.clientY;
+  };
+
+  CR = "10.001025 -84.134588";
+
+  this.DefaultParams = {
+    user_id: 0,
+    username: "",
+    api_key: "",
+    format: "json",
+    limit: 0
+  };
+
+  this.AppData = (function(_super) {
+
+    __extends(AppData, _super);
+
+    AppData.name = 'AppData';
+
+    function AppData() {
+      return AppData.__super__.constructor.apply(this, arguments);
+    }
+
+    AppData.prototype.defaults = {
+      center: CR,
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    AppData.prototype.initialize = function(attributes) {
+      var ll;
+      ll = attributes.center.split(',');
+      this.set('centerLat', ll[0]);
+      this.set('centerLng', ll[1]);
+      return $(document).ajaxError(function() {
+        showBusy(false);
+        return showError(true);
+      });
+    };
+
+    return AppData;
+
+  })(Backbone.Model);
+
+  this.Preferences = (function() {
+
+    Preferences.name = 'Preferences';
+
+    function Preferences() {
+      this.cookieName = "preferences";
+      this.items = {};
+      this.load();
+    }
+
+    Preferences.prototype.load = function() {
+      var rawValue;
+      rawValue = $.cookie(this.cookieName);
+      if (rawValue) return this.items = JSON.parse(rawValue);
+    };
+
+    Preferences.prototype.save = function() {
+      return $.cookie(this.cookieName, JSON.stringify(this.items), {
+        expires: 365
+      });
+    };
+
+    Preferences.prototype.get = function(key) {
+      return this.items[key];
+    };
+
+    Preferences.prototype.set = function(key, value) {
+      this.items[key] = value;
+      return this.save();
+    };
+
+    Preferences.prototype.setDefault = function(key, defaultValue) {
+      if (!this.items[key]) this.items[key] = defaultValue;
+      return this.save();
+    };
+
+    return Preferences;
+
+  })();
+
+  this.Log = {
+    log: function(message) {
+      return this.trigger('log', message);
+    }
+  };
+
+  _.extend(this.Log, Backbone.Events);
 
 }).call(this);

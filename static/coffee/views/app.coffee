@@ -31,27 +31,22 @@ class @AppView extends Backbone.View
           ll = "9.92111127977427,-84.1474170057183"
           zoom = 14
           pageheader = "1-2-1 San Jose/Escazu/Escazu/West"
-
         when "1-2-2" 
           ll = "9.92111127977427,-84.1474170057183"
           zoom = 14
           pageheader = "1-2-2 San Jose/Escazu/Escazu/East"
-
         when "1-2-3 (A)" 
           ll = "9.93246946647039,-84.1332120267754"
           zoom = 17
           pageheader = "1-2-3 (A) San Jose/Escazu/San Rafael/A"
-
         when "1-2-3 (B)" 
           ll = "9.93162666503805,-84.1328338353043"
           zoom = 17
           pageheader = "1-2-3 (B) San Jose/Escazu/San Rafael/B"
-
         when "1-2-3 (3)" 
           ll = "9.93138888367707,-84.1331557003861"
           zoom = 17
           pageheader = "1-2-3 (3) San Jose/Escazu/San Rafael/3"
-
         when "4-1-2" 
           ll = "10.001025,-84.134588"
           pageheader = "4-1-2 Heredea/Heredia/Mercedes"
