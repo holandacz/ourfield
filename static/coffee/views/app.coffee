@@ -30,27 +30,44 @@ class @AppView extends Backbone.View
         when "1-2-1" 
           ll = "9.92111127977427,-84.1474170057183"
           zoom = 14
-          pageheader = "San Jose/Escazu/Escazu/West"
+          pageheader = "1-2-1 San Jose/Escazu/Escazu/West"
+
         when "1-2-2" 
           ll = "9.92111127977427,-84.1474170057183"
           zoom = 14
-          pageheader = "San Jose/Escazu/Escazu/East"
+          pageheader = "1-2-2 San Jose/Escazu/Escazu/East"
+
+        when "1-2-3 (A)" 
+          ll = "9.93246946647039,-84.1332120267754"
+          zoom = 17
+          pageheader = "1-2-3 (A) San Jose/Escazu/San Rafael/A"
+
+        when "1-2-3 (B)" 
+          ll = "9.93162666503805,-84.1328338353043"
+          zoom = 17
+          pageheader = "1-2-3 (B) San Jose/Escazu/San Rafael/B"
+
+        when "1-2-3 (3)" 
+          ll = "9.93138888367707,-84.1331557003861"
+          zoom = 17
+          pageheader = "1-2-3 (3) San Jose/Escazu/San Rafael/3"
+
         when "4-1-2" 
           ll = "10.001025,-84.134588"
-          pageheader = "Heredea/Heredia/Mercedes"
+          pageheader = "4-1-2 Heredea/Heredia/Mercedes"
           zoom = 17
         when "4-7-1" 
           ll = "9.98713594918928,-84.1771144239311"
           zoom = 15
-          pageheader = "Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen"
+          pageheader = "4-7-1 Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen"
         when "4-7-3" 
           ll = "9.970288,-84.156647"
           zoom = 17
-          pageheader = "Heredea/Asuncion/Cariari/Ciudad Cariari"
+          pageheader = "4-7-3 Heredea/Asuncion/Cariari/Ciudad Cariari"
         when "999" 
           ll = "9.98713594918928,-84.1771144239311"
           zoom = 13
-          pageheader = "Unassigned"
+          pageheader = "999 Unassigned"
 
       $('.page-header').html(pageheader)
 
