@@ -95,11 +95,12 @@ class Place(MyModel):
     #p1 = Place.objects.get(id=2950)
     #p1.findClosestPlace('4-1-2')
     #print p1.findClosestPlace('4-1-2')
-    def findClosestPlace(self):
+    def findClosestPlace(self, markernoGreaterThan = 0):
         """find closest place excluding self. Must be geocoded."""
+        from django.db.models import Q
+        
         minDistance = 999999999999 # better way?
-        places = Place.objects.filter(territoryno = self.territoryno).filter(geocoded=
-        True).exclude(deleted=True)
+        places = Place.objects.filter(Q(markerno=0) | Q(markerno__gt=markernoGreaterThan), territoryno=self.territoryno).filter(geocoded=True).exclude(deleted=True)
         
         if not places:
             return None

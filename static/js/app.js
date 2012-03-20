@@ -46,6 +46,8 @@
         })();
         this.set('latlngs', latlngs);
       }
+      this.id = attributes.id;
+      this.cid = attributes.previousnumber;
       params = {};
       params = $.param(_.defaults(params, DefaultParams));
       if (this.has('resource_uri')) {
@@ -332,7 +334,7 @@
             zoom = 13;
             return pageheader = "999 Unassigned";
         }
-      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('center', ll), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314", this.preferences.set('center', ll)), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
+      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314"), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
       return this.searchView = new SearchView({
         el: '#search',
         model: this.model,
@@ -360,6 +362,8 @@
     BoundariesView.prototype.initialize = function() {
       var _this = this;
       this.map = this.options.map;
+      this.preferences = this.options.preferences;
+      this.territoryno = this.preferences.get('territoryno');
       this.boundaryItemViews = [];
       this.collection.bind('sync', function() {
         return _this.collection.fetch();
@@ -374,7 +378,22 @@
         return boundaryItemView.hide();
       });
       this.boundaryItemViews = [];
-      return this.collection.each(this.addBoundaryItemView);
+      this.collection.each(this.addBoundaryItemView);
+      if (this.territoryno) return this.center();
+    };
+
+    BoundariesView.prototype.center = function() {
+      var bounds, latlng, latlngs, terr, _i, _len;
+      terr = this.collection.getByCid(territoryno);
+      if (terr != null) {
+        bounds = new google.maps.LatLngBounds();
+        latlngs = terr.attributes.latlngs;
+        for (_i = 0, _len = latlngs.length; _i < _len; _i++) {
+          latlng = latlngs[_i];
+          bounds.extend(latlng);
+        }
+        return this.map.setCenter(bounds.getCenter());
+      }
     };
 
     BoundariesView.prototype.addBoundaryItemView = function(boundary) {
@@ -441,7 +460,7 @@
       poly.setMap(this.map);
       google.maps.event.addListener(poly, 'mouseover', function() {
         poly.setOptions(_this.hoverPolyOpts);
-        _this.placeName.text(_this.model.get('previousnumber') + ' ' + _this.model.get('name'));
+        _this.placeName.text(_this.model.get('id') + ' ' + _this.model.get('previousnumber') + ' ' + _this.model.get('name'));
         return _this.placeName.show();
       });
       google.maps.event.addListener(poly, 'mousemove', function() {
@@ -534,7 +553,8 @@
         this.boundaries = new Boundaries();
         new BoundariesView({
           collection: this.boundaries,
-          map: this.map
+          map: this.map,
+          preferences: this.preferences
         });
         return this.boundaries.fetch();
       }

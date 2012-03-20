@@ -65,9 +65,8 @@ class @MapView extends Backbone.View
 
       # load boundaries
       @boundaries = new Boundaries()
-      new BoundariesView(collection: @boundaries, map: @map)
+      new BoundariesView(collection: @boundaries, map: @map, preferences: @preferences)
       @boundaries.fetch()
-
 
 
   _togglePlaceType: (e) ->

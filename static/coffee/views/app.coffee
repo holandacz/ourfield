@@ -68,34 +68,20 @@ class @AppView extends Backbone.View
 
       if territoryno
         @preferences.set('territoryno', territoryno)
-        @preferences.set('center', ll)
+        #@preferences.set('center', ll)
         @preferences.set('zoom', zoom)
       else
         @preferences.set('zoom', 13)
         ll = "9.981192,-84.185314" # Belen English CR
-        @preferences.set('center', ll)
+        #@preferences.set('center', ll)
 
       ll = ll.split(',')
       @preferences.set('centerLat', ll[0])
       @preferences.set('centerLng', ll[1])
 
 
-    # console.log 'mapView.boundaries', @mapView.boundaries
-    #console.log 'territoryno', @preferences.get('territoryno')
 
-    #poly = @mapView.polys[652]
 
-    # console.log 'mapView', @mapView
-    # console.log 'mapView.polys', @mapView.polys
-
-    #console.log 'poly', poly
-
-    # if @preferences.get('territoryno') == '4-1-2'
-    #   poly = @mapView.polys[652]
-    #   console.log 'poly', poly
-
-    # @logView = new LogView 
-    #   el: '#log'
 
     @searchView = new SearchView
       el: '#search'

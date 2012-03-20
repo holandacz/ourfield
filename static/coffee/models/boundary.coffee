@@ -21,6 +21,10 @@ class @Boundary extends Backbone.Model
 
       @set('latlngs', latlngs)
 
+    #@set('id', attributes.id)
+    @id = attributes.id
+    @cid = attributes.previousnumber
+
     params = {}
     params = $.param(_.defaults(params, DefaultParams))
     if @has('resource_uri')

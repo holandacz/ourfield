@@ -7,6 +7,92 @@ from django.utils import simplejson as json
 
 #import wingdbstub
 
+
+def admin_automarkerno(request, id = None):
+    from django.db import connection
+    from django.http import HttpResponseRedirect
+    
+    territoryno = request.session.get('territoryno')
+
+    if not territoryno:
+        raise ValueError("No territoryno!")
+
+    start_id = request.session.get('id', id)
+
+    # try with 3
+    # start_id = 2846
+
+    # if a start_id given, get marker number for that id
+    if start_id:
+        try:
+            startPlace = Place.objects.get(id=start_id)
+        except:
+            raise ValueError('Invalid ID: %d' % start_id)
+
+        start_markerno = startPlace.markerno
+        
+        # if are there Places that have markerno's before this markerno?
+        for markerno in range(1, start_markerno):
+            if not Place.objects.filter(territoryno=territoryno).filter(markerno=markerno).exists():
+                raise ValueError('Expected a Place with markerno = : %d' % markerno)
+        
+        # if no more places to number
+        if len(Place.objects.all()) == start_markerno:
+            return
+        
+        place = startPlace
+        markerno = start_markerno + 1 # we already have start_markerno set
+        while True:
+            
+            # find closest Place with markerno greater than place.markerno
+            place = place.findClosestPlace(place.markerno)
+            if not place:
+                break
+            place.markerno = markerno
+            place.save(handleMarkernos = False)
+            markerno += 1
+            
+    else:
+        # number all Places
+        places = Place.objects.filter(territoryno = territoryno)
+        if not places:
+            return
+        
+        # Reset all markerno's
+        Place.objects.filter(territoryno=territoryno).update(markerno=0)
+        
+        # find west / left most Place within territory        
+        westPlaceLng = 999999
+        startPlace = None
+        for place in places:        
+            if place.point[1] < westPlaceLng:
+                westPlaceLng = place.point[1]
+                startPlace = place
+            
+            
+        start_markerno = 1    
+        startPlace.markerno = start_markerno
+        startPlace.save(handleMarkernos = False)
+        place = startPlace
+        markerno = start_markerno + 1 # we already have start_markerno set
+        
+        # loop through all places in territory
+        while True:
+            
+            # find closest Place with markerno greater than place.markerno
+            place = place.findClosestPlace(place.markerno)
+            if not place:
+                break
+            place.markerno = markerno
+            place.save(handleMarkernos = False)
+            markerno += 1
+        
+        
+
+    return HttpResponseRedirect("/map/?territoryno=%s" % territoryno)
+
+
+
 def admin_restore(request, territoryno = None):
     from django.db import connection
     from django.http import HttpResponseRedirect

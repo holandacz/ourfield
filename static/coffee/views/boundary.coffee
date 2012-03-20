@@ -2,6 +2,10 @@ class @BoundariesView extends Backbone.View
 
   initialize: ->
     @map = @options.map
+    @preferences = @options.preferences
+
+    @territoryno = @preferences.get('territoryno')
+
     @boundaryItemViews = []
     # @boundaries.bind 'add', @addBoundaryItemView
     @collection.bind 'sync', =>
@@ -14,6 +18,22 @@ class @BoundariesView extends Backbone.View
       boundaryItemView.hide()
     @boundaryItemViews = []
     @collection.each @addBoundaryItemView
+    @center() if @territoryno
+
+  center: ->
+    # console.log @mapView.boundaries.get(652).attributes.latlngs
+    terr = @collection.getByCid(territoryno)
+    if terr?
+      bounds = new google.maps.LatLngBounds()
+
+      latlngs = terr.attributes.latlngs
+      for latlng in latlngs
+        bounds.extend(latlng)
+        
+      @map.setCenter(bounds.getCenter())
+
+
+
 
   addBoundaryItemView: (boundary) =>
     boundary.bind 'sync', =>
@@ -54,7 +74,7 @@ class @BoundaryItemView extends Backbone.View
 
     google.maps.event.addListener poly, 'mouseover', =>
       poly.setOptions(@hoverPolyOpts)
-      @placeName.text(@model.get('previousnumber') + ' ' + @model.get('name'))
+      @placeName.text(@model.get('id') + ' ' + @model.get('previousnumber') + ' ' + @model.get('name'))
       @placeName.show()
       
     google.maps.event.addListener poly, 'mousemove', =>
