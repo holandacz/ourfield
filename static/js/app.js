@@ -793,9 +793,10 @@
       $.get('/places/route/' + this.model.get('id') + '/?' + params, function(data) {
         return console.log(data);
       });
-      this.collection.fetch();
-      this.$el.modal('hide');
-      return this.render();
+      this.persist();
+      return this.model.bind('sync', function() {
+        return _this.$el.modal('hide');
+      });
     };
 
     InfoWindow.prototype._delete = function() {

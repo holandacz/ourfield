@@ -148,9 +148,14 @@ class InfoWindow extends Backbone.View
     $.get '/places/route/' +  @model.get('id') + '/?' + params, (data) =>
       console.log data
 
-    @collection.fetch()
-    @$el.modal('hide')
-    @render()
+
+    @persist()
+    @model.bind 'sync', =>
+      @$el.modal('hide')
+      
+    # @collection.fetch()
+    # @$el.modal('hide')
+    # @render()
 
 
   _delete: ->
