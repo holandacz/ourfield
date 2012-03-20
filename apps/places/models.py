@@ -21,6 +21,8 @@ class Place(MyModel):
     sortno = models.PositiveIntegerField("Sort No", null=True, default=0)
     blockno = models.CharField("Block No", max_length=32, null=True, blank=True)
     pointno = models.PositiveIntegerField("Point No", null=True, blank=True)
+    #routemarkernoafter = models.PositiveIntegerField("Route Marker No After No", null=True, blank=True)
+    routemarkernoafter = models.PositiveIntegerField("Route Marker No After No", default=0)
     markerno = models.PositiveIntegerField("Marker No", default=0, db_index=True)
     houseno = models.CharField("House No", max_length=32, null=True, blank=True)
     persons = models.TextField("Persons", null=True, blank=True)
@@ -212,14 +214,17 @@ class Place(MyModel):
         self.ParseDetails()
         self.geocoded = True if (self.point.y and self.point.x) else False
         
-        # In order to handle renumbering of markerno's, I need to see if markno has changed.
-        # If so, handle renumbering
-        # kw['handleMarkernos'] is set in test to quickly clone Places. Do not want to process markernos
-        if not 'handleMarkernos' in kw or kw['handleMarkernos']:
-            isnew = True if not self.id else False
-            placeMarkernos = PlaceMarkernos(self, isnew = isnew)
-            placeMarkernos.handleChange()
-            
+        
+        # gonna try ignoring new markers to later assign number
+        if self.id:
+            # In order to handle renumbering of markerno's, I need to see if markno has changed.
+            # If so, handle renumbering
+            # kw['handleMarkernos'] is set in test to quickly clone Places. Do not want to process markernos
+            if not 'handleMarkernos' in kw or kw['handleMarkernos']:
+                isnew = True if not self.id else False
+                placeMarkernos = PlaceMarkernos(self, isnew = isnew)
+                placeMarkernos.handleChange()
+                
         if 'handleMarkernos' in kw:
             del(kw['handleMarkernos']) # was just temp
             

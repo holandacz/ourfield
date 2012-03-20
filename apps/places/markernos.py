@@ -1,37 +1,112 @@
 # -*- coding: utf-8 -*-
-# import wingdbstub
+#import wingdbstub
 
 from django.db.models import Max, Min
 from django.db import connection, transaction
 
 class PlaceMarkernos:
-    def __init__(self, currentPlace, isnew = False, isdeleted = False):
+    def __init__(self, currentPlace = None, isnew = False, isdeleted = False):
         from models import Place
-        self.Place = Place
-        self.currentPlace = currentPlace
-        self.currentPlace_id = currentPlace.id
-        self.currentPlaceTerritoryno = currentPlace.territoryno
-        self.currentPlaceMarkerno = currentPlace.markerno
-        self.currentMinTerritoryMarkerno = self._minTerritoryMarkerno(currentPlace.territoryno)
-        self.currentMaxTerritoryMarkerno = self._maxTerritoryMarkerno(currentPlace.territoryno)
-        self.currentPlaceCount = self._countTerritoryPlaces(currentPlace.territoryno)
-
-        self.isnew = isnew
-        self.isdeleted = isdeleted
         
-        # perform a few integrety checks
-        # if currentMaxTerritoryMarkerno != currentPlaceCount
-        if not isnew and (self.currentMinTerritoryMarkerno > 1 or self.currentMaxTerritoryMarkerno != self.currentPlaceCount):
-            self.fixUnnumberedMarkers(self.currentPlace)
-            # recalc self.currentMaxTerritoryMarkerno
-            
-            # reload currentPlace since the markerno may have be updated
-            self.currentPlace = self.Place.objects.get(id = currentPlace.id)
+        if currentPlace:
+            self.Place = Place
+            self.currentPlace = currentPlace
+            self.currentPlace_id = currentPlace.id
+            self.currentPlaceTerritoryno = currentPlace.territoryno
             self.currentPlaceMarkerno = currentPlace.markerno
-            self.currentMinTerritoryMarkerno = self._minTerritoryMarkerno(currentPlace.territoryno)            
+            self.currentMinTerritoryMarkerno = self._minTerritoryMarkerno(currentPlace.territoryno)
             self.currentMaxTerritoryMarkerno = self._maxTerritoryMarkerno(currentPlace.territoryno)
-            print "MAX markerno did not match total number of places. Automatically numbered unnumbered markers."
+            self.currentPlaceCount = self._countTerritoryPlaces(currentPlace.territoryno)
+    
+            self.isnew = isnew
+            self.isdeleted = isdeleted
 
+
+    def automarkerno(self, start_id = None, territoryno = None):
+        from models import Place
+        # if a start_id given, get marker number for that id
+        if start_id:
+            try:
+                startPlace = Place.objects.get(id=start_id)
+                territoryno = startPlace.territoryno
+            except:
+                error = 'Invalid ID: %d' % start_id
+                return 'ERROR: %s' % error
+            
+            start_markerno = startPlace.markerno
+            
+            # if are there Places that have markerno's before this markerno?
+            for markerno in range(1, start_markerno):
+                count = Place.objects.filter(territoryno=territoryno).filter(markerno=markerno).count()
+                if not count:
+                    error = 'Expected a Place with markerno = : %d' % markerno
+                    return 'ERROR: %s' % error
+                elif count > 1:
+                    error = 'Found more than one Place with markerno = : %d' % markerno
+                    return 'ERROR: %s' % error
+            
+            # if no more places to number
+            if len(Place.objects.all()) == start_markerno:
+                return True
+            
+            # Reset all other markerno's
+            Place.objects.filter(territoryno=territoryno).filter(markerno__gt=start_markerno).update(markerno=0)        
+    
+            place = startPlace
+            markerno = start_markerno + 1 # we already have start_markerno set
+            while True:
+                
+                # find closest Place with markerno greater than place.markerno
+                place = place.findClosestPlace(place.markerno)
+                if not place:
+                    break
+                place.markerno = markerno
+                place.save(handleMarkernos = False)
+                markerno += 1
+                
+        else:
+            # number all Places
+            places = Place.objects.filter(territoryno = territoryno)
+            if not places:
+                return HttpResponseRedirect("/map/?territoryno=%s" % territoryno)
+            
+            # Reset all markerno's
+            Place.objects.filter(territoryno=territoryno).update(markerno=0)
+            
+            # find west / left most Place within territory        
+            westPlaceLng = 999999
+            startPlace = None
+            for place in places:        
+                if place.point[1] < westPlaceLng:
+                    westPlaceLng = place.point[1]
+                    startPlace = place
+                
+                
+            start_markerno = 1    
+            startPlace.markerno = start_markerno
+            startPlace.save(handleMarkernos = False)
+            place = startPlace
+            markerno = start_markerno + 1 # we already have start_markerno set
+            
+            # loop through all places in territory
+            while True:
+                
+                # find closest Place with markerno greater than place.markerno
+                place = place.findClosestPlace(place.markerno)
+                if not place:
+                    break
+                place.markerno = markerno
+                place.save(handleMarkernos = False)
+                markerno += 1
+    
+        return True
+
+    def updateMarkernos(self):
+        self._updateMarkernos(self.currentPlace.territoryno, greater_than=self.currentPlace.routemarkernoafter)
+        self.currentPlace.markerno = self.currentPlace.routemarkernoafter + 1
+        self.currentPlace.routemarkernoafter = 0
+        self.currentPlace.save(handleMarkernos = False)
+        
     def _handleChanged(self):
         # get previous data in case use changed pertinent details
         self._getPreviousPlace()
@@ -45,13 +120,19 @@ class PlaceMarkernos:
         
         currentMarkerno = self.currentPlace.markerno        
         
+        # ignore 0 or unnumbered markers
+        if not currentMarkerno:
+            return currentMarkerno
                 
-        # if point and markerno has not changed, return
-        if currentMarkerno == self.previousPlaceMarkerno \
-           and self.currentPlace.point.x == self.previousPlace.point.x \
-           and self.currentPlace.point.y == self.previousPlace.point.y:
-            return currentMarkerno     
+        ## if point and markerno has not changed, return
+        #if currentMarkerno == self.previousPlaceMarkerno \
+           #and self.currentPlace.point.x == self.previousPlace.point.x \
+           #and self.currentPlace.point.y == self.previousPlace.point.y:
+            #return currentMarkerno     
 
+        # if markerno has not changed, return
+        if currentMarkerno == self.previousPlaceMarkerno:
+            return currentMarkerno     
 
         # Place was changed but markerno was not
         if currentMarkerno != self.previousPlaceMarkerno:  
@@ -73,7 +154,8 @@ class PlaceMarkernos:
                 transaction.commit_unless_managed() 
                
             return currentMarkerno 
-        # Place was changed but markerno was not
+        
+        # Place was changed/moved but markerno was not
         if currentMarkerno == self.previousPlaceMarkerno:
             # calcMarkerno
             #markerno, prevPlace, nextPlace = self._calcMarkerno()
@@ -234,21 +316,6 @@ class PlaceMarkernos:
         else:
             #print 'Changed'
             self.currentPlace.markerno = self._handleChanged()  
-    def fixUnnumberedMarkers(self, place):
-        """fix rare case where marker need numbers cleaned up"""
-        cursor = connection.cursor()
-
-        # while maintaining existing order, renumber all sequentially
-        newmarkerno = 1
-        cursor.execute('START TRANSACTION')
-        for place in self.Place.objects.filter(territoryno=place.territoryno).exclude(deleted=True).order_by('markerno'):
-            sql = 'UPDATE %s SET markerno = %d WHERE (id = %d)' % (self.Place._meta.db_table, newmarkerno, place.id)
-            cursor.execute(sql)
-            #print newmarkerno
-            newmarkerno += 1
-
-        cursor.execute('COMMIT')
-        x=0
     def _countTerritoryPlaces(self, territoryno):
         """Return total count of Places within a territory"""
         return self.Place.objects.filter(territoryno=territoryno).count()            
@@ -308,7 +375,7 @@ class PlaceMarkernos:
         """Return lowest markerno within a territory"""
         result = self.Place.objects.filter(territoryno=territoryno).aggregate(Min('markerno'))
         return result['markerno__min'] if result else 0     
-    def _updateMarkernos(self, territoryno, greater_than=0, less_than=999999999999, decrement=False, ):
+    def _updateMarkernos(self, territoryno, greater_than=0, less_than=999999999999, decrement=False ):
         cursor = connection.cursor()
         
         sql = '''

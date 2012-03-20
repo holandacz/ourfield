@@ -1,5 +1,12 @@
 class @Places extends Backbone.Collection
   model: Place
+  comparator: (place) ->
+      routemarkernoafter = place.get('routemarkernoafter')
+      # if there is a routemarkernoafter then show this Place listed After this Place
+      if routemarkernoafter
+        return routemarkernoafter + .5
+      else
+        return place.get('markerno')
 
   initialize: (models, options) ->
     @queryParams = {}
@@ -42,6 +49,3 @@ class @PlaceType extends Backbone.Model
   hide: ->
     @trigger 'hide'
     @places.hide()
-
-class @PlaceTypes extends Backbone.Collection
-  model: PlaceType

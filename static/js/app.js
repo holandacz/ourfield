@@ -116,6 +116,7 @@
         googlemapurl: this.get('googlemapurl'),
         point: this.get('point'),
         territoryno: this.get('territoryno'),
+        routemarkernoafter: this.get('routemarkernoafter'),
         markerno: this.get('markerno'),
         blockno: this.get('blockno'),
         houseno: this.get('houseno'),
@@ -192,6 +193,16 @@
 
     Places.prototype.model = Place;
 
+    Places.prototype.comparator = function(place) {
+      var routemarkernoafter;
+      routemarkernoafter = place.get('routemarkernoafter');
+      if (routemarkernoafter) {
+        return routemarkernoafter + .5;
+      } else {
+        return place.get('markerno');
+      }
+    };
+
     Places.prototype.initialize = function(models, options) {
       this.queryParams = {};
       return this.resetUrl();
@@ -257,22 +268,6 @@
     return PlaceType;
 
   })(Backbone.Model);
-
-  this.PlaceTypes = (function(_super) {
-
-    __extends(PlaceTypes, _super);
-
-    PlaceTypes.name = 'PlaceTypes';
-
-    function PlaceTypes() {
-      return PlaceTypes.__super__.constructor.apply(this, arguments);
-    }
-
-    PlaceTypes.prototype.model = PlaceType;
-
-    return PlaceTypes;
-
-  })(Backbone.Collection);
 
   this.AppView = (function(_super) {
 
@@ -631,6 +626,7 @@
         return _this.collection.fetch();
       });
       return this.placeItemViews.push(new PlaceItemView({
+        collection: this.collection,
         model: place,
         map: this.map
       }));
@@ -659,6 +655,7 @@
 
     PlaceItemView.prototype.initialize = function() {
       this.map = this.options.map;
+      this.collection = this.options.collection;
       this.model.bind('show', this.show);
       this.model.bind('hide', this.hide);
       this.model.bind('sync', this.show);
@@ -688,10 +685,13 @@
     };
 
     PlaceItemView.prototype.show = function() {
-      var title;
+      var routemarkernoafter, title;
       this.position = new google.maps.LatLng(this.model.get('lat'), this.model.get('lng'));
       this.marker.setPosition(this.position);
-      title = this.model.get('markerno');
+      title = '';
+      routemarkernoafter = this.model.get('routemarkernoafter');
+      if (routemarkernoafter) title += ' Route AFTER #' + routemarkernoafter;
+      title += ' ' + this.model.get('markerno');
       title += ' p' + this.model.get('id');
       if (this.model.get('interestlevel')) title += " INTERESTED! ";
       if (this.model.get('houseno') || this.model.get('description')) {
@@ -726,6 +726,7 @@
 
     PlaceItemView.prototype.click = function() {
       return this.infoWindow = new InfoWindow({
+        collection: this.collection,
         model: this.model
       });
     };
@@ -751,6 +752,7 @@
     InfoWindow.prototype.className = 'modal';
 
     InfoWindow.prototype.events = {
+      'click a.route': '_route',
       'click a.delete': '_delete',
       'click a.edit': '_edit',
       'click a.view': '_view',
@@ -759,6 +761,7 @@
     };
 
     InfoWindow.prototype.initialize = function() {
+      this.collection = this.options.collection;
       this.editing = this.options.editing || false;
       return this.render();
     };
@@ -779,6 +782,19 @@
     InfoWindow.prototype._edit = function() {
       this.editing = true;
       return this.render();
+    };
+
+    InfoWindow.prototype._route = function() {
+      var params,
+        _this = this;
+      if (!confirm("Are you sure you want to route from this place?")) return;
+      params = {};
+      params = $.param(_.defaults(params, DefaultParams));
+      $.get('/places/route/' + this.model.get('id') + '/?' + params, function(data) {
+        return console.log(data);
+      });
+      this.collection.fetch();
+      return this.$el.modal('hide');
     };
 
     InfoWindow.prototype._delete = function() {
@@ -814,6 +830,7 @@
       this.model.set({
         googlemapurl: this.$('#ed-googlemapurl').val(),
         territoryno: this.$('#ed-territoryno').val(),
+        routemarkernoafter: Number(this.$('#ed-routemarkernoafter').val()),
         markerno: Number(this.$('#ed-markerno').val()),
         blockno: this.$('#ed-blockno').val(),
         interestlevel: Number(this.$('#ed-interestlevel').val()),
@@ -980,12 +997,6 @@
     function SearchView() {
       return SearchView.__super__.constructor.apply(this, arguments);
     }
-
-    SearchView.prototype.initilaize = function() {
-      return this.render();
-    };
-
-    SearchView.prototype.render = function() {};
 
     return SearchView;
 

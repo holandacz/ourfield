@@ -17,11 +17,12 @@ class @PlacesView extends Backbone.View
   addPlaceItemView: (place) =>
     place.bind 'sync', =>
       @collection.fetch()
-    @placeItemViews.push(new PlaceItemView(model: place, map: @map))
+    @placeItemViews.push(new PlaceItemView(collection: @collection, model: place, map: @map))
 
 class @PlaceItemView extends Backbone.View
   initialize: ->
     @map = @options.map
+    @collection = @options.collection
     @model.bind 'show', @show
     @model.bind 'hide', @hide
 
@@ -53,7 +54,16 @@ class @PlaceItemView extends Backbone.View
     @position = new google.maps.LatLng(@model.get('lat'), @model.get('lng'))
     @marker.setPosition(@position)
 
-    title = @model.get('markerno')
+    title = ''
+
+    routemarkernoafter = @model.get('routemarkernoafter')
+    if routemarkernoafter
+      title += (' Route AFTER #' + routemarkernoafter)
+
+
+
+
+    title += ' ' + @model.get('markerno')
     title += ' p' + @model.get('id')
 
     if @model.get('interestlevel')
@@ -93,9 +103,10 @@ class @PlaceItemView extends Backbone.View
     @marker.setMap(null)
 
   click: =>
-    @infoWindow = new InfoWindow(model: @model)
+    @infoWindow = new InfoWindow(collection: @collection, model: @model)
 
 class InfoWindow extends Backbone.View
+
   template: _.template($('#info-window-template').html())
 
   editTemplate: _.template($('#edit-info-window-template').html())
@@ -103,6 +114,7 @@ class InfoWindow extends Backbone.View
   className: 'modal'
 
   events:
+    'click a.route': '_route'
     'click a.delete': '_delete'
     'click a.edit': '_edit'
     'click a.view': '_view'
@@ -110,6 +122,7 @@ class InfoWindow extends Backbone.View
     'click a.save': '_save'
 
   initialize: ->
+    @collection = @options.collection
     @editing = @options.editing || false
     @render()
 
@@ -123,6 +136,22 @@ class InfoWindow extends Backbone.View
   _edit: ->
     @editing = true
     @render()
+
+
+
+  _route: ->
+    if not confirm("Are you sure you want to route from this place?")
+      return
+
+    params = {}
+    params = $.param(_.defaults(params, DefaultParams))
+    $.get '/places/route/' +  @model.get('id') + '/?' + params, (data) =>
+      console.log data
+
+    @collection.fetch()
+    @$el.modal('hide')
+
+
 
   _delete: ->
     if confirm("Are you sure you want to delete this place?")
@@ -147,6 +176,7 @@ class InfoWindow extends Backbone.View
     @model.set
       googlemapurl: @$('#ed-googlemapurl').val()
       territoryno: @$('#ed-territoryno').val()
+      routemarkernoafter: (Number) @$('#ed-routemarkernoafter').val()
       markerno: (Number) @$('#ed-markerno').val()
       blockno: @$('#ed-blockno').val()
       interestlevel: (Number) @$('#ed-interestlevel').val()
@@ -254,7 +284,7 @@ class @LogView extends Backbone.View
   render: ->
 
 class @SearchView extends Backbone.View
-  initilaize: ->
-    @render()
+  # initilaize: ->
+  #   @render()
 
-  render: ->
+  # render: ->

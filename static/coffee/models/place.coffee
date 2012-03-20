@@ -31,6 +31,7 @@ class @Place extends Backbone.Model
     googlemapurl: @get('googlemapurl')
     point: @get('point')
     territoryno: @get('territoryno') 
+    routemarkernoafter: @get('routemarkernoafter')
     markerno: @get('markerno')
     blockno: @get('blockno')
     houseno: @get('houseno')

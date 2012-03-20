@@ -6,92 +6,57 @@ from models import Place
 from django.utils import simplejson as json
 
 #import wingdbstub
-
-
-def admin_automarkerno(request, id = None):
-    from django.db import connection
+    
+def admin_updatemarkernos(request):
+    from markernos import PlaceMarkernos
     from django.http import HttpResponseRedirect
     
     territoryno = request.session.get('territoryno')
 
     if not territoryno:
         raise ValueError("No territoryno!")
+    
+    # get places that need to be assigned numbers based on routemarkernoafter in descending order
+    for place in Place.objects.filter(territoryno=territoryno).filter(routemarkernoafter__gt=0).order_by("-routemarkernoafter"):
+        print place.routemarkernoafter
+        
+        placeMarkernos = PlaceMarkernos(place)        
+        placeMarkernos.updateMarkernos()
+        
+    return HttpResponseRedirect("/map/?territoryno=%s" % territoryno)    
+    
+def admin_automarkerno(request, id = None):
+    from django.http import HttpResponseRedirect
+    from markernos import PlaceMarkernos
+    
+    territoryno = request.session.get('territoryno')
 
-    start_id = request.session.get('id', id)
-
-    # try with 3
-    # start_id = 2846
-
-    # if a start_id given, get marker number for that id
-    if start_id:
-        try:
-            startPlace = Place.objects.get(id=start_id)
-        except:
-            raise ValueError('Invalid ID: %d' % start_id)
-
-        start_markerno = startPlace.markerno
-        
-        # if are there Places that have markerno's before this markerno?
-        for markerno in range(1, start_markerno):
-            if not Place.objects.filter(territoryno=territoryno).filter(markerno=markerno).exists():
-                raise ValueError('Expected a Place with markerno = : %d' % markerno)
-        
-        # if no more places to number
-        if len(Place.objects.all()) == start_markerno:
-            return
-        
-        place = startPlace
-        markerno = start_markerno + 1 # we already have start_markerno set
-        while True:
-            
-            # find closest Place with markerno greater than place.markerno
-            place = place.findClosestPlace(place.markerno)
-            if not place:
-                break
-            place.markerno = markerno
-            place.save(handleMarkernos = False)
-            markerno += 1
-            
-    else:
-        # number all Places
-        places = Place.objects.filter(territoryno = territoryno)
-        if not places:
-            return
-        
-        # Reset all markerno's
-        Place.objects.filter(territoryno=territoryno).update(markerno=0)
-        
-        # find west / left most Place within territory        
-        westPlaceLng = 999999
-        startPlace = None
-        for place in places:        
-            if place.point[1] < westPlaceLng:
-                westPlaceLng = place.point[1]
-                startPlace = place
-            
-            
-        start_markerno = 1    
-        startPlace.markerno = start_markerno
-        startPlace.save(handleMarkernos = False)
-        place = startPlace
-        markerno = start_markerno + 1 # we already have start_markerno set
-        
-        # loop through all places in territory
-        while True:
-            
-            # find closest Place with markerno greater than place.markerno
-            place = place.findClosestPlace(place.markerno)
-            if not place:
-                break
-            place.markerno = markerno
-            place.save(handleMarkernos = False)
-            markerno += 1
-        
-        
-
+    if not territoryno:
+        error = "No territoryno!"
+        return HttpResponse('ERROR: %s' % error)
+    
+    start_id = request.session.get('id', id) 
+    
+    placeMarkernos = PlaceMarkernos() 
+    retval = placeMarkernos.automarkerno(start_id=id, territoryno=territoryno)    
+    
+    if not retval == True:
+        raise ValueError(retval)
+    
     return HttpResponseRedirect("/map/?territoryno=%s" % territoryno)
 
 
+def ajax_route(request, id):
+    from markernos import PlaceMarkernos
+    
+    placeMarkernos = PlaceMarkernos() 
+    retval = placeMarkernos.automarkerno(start_id=id)     
+
+    if not retval == True:
+        return HttpResponse(retval)
+    else:
+        return HttpResponse('')
+    
 
 def admin_restore(request, territoryno = None):
     from django.db import connection

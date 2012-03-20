@@ -1,7 +1,7 @@
 <script type="text/template" id="edit-info-window-template">
   <div class="modal-header">
     <h3>Edit P<%= model.get('id') %> - M<%= model.get('marker') %>
-
+      <a href="#" class="route btn">Route</a>
       <a href="#" class="view btn">View</a>
       <a href="#" class="save-continue btn">Save &amp; Continue</a>
       <a href="#" class="save btn btn-primary">Save</a>
@@ -19,6 +19,14 @@
             <input id="ed-territoryno" type="text" class="input-small" value="<%= model.get('territoryno') %>">
           </div>
         </div>
+
+        <div class="control-group">
+          <label class="control-label">Route Marker# After</label>
+          <div class="controls">
+            <input id="ed-routemarkernoafter" type="text" class="input-small" value="<%= model.get('routemarkernoafter') %>">
+          </div>
+        </div>
+
         <div class="control-group">
           <label class="control-label">Marker#</label>
           <div class="controls">
@@ -81,5 +89,6 @@
     <a href="#" class="save btn btn-primary">Save</a>
     <a href="#" class="save-continue btn">Save &amp; Continue</a>
     <a href="#" class="view btn">View</a>
+    <a href="#" class="route btn">Route</a>
   </div>
 </script>

@@ -2,6 +2,7 @@
   <div class="modal-header">
     <h3><%= model.get('markerno') %>&nbsp;&nbsp;p<%= model.get('id') %>
 
+      <a href="#" class="route btn">Route</a>
       <a href="#" class="delete btn">Delete</a>
       <a href="#" class="edit btn btn-primary">Edit</a>
       <a href="#" class="btn" data-dismiss="modal" >Close</a>
@@ -15,6 +16,9 @@
         <div class="control-group">
           Territory:&nbsp;
           <%= model.get('territoryno') %>
+
+          &nbsp;&nbsp;RouteAfterMarker#:&nbsp;
+          <%= model.get('routemarkernoafter') %>
 
           &nbsp;&nbsp;Marker#:&nbsp;
           <%= model.get('markerno') %>
@@ -53,5 +57,6 @@
     <a href="#" class="btn" data-dismiss="modal" >Close</a>
     <a href="#" class="edit btn btn-primary">Edit</a>
     <a href="#" class="delete btn">Delete</a>
+    <a href="#" class="route btn">Route</a>
   </div>
 </script>
