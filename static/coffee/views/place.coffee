@@ -150,7 +150,7 @@ class InfoWindow extends Backbone.View
 
     @collection.fetch()
     @$el.modal('hide')
-
+    @render()
 
 
   _delete: ->

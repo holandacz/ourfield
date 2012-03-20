@@ -794,7 +794,8 @@
         return console.log(data);
       });
       this.collection.fetch();
-      return this.$el.modal('hide');
+      this.$el.modal('hide');
+      return this.render();
     };
 
     InfoWindow.prototype._delete = function() {
