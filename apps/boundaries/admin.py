@@ -8,7 +8,10 @@ class BoundaryAdmin(admin.OSMGeoAdmin):
         'layers': ['google.streets', 'google.hybrid'],
     }
     list_map = ['poly']
+    list_display = ('id', 'previousnumber', 'name', 'boundary_type')
     
+    list_filter = ('boundary_type',)
+    ordering = ('previousnumber', )   
     
 class BoundaryTypeAdmin(admin.ModelAdmin):
     pass
