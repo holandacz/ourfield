@@ -2,7 +2,8 @@
     padding: 10px 10px 40px 10px;
 }
 .list-item-row {
-    padding-bottom: 5px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #999;
 }
 .list-title {
     font-weight: bold;
@@ -12,6 +13,7 @@
 .list-markerno {  
     padding-left: 0;
     padding-right: 0;
+    float: left;
 }
 
 

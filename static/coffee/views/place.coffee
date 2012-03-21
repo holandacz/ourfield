@@ -233,8 +233,8 @@ class @ListItemView extends Backbone.View
     if not @model.get('residential')
       html += '&nbsp;&nbsp;<span class="list-residential">BIZ</span>'
 
-    if not @model.get('confirmed')
-      html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>'
+    # if not @model.get('confirmed')
+    #   html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>'
 
 
 
@@ -242,8 +242,8 @@ class @ListItemView extends Backbone.View
 
 
 
-    if @model.get('interestlevel')
-      html += '<span class="list-title list-interestlevel">INTEREST</span>'
+    # if @model.get('interestlevel')
+    #   html += '<span class="list-title list-interestlevel">INTEREST</span>'
 
     if @model.get('houseno') or @model.get('directions') or @model.get('description')
       html += '<span class="list-title list-title">ADDRESS:</span>'

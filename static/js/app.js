@@ -314,12 +314,12 @@
             return pageheader = "1-2-3 (3) San Jose/Escazu/San Rafael/3";
           case "4-1-2":
             ll = "10.001025,-84.134588";
-            pageheader = "4-1-2 Heredea/Heredia/Mercedes";
+            pageheader = "4-1-2 Heredia/Heredia/Mercedes";
             return zoom = 17;
           case "4-7-1":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 15;
-            return pageheader = "4-7-1 Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen";
+            return pageheader = "4-7-1 Heredia/Belen/La Ribera/La Ribera-San Antionio de Belen";
           case "4-7-3":
             ll = "9.970288,-84.156647";
             zoom = 17;
@@ -423,20 +423,20 @@
       strokeWeight: .5,
       strokeColor: '#000000',
       fillColor: '#000000',
-      fillOpacity: 0.3
+      fillOpacity: 0
     };
 
     BoundaryItemView.prototype.hybridPolyOpts = {
       strokeWeight: .5,
       strokeColor: '#ffffff',
       fillColor: '#ffffff',
-      fillOpacity: 0.3
+      fillOpacity: 0
     };
 
     BoundaryItemView.prototype.hoverPolyOpts = {
       strokeWeight: 2,
       fillColor: '#ffd700',
-      fillOpacity: 0.01
+      fillOpacity: 0
     };
 
     BoundaryItemView.prototype.initialize = function() {
@@ -454,9 +454,7 @@
       poly.setPath(this.model.get('latlngs'));
       poly.setMap(this.map);
       google.maps.event.addListener(poly, 'mouseover', function() {
-        poly.setOptions(_this.hoverPolyOpts);
-        _this.placeName.text(_this.model.get('id') + ' ' + _this.model.get('previousnumber') + ' ' + _this.model.get('name'));
-        return _this.placeName.show();
+        return poly.setOptions(_this.hoverPolyOpts);
       });
       google.maps.event.addListener(poly, 'mousemove', function() {
         _this.placeName.css('left', mouseX);
@@ -918,13 +916,7 @@
       if (!this.model.get('residential')) {
         html += '&nbsp;&nbsp;<span class="list-residential">BIZ</span>';
       }
-      if (!this.model.get('confirmed')) {
-        html += '&nbsp;&nbsp;<span class="list-confirmed">?</span>';
-      }
       html += '&nbsp;&nbsp;<span class="list-id">p' + this.model.get('id') + '</span>';
-      if (this.model.get('interestlevel')) {
-        html += '<span class="list-title list-interestlevel">INTEREST</span>';
-      }
       if (this.model.get('houseno') || this.model.get('directions') || this.model.get('description')) {
         html += '<span class="list-title list-title">ADDRESS:</span>';
         if (this.model.get('houseno')) {

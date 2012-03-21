@@ -45,18 +45,18 @@ class @BoundaryItemView extends Backbone.View
     strokeWeight: .5
     strokeColor: '#000000'
     fillColor: '#000000'
-    fillOpacity: 0.3
+    fillOpacity: 0
     
   hybridPolyOpts:
     strokeWeight: .5
     strokeColor: '#ffffff'
     fillColor: '#ffffff'
-    fillOpacity: 0.3
+    fillOpacity: 0
   
   hoverPolyOpts:
     strokeWeight: 2
     fillColor: '#ffd700'
-    fillOpacity: 0.01
+    fillOpacity: 0
 
 
   initialize: ->
@@ -74,8 +74,8 @@ class @BoundaryItemView extends Backbone.View
 
     google.maps.event.addListener poly, 'mouseover', =>
       poly.setOptions(@hoverPolyOpts)
-      @placeName.text(@model.get('id') + ' ' + @model.get('previousnumber') + ' ' + @model.get('name'))
-      @placeName.show()
+      # @placeName.text(@model.get('id') + ' ' + @model.get('previousnumber') + ' ' + @model.get('name'))
+      # @placeName.show()
       
     google.maps.event.addListener poly, 'mousemove', =>
       @placeName.css('left', mouseX)

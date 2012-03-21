@@ -49,12 +49,12 @@ class @AppView extends Backbone.View
           pageheader = "1-2-3 (3) San Jose/Escazu/San Rafael/3"
         when "4-1-2" 
           ll = "10.001025,-84.134588"
-          pageheader = "4-1-2 Heredea/Heredia/Mercedes"
+          pageheader = "4-1-2 Heredia/Heredia/Mercedes"
           zoom = 17
         when "4-7-1" 
           ll = "9.98713594918928,-84.1771144239311"
           zoom = 15
-          pageheader = "4-7-1 Heredea/Belen/La Ribera/La Ribera-San Antionio de Belen"
+          pageheader = "4-7-1 Heredia/Belen/La Ribera/La Ribera-San Antionio de Belen"
         when "4-7-3" 
           ll = "9.970288,-84.156647"
           zoom = 17
