@@ -910,9 +910,9 @@
       html = '';
       html += '<div class="list-item-row" id="list-item-row-' + this.model.get('id') + '">';
       if (this.model.get('interestlevel')) {
-        html += '<img src="/static/img/mapicons/25x30/green/numbers/number_' + this.model.get('markerno') + '.png" />';
+        html += '<img class="list-marker" src="/static/img/mapicons/25x30/green/numbers/number_' + this.model.get('markerno') + '.png" />';
       } else {
-        html += '<img src="/static/img/mapicons/25x30/white/numbers/number_' + this.model.get('markerno') + '.png" />';
+        html += '<img class="list-marker" src="/static/img/mapicons/25x30/white/numbers/number_' + this.model.get('markerno') + '.png" />';
       }
       if (this.model.get('multiunit')) {
         html += '&nbsp;&nbsp;<span class="list-multiunit">MultiUnit</span>';
@@ -924,27 +924,27 @@
       if (this.model.get('houseno') || this.model.get('directions') || this.model.get('description')) {
         html += '<span class="list-title list-title">ADDRESS:</span>';
         if (this.model.get('houseno')) {
-          html += '<span class="list-houseno">' + this.model.get('houseno') + '</span>&nbsp;';
+          html += '<span class="list-row-text list-houseno">' + this.model.get('houseno') + '</span>&nbsp;';
         }
         if (this.model.get('directions')) {
-          html += '<span class="list-directions">' + this.model.get('directions') + '</span>&nbsp;';
+          html += '<span class="list-row-text list-directions">' + this.model.get('directions') + '</span>&nbsp;';
         }
         if (this.model.get('description')) {
-          html += '<span class="list-description">' + this.model.get('description') + '</span>&nbsp;';
+          html += '<span class="list-row-text list-description">' + this.model.get('description') + '</span>&nbsp;';
         }
       }
       if (this.model.get('persons')) {
         html += '<span class="list-title list-title">PERSON(S):</span>';
-        html += '<span class="list-persons">' + this.model.get('persons') + '</span>';
+        html += '<span class="list-row-text list-persons">' + this.model.get('persons') + '</span>';
       }
       if (this.model.get('notes')) {
         html += '<span class="list-title list-title">NOTES:</span>';
-        html += '<span class="list-notes">' + this.model.get('notes') + '</span>';
+        html += '<span class="list-row-text list-notes">' + this.model.get('notes') + '</span>';
       }
       if (this.model.get('actions')) {
         html += '<div class="list-item-actions" id="list-actions-' + this.model.get('id') + '">';
         html += '<span class="list-title list-title">ACTIONS:</span>';
-        html += '<span class="list-actions">' + this.model.get('actions') + '</span>';
+        html += '<span class="list-row-text list-actions">' + this.model.get('actions') + '</span>';
         html += '</div>';
       }
       html += '</div>';

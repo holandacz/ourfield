@@ -2,21 +2,38 @@
     padding: 10px 10px 40px 10px;
 }
 .list-item-row {
-    padding-bottom: 25px;
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: .9em;
+	line-height: 1.2em;
+    padding-bottom: 30px;
     border-bottom: 1px solid #999;
+    vertical-align: top;
 }
 .list-title {
     font-weight: bold;
     padding-left: 10px;
     padding-right: 5px;
+    vertical-align: top;
 }
 .list-markerno {  
     padding-left: 0;
-    padding-right: 0;
-    float: left;
+    vertical-align: top;
 }
+.list-row-text {
+    vertical-align: top;
 
+}
 
 .list-id {  
     font-weight: bold;
+    vertical-align: top;
+}
+
+.list-marker {
+	float: left;
+    margin-right: 10px;
+}
+
+.list-item-actions {
+    padding-left: 40px;
 }

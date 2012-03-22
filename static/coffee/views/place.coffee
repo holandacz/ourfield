@@ -221,9 +221,9 @@ class @ListItemView extends Backbone.View
 
 
     if @model.get('interestlevel')
-      html += '<img src="/static/img/mapicons/25x30/green/numbers/number_' + @model.get('markerno') + '.png" />'
+      html += '<img class="list-marker" src="/static/img/mapicons/25x30/green/numbers/number_' + @model.get('markerno') + '.png" />'
     else
-      html += '<img src="/static/img/mapicons/25x30/white/numbers/number_' + @model.get('markerno') + '.png" />'
+      html += '<img class="list-marker" src="/static/img/mapicons/25x30/white/numbers/number_' + @model.get('markerno') + '.png" />'
 
 
 
@@ -248,24 +248,24 @@ class @ListItemView extends Backbone.View
     if @model.get('houseno') or @model.get('directions') or @model.get('description')
       html += '<span class="list-title list-title">ADDRESS:</span>'
       if @model.get('houseno') 
-        html += '<span class="list-houseno">' + @model.get('houseno') + '</span>&nbsp;'
+        html += '<span class="list-row-text list-houseno">' + @model.get('houseno') + '</span>&nbsp;'
       if @model.get('directions')          
-        html += '<span class="list-directions">' + @model.get('directions') + '</span>&nbsp;'
+        html += '<span class="list-row-text list-directions">' + @model.get('directions') + '</span>&nbsp;'
       if @model.get('description')          
-        html += '<span class="list-description">' + @model.get('description') + '</span>&nbsp;'
+        html += '<span class="list-row-text list-description">' + @model.get('description') + '</span>&nbsp;'
 
     if @model.get('persons')
       html += '<span class="list-title list-title">PERSON(S):</span>'
-      html += '<span class="list-persons">' + @model.get('persons') + '</span>'
+      html += '<span class="list-row-text list-persons">' + @model.get('persons') + '</span>'
 
     if @model.get('notes')
       html += '<span class="list-title list-title">NOTES:</span>'
-      html += '<span class="list-notes">' + @model.get('notes') + '</span>'
+      html += '<span class="list-row-text list-notes">' + @model.get('notes') + '</span>'
 
     if @model.get('actions')
       html += '<div class="list-item-actions" id="list-actions-' + @model.get('id') + '">'
       html += '<span class="list-title list-title">ACTIONS:</span>'
-      html += '<span class="list-actions">' + @model.get('actions') + '</span>'
+      html += '<span class="list-row-text list-actions">' + @model.get('actions') + '</span>'
       html += '</div>'
 
 
