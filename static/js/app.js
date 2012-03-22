@@ -319,11 +319,15 @@
           case "4-7-1":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 15;
-            return pageheader = "4-7-1 Heredia/Belen/La Ribera/La Ribera-San Antionio de Belen";
+            return pageheader = "4-7-1 Heredia/Belen/La Ribera/La Ribera-San Antonio de Belen";
+          case "4-7-3 (A)":
+            ll = "9.98713594918928,-84.1771144239311";
+            zoom = 14;
+            return pageheader = "4-7-3 (A) Heredia/Asuncion/Cariari/Cariari";
           case "4-7-3":
             ll = "9.970288,-84.156647";
             zoom = 17;
-            return pageheader = "4-7-3 Heredea/Asuncion/Cariari/Ciudad Cariari";
+            return pageheader = "4-7-3 Heredia/Asuncion/Cariari/Ciudad Cariari";
           case "999":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 13;
