@@ -34,6 +34,13 @@
           </div>
         </div>
         <div class="control-group">
+          <label class="control-label">Name</label>
+          <div class="controls">
+            <input id="ed-name" type="text" class="input-small" value="<%= model.get('name') %>">
+            <p class="help-block">Name of this place.</p>
+          </div>
+        </div>
+        <div class="control-group">
           <label class="control-label">House#</label>
           <div class="controls">
             <input id="ed-houseno" type="text" class="input-small" value="<%= model.get('houseno') %>">
@@ -53,6 +60,23 @@
             <p class="help-block">Persons contacted at this place.</p>
           </div>
         </div>
+
+        <div class="control-group">
+          <label class="control-label">Phone Numbers</label>
+          <div class="controls">
+            <textarea id="ed-phonenos" class="input-xlarge"><%= model.get('phonenos') %></textarea>
+            <p class="help-block">Phone numbers, one per line.</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Emails</label>
+          <div class="controls">
+            <textarea id="ed-emails" class="input-xlarge"><%= model.get('emails') %></textarea>
+            <p class="help-block">Email addresses, one per line.</p>
+          </div>
+        </div>
+
         <div class="control-group">
           <label class="control-label">Notes</label>
           <div class="controls">
@@ -74,12 +98,20 @@
           </div>
         </div>
         <div class="control-group">
+          <label class="control-label">Directions to Next Place</label>
+          <div class="controls">
+            <textarea id="ed-tonext" class="input-xlarge"><%= model.get('tonext') %></textarea>
+            <p class="help-block">From here, describe how to get to the next place.</p>
+          </div>
+        </div>
+        <!--<div class="control-group">
           <label class="control-label">GoogleMapURL</label>
           <div class="controls">
             <textarea id="ed-googlemapurl" class="input-xlarge"><%= model.get('googlemapurl') %></textarea>
             <p class="help-block">Google Map URL override.</p>
           </div>
         </div>
+        -->
       </fieldset>
     </form>
   </div>

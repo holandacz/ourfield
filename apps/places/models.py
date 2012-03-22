@@ -24,6 +24,7 @@ class Place(MyModel):
     #routemarkernoafter = models.PositiveIntegerField("Route Marker No After No", null=True, blank=True)
     routemarkernoafter = models.PositiveIntegerField("Route Marker No After No", default=0)
     markerno = models.PositiveIntegerField("Marker No", default=0, db_index=True)
+    tonext = models.TextField("Directions to Next", null=True, blank=True)
     houseno = models.CharField("House No", max_length=32, null=True, blank=True)
     persons = models.TextField("Persons", null=True, blank=True)
     interestlevel = models.IntegerField("Interest Level", null=True, blank=True)
@@ -32,7 +33,9 @@ class Place(MyModel):
     description = models.CharField("Description", max_length=255, null=True, blank=True)
     languages = models.CharField("Languages", max_length=255, null=True, blank=True, default="e:English\ns:Spanish\nch:Chinese\nf:French\ni:Italian\nx:German\n?:Other")
 
-    name = models.CharField("Name", max_length=128, null=True, blank=True)
+    name = models.CharField("Name of Place", max_length=128, null=True, blank=True)
+    phonenos = models.TextField("Telephone Numbers", null=True, blank=True)
+    emails = models.TextField("EMail Addresses", null=True, blank=True)
 
     placetype_id = models.IntegerField("Place Type ID", null=True, blank=True)
     sourcetype = models.CharField("Source Type", max_length=16, null=True, blank=True)

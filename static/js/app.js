@@ -118,11 +118,13 @@
         territoryno: this.get('territoryno'),
         routemarkernoafter: this.get('routemarkernoafter'),
         markerno: this.get('markerno'),
-        blockno: this.get('blockno'),
+        name: this.get('name'),
         houseno: this.get('houseno'),
         description: this.get('description'),
-        languages: this.get('languages'),
         persons: this.get('persons'),
+        phonenos: this.get('phonenos'),
+        emails: this.get('emails'),
+        tonext: this.get('tonext'),
         notes: this.get('notes'),
         interestlevel: this.get('interestlevel'),
         actions: this.get('actions')
@@ -838,12 +840,16 @@
         markerno: Number(this.$('#ed-markerno').val()),
         blockno: this.$('#ed-blockno').val(),
         interestlevel: Number(this.$('#ed-interestlevel').val()),
+        name: this.$('#ed-name').val(),
         houseno: this.$('#ed-houseno').val(),
         description: this.$('#ed-description').val(),
         languages: this.$('#ed-languages').val(),
         persons: this.$('#ed-persons').val(),
+        phonenos: this.$('#ed-phonenos').val(),
+        emails: this.$('#ed-emails').val(),
         notes: this.$('#ed-notes').val(),
-        actions: this.$('#ed-actions').val()
+        actions: this.$('#ed-actions').val(),
+        tonext: this.$('#ed-tonext').val()
       });
       return this.model.save();
     };
@@ -921,8 +927,11 @@
         html += '&nbsp;&nbsp;<span class="list-residential">BIZ</span>';
       }
       html += '&nbsp;&nbsp;<span class="list-id">p' + this.model.get('id') + '</span>';
-      if (this.model.get('houseno') || this.model.get('directions') || this.model.get('description')) {
+      if (this.model.get('name') || this.model.get('houseno') || this.model.get('directions') || this.model.get('description')) {
         html += '<span class="list-title list-title">ADDRESS:</span>';
+        if (this.model.get('name')) {
+          html += '<span class="list-row-text list-name">' + this.model.get('name') + '</span>&nbsp;';
+        }
         if (this.model.get('houseno')) {
           html += '<span class="list-row-text list-houseno">' + this.model.get('houseno') + '</span>&nbsp;';
         }
@@ -937,6 +946,14 @@
         html += '<span class="list-title list-title">PERSON(S):</span>';
         html += '<span class="list-row-text list-persons">' + this.model.get('persons') + '</span>';
       }
+      if (this.model.get('phonenos')) {
+        html += '<span class="list-title list-title">PHONE(S):</span>';
+        html += '<span class="list-row-text list-phonenos">' + this.model.get('phonenos') + '</span>';
+      }
+      if (this.model.get('emails')) {
+        html += '<span class="list-title list-title">EMAIL(S):</span>';
+        html += '<span class="list-row-text list-emails">' + this.model.get('emails') + '</span>';
+      }
       if (this.model.get('notes')) {
         html += '<span class="list-title list-title">NOTES:</span>';
         html += '<span class="list-row-text list-notes">' + this.model.get('notes') + '</span>';
@@ -946,6 +963,10 @@
         html += '<span class="list-title list-title">ACTIONS:</span>';
         html += '<span class="list-row-text list-actions">' + this.model.get('actions') + '</span>';
         html += '</div>';
+      }
+      if (this.model.get('tonext')) {
+        html += '<span class="list-title list-title">&#187; TO NEXT:</span>';
+        html += '<span class="list-row-text list-tonext">' + this.model.get('tonext') + '</span>';
       }
       html += '</div>';
       return this.$el.html(html);

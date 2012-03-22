@@ -185,12 +185,16 @@ class InfoWindow extends Backbone.View
       markerno: (Number) @$('#ed-markerno').val()
       blockno: @$('#ed-blockno').val()
       interestlevel: (Number) @$('#ed-interestlevel').val()
+      name: @$('#ed-name').val()
       houseno: @$('#ed-houseno').val()
       description: @$('#ed-description').val()
       languages: @$('#ed-languages').val()
       persons: @$('#ed-persons').val()
+      phonenos: @$('#ed-phonenos').val()
+      emails: @$('#ed-emails').val()
       notes: @$('#ed-notes').val()
       actions: @$('#ed-actions').val()
+      tonext: @$('#ed-tonext').val()
     @model.save()
 
 class @ListView extends Backbone.View
@@ -245,8 +249,10 @@ class @ListItemView extends Backbone.View
     # if @model.get('interestlevel')
     #   html += '<span class="list-title list-interestlevel">INTEREST</span>'
 
-    if @model.get('houseno') or @model.get('directions') or @model.get('description')
+    if @model.get('name') or @model.get('houseno') or @model.get('directions') or @model.get('description')
       html += '<span class="list-title list-title">ADDRESS:</span>'
+      if @model.get('name') 
+        html += '<span class="list-row-text list-name">' + @model.get('name') + '</span>&nbsp;'
       if @model.get('houseno') 
         html += '<span class="list-row-text list-houseno">' + @model.get('houseno') + '</span>&nbsp;'
       if @model.get('directions')          
@@ -258,6 +264,14 @@ class @ListItemView extends Backbone.View
       html += '<span class="list-title list-title">PERSON(S):</span>'
       html += '<span class="list-row-text list-persons">' + @model.get('persons') + '</span>'
 
+    if @model.get('phonenos')
+      html += '<span class="list-title list-title">PHONE(S):</span>'
+      html += '<span class="list-row-text list-phonenos">' + @model.get('phonenos') + '</span>'
+
+    if @model.get('emails')
+      html += '<span class="list-title list-title">EMAIL(S):</span>'
+      html += '<span class="list-row-text list-emails">' + @model.get('emails') + '</span>'
+
     if @model.get('notes')
       html += '<span class="list-title list-title">NOTES:</span>'
       html += '<span class="list-row-text list-notes">' + @model.get('notes') + '</span>'
@@ -268,6 +282,10 @@ class @ListItemView extends Backbone.View
       html += '<span class="list-row-text list-actions">' + @model.get('actions') + '</span>'
       html += '</div>'
 
+
+    if @model.get('tonext')
+      html += '<span class="list-title list-title">&#187; TO NEXT:</span>'
+      html += '<span class="list-row-text list-tonext">' + @model.get('tonext') + '</span>'
 
     html += '</div>'
 

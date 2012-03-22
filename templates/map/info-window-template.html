@@ -28,26 +28,41 @@
 
         </div>
 
+        <div class="control-group">
+          <label class="control-label">Address</label>
+          <div class="controls"><%= model.get('name') %> <%= model.get('houseno') %> <%= model.get('directions') %> <%= model.get('description') %></div>
+        </div>
 
-          <div class="control-group">
-            <label class="control-label">Address</label>
-            <div class="controls"><%= model.get('houseno') %> <%= model.get('directions') %> <%= model.get('description') %></div>
-          </div>
+        <div class="control-group">
+          <label class="control-label">Persons</label>
+          <div class="controls"><%= model.get('persons') %></div>
+        </div>
 
-          <div class="control-group">
-            <label class="control-label">Persons</label>
-            <div class="controls"><%= model.get('persons') %></div>
-          </div>
+        <div class="control-group">
+          <label class="control-label">Phone Numbers</label>
+          <div class="controls"><%= model.get('phonenos') %></div>
+        </div>
 
-          <div class="control-group">
-            <label class="control-label">Notes</label>
-            <div class="controls"><%= model.get('notes') %></div>
-          </div>
+        <div class="control-group">
+          <label class="control-label">EMails</label>
+          <div class="controls"><%= model.get('emails') %></div>
+        </div>
 
-          <div class="control-group">
-            <label class="control-label">Actions</label>
-            <div class="controls"><%= model.get('actions') %></div>
-          </div>
+        <div class="control-group">
+          <label class="control-label">Notes</label>
+          <div class="controls"><%= model.get('notes') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Actions</label>
+          <div class="controls"><%= model.get('actions') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">To Next</label>
+          <div class="controls"><%= model.get('tonext') %></div>
+        </div>
+
 
       </fieldset>
     </form>
