@@ -490,7 +490,9 @@
     $('#latitude').html(position.coords.latitude);
     $('#longitude').html(position.coords.longitude);
     pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    console.log('successCallback', userPositionMarker);
+    if (!window.userPositionMarker === null) {
+      window.userPositionMarker.setMap(null);
+    }
     window.userPositionMarker = new google.maps.Marker({
       icon: '/static/img/map/blue-dot.png',
       position: pos,
@@ -523,6 +525,7 @@
 
     MapView.prototype._clearWatch = function(watchID) {
       window.navigator.geolocation.clearWatch(watchID);
+      window.userPositionMarker.setMap(null);
       $('#listenForPositionUpdates').show();
       return $('#userposition').hide();
     };
@@ -532,7 +535,10 @@
       if (!this.nav) this.nav = window.navigator;
       if (this.nav) {
         geoloc = this.nav.geolocation;
-        if (geoloc) watchID = geoloc.watchPosition(successCallback);
+        if (geoloc) {
+          watchID = geoloc.watchPosition(successCallback);
+          geoloc.getCurrentPosition(successCallback);
+        }
       }
       $('#listenForPositionUpdates').hide();
       return $('#userposition').show();
