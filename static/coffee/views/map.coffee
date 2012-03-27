@@ -1,5 +1,5 @@
 map = null
-userPositionMarker = null
+window.userPositionMarker = null
 
 successCallback = (position) ->
   # console.log 'position', position.coords.latitude, position.coords.longitude
@@ -8,14 +8,14 @@ successCallback = (position) ->
 
   pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
   # @userPositionMarker.setPosition(pos)
-  #console.log userPositionMarker
+  console.log 'successCallback', userPositionMarker
 
-  userPositionMarker = new google.maps.Marker(
+  window.userPositionMarker = new google.maps.Marker(
     icon: '/static/img/map/blue-dot.png'
     position: pos
     map: map
   )
-    
+
   # if not userPositionMarker
   #   userPositionMarker = new google.maps.Marker(
   #     icon: '/static/img/map/blue-dot.png'
@@ -55,6 +55,8 @@ class @MapView extends Backbone.View
       geoloc = @nav.geolocation
       if geoloc
         watchID = geoloc.watchPosition(successCallback)
+
+        # geoloc.getCurrentPosition(successCallback)
 
     $('#listenForPositionUpdates').hide()
     $('#userposition').show()
