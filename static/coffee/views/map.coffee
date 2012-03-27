@@ -1,4 +1,4 @@
-map = null
+window.map = null
 window.userPositionMarker = null
 
 successCallback = (position) ->
@@ -10,13 +10,13 @@ successCallback = (position) ->
   # @userPositionMarker.setPosition(pos)
   # console.log 'successCallback', userPositionMarker
 
-  if not window.userPositionMarker == null
+  try
     window.userPositionMarker.setMap(null)
 
   window.userPositionMarker = new google.maps.Marker(
     icon: '/static/img/map/blue-dot.png'
     position: pos
-    map: map
+    map: window.map
   )
 
   # if not userPositionMarker
@@ -31,7 +31,7 @@ successCallback = (position) ->
   #   userPositionMarker.map = map
   #   #console.log 'existing', userPositionMarker
 
-  map.setCenter(pos)
+  window.map.setCenter(pos)
 
 
 class @MapView extends Backbone.View
@@ -47,7 +47,9 @@ class @MapView extends Backbone.View
 
   _clearWatch: (watchID) ->
     window.navigator.geolocation.clearWatch(watchID)
-    window.userPositionMarker.setMap(null)
+    try
+      window.userPositionMarker.setMap(null)
+      
     $('#listenForPositionUpdates').show()
     $('#userposition').hide()
 
@@ -60,17 +62,22 @@ class @MapView extends Backbone.View
       if geoloc
         watchID = geoloc.watchPosition(successCallback)
 
+      try
+        #console.log "trying get current pos"
+        geoloc.getCurrentPosition(successCallback)
+        #console.log "success"
+
     $('#listenForPositionUpdates').hide()
     $('#userposition').show()
 
 
   addPlace: ->
-    lat = map.getCenter().lat()
-    lng = map.getCenter().lng()
+    lat = window.map.getCenter().lat()
+    lng = window.map.getCenter().lng()
     @places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
 
   render: ->
-    map = new google.maps.Map @$('#map-canvas').get(0),
+    window.map = new google.maps.Map @$('#map-canvas').get(0),
       zoom: @preferences.get('zoom')
       center: new google.maps.LatLng(@preferences.get('centerLat'), @preferences.get('centerLng'))
       mapTypeId: @model.get('mapTypeId')
@@ -107,29 +114,29 @@ class @MapView extends Backbone.View
     controlUI.appendChild(controlText)
 
     # google.maps.event.addListener @map, 'idle', @onIdle
-    google.maps.event.addListener map, 'maptypeid_changed', @onMapTypeChange
+    google.maps.event.addListener window.map, 'maptypeid_changed', @onMapTypeChange
 
     google.maps.event.addDomListener controlUI, 'click', =>
       @addPlace()
 
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv)
+    window.map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv)
 
 
-    google.maps.event.addListener map, 'zoom_changed', =>
-      @preferences.set('zoom', map.getZoom())
+    google.maps.event.addListener window.map, 'zoom_changed', =>
+      @preferences.set('zoom', window.map.getZoom())
 
     @userid = @model.get('userid')
       
     if @userid > 0
       # load places
       @places = new Places()
-      new PlacesView(collection: @places, map: map)
+      new PlacesView(collection: @places, map: window.map)
       new ListView(collection: @places)
       @places.fetch()
 
       # load boundaries
       @boundaries = new Boundaries()
-      new BoundariesView(collection: @boundaries, map: map, preferences: @preferences)
+      new BoundariesView(collection: @boundaries, map: window.map, preferences: @preferences)
       @boundaries.fetch()
 
 
@@ -146,7 +153,7 @@ class @MapView extends Backbone.View
   # Note:  needs fat arrow because this is used as a callback
 
   onMapTypeChange: =>
-    switch map.getMapTypeId()
+    switch window.map.getMapTypeId()
       when google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID
         @currentPolyOpts = @roadmapPolyOpts
       else
