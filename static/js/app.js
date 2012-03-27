@@ -491,7 +491,6 @@
     $('#longitude').html(position.coords.longitude);
     pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     console.log('successCallback', userPositionMarker);
-    if (window.userPositionMarker != null) window.userPositionMarker.remove();
     window.userPositionMarker = new google.maps.Marker({
       icon: '/static/img/map/blue-dot.png',
       position: pos,
