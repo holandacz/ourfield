@@ -10,6 +10,9 @@ successCallback = (position) ->
   # @userPositionMarker.setPosition(pos)
   console.log 'successCallback', userPositionMarker
 
+  if window.userPositionMarker?
+    window.userPositionMarker.remove()
+
   window.userPositionMarker = new google.maps.Marker(
     icon: '/static/img/map/blue-dot.png'
     position: pos
