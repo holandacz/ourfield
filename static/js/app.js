@@ -492,6 +492,7 @@
     pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     if (!userPositionMarker) {
       userPositionMarker = new google.maps.Marker({
+        icon: '/static/img/map/blue-dot.png',
         position: pos,
         map: map
       });

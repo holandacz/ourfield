@@ -11,6 +11,7 @@ successCallback = (position) ->
   #console.log userPositionMarker
   if not userPositionMarker
     userPositionMarker = new google.maps.Marker(
+      icon: '/static/img/map/blue-dot.png'
       position: pos
       map: map
     )
