@@ -44,18 +44,18 @@
     {% endif %}
       <div id="map">
         <div class="container">
-          <div class="map-container">
-            <div id="map-canvas">{% include "map/crosshair.html" %}</div>
-            <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" /></div>
-
-          </div>
           <div id="watchposition">
             <input type="button" value="Watch Position" id="listenForPositionUpdates" />
             <span id="userposition" style="display: none">
               <input type="button" value="Clear Watch" id="clearWatch" />
               <b>Lat/Lng:</b> <span id="latitude"></span>,<span id="longitude"></span>
             </span>
-           </div>
+          </div>
+          <div class="map-container">
+            <div id="map-canvas">{% include "map/crosshair.html" %}</div>
+            <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" /></div>
+
+          </div>
         </div><!-- container -->
       </div>
       <div id="placeName"></div>
