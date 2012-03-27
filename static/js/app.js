@@ -535,10 +535,7 @@
       if (!this.nav) this.nav = window.navigator;
       if (this.nav) {
         geoloc = this.nav.geolocation;
-        if (geoloc) {
-          watchID = geoloc.watchPosition(successCallback);
-          geoloc.getCurrentPosition(successCallback);
-        }
+        if (geoloc) watchID = geoloc.watchPosition(successCallback);
       }
       $('#listenForPositionUpdates').hide();
       return $('#userposition').show();

@@ -60,8 +60,6 @@ class @MapView extends Backbone.View
       if geoloc
         watchID = geoloc.watchPosition(successCallback)
 
-        geoloc.getCurrentPosition(successCallback)
-
     $('#listenForPositionUpdates').hide()
     $('#userposition').show()
 
