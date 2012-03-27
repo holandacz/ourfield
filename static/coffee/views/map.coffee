@@ -2,50 +2,49 @@ window.map = null
 window.userPositionMarker = null
 
 successCallback = (position) ->
-  # console.log 'position', position.coords.latitude, position.coords.longitude
-  $('#latitude').html(position.coords.latitude)
-  $('#longitude').html(position.coords.longitude)
+  console.log 'position', position.coords.latitude, position.coords.longitude
+  if position.coords.latitude
+    $('#userpositionlatlng').show()
 
-  pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-  # @userPositionMarker.setPosition(pos)
-  # console.log 'successCallback', userPositionMarker
+    $('#userpositionlat').html(position.coords.latitude)
+    $('#userpositionlng').html(position.coords.longitude)
 
-  try
-    window.userPositionMarker.setMap(null)
+    pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
 
-  window.userPositionMarker = new google.maps.Marker(
-    icon: '/static/img/map/blue-dot.png'
-    position: pos
-    map: window.map
-  )
+    try
+      window.userPositionMarker.setMap(null)
 
-  # if not userPositionMarker
-  #   userPositionMarker = new google.maps.Marker(
-  #     icon: '/static/img/map/blue-dot.png'
-  #     position: pos
-  #     map: map
-  #   )
-  #   #console.log 'new', userPositionMarker
-  # else
-  #   userPositionMarker.position = pos
-  #   userPositionMarker.map = map
-  #   #console.log 'existing', userPositionMarker
+    window.userPositionMarker = new google.maps.Marker(
+      icon: '/static/img/map/blue-dot.png'
+      position: pos
+      map: window.map
+    )
 
-  window.map.setCenter(pos)
+    window.map.setCenter(pos)
 
+geolocationError = (error) ->
+  msg = 'Unable to locate position. '
+  switch error.code
+    when error.TIMEOUT then msg += 'Timeout.'
+    when error.POSITION_UNAVAILABLE then msg += 'Position unavailable.'
+    when error.PERMISSION_DENIED then msg += 'Please turn on location services.'
+    when error.UNKNOWN_ERROR then msg += error.code
+  $('.alert-message').remove()
+  alert = $('<div class="alert-message error fade in" data-alert="alert">')
+  alert.html('<a class="close" href="#">×</a>' + msg);
+  alert.insertBefore($('.span10'))
 
 class @MapView extends Backbone.View
   events:
-    #'click button#add-place': 'addPlace'
     'click #listenForPositionUpdates': '_listenForPositionUpdates'
-    'click #clearWatch': '_clearWatch'
+    'click #cancelTrack': '_cancelTrack'
 
   initialize: ->
     @preferences = @options.preferences
     @nav = null
     @render()
 
-  _clearWatch: (watchID) ->
+  _cancelTrack: (watchID) ->
     window.navigator.geolocation.clearWatch(watchID)
     try
       window.userPositionMarker.setMap(null)
@@ -60,12 +59,10 @@ class @MapView extends Backbone.View
     if @nav
       geoloc = @nav.geolocation
       if geoloc
-        watchID = geoloc.watchPosition(successCallback)
+        watchID = geoloc.watchPosition(successCallback, geolocationError, options={enableHighAccuracy: true})
 
       try
-        #console.log "trying get current pos"
-        geoloc.getCurrentPosition(successCallback)
-        #console.log "success"
+        geoloc.getCurrentPosition(successCallback, geolocationError, options={enableHighAccuracy: true})
 
     $('#listenForPositionUpdates').hide()
     $('#userposition').show()
@@ -83,11 +80,12 @@ class @MapView extends Backbone.View
       mapTypeId: @model.get('mapTypeId')
 
       mapTypeControl: true
-
       
       mapTypeControlOptions: 
         # style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+
+      
 
 
     # console.log 'MapView.render zoom', @map.getZoom()
@@ -121,12 +119,15 @@ class @MapView extends Backbone.View
 
     window.map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv)
 
-
     google.maps.event.addListener window.map, 'zoom_changed', =>
       @preferences.set('zoom', window.map.getZoom())
 
+    google.maps.event.addListener window.map, 'center_changed', @onMapCenterChanged
+
     @userid = @model.get('userid')
-      
+
+    @onMapCenterChanged()
+
     if @userid > 0
       # load places
       @places = new Places()
@@ -151,6 +152,13 @@ class @MapView extends Backbone.View
 
   # When map type changes we need to change color of polygons
   # Note:  needs fat arrow because this is used as a callback
+
+  onMapCenterChanged: =>
+    lat = window.map.getCenter().lat()
+    lng = window.map.getCenter().lng()
+    $('#crosshairlat').html(lat)
+    $('#crosshairlng').html(lng)
+
 
   onMapTypeChange: =>
     switch window.map.getMapTypeId()
