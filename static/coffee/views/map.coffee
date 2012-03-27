@@ -9,17 +9,24 @@ successCallback = (position) ->
   pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
   # @userPositionMarker.setPosition(pos)
   #console.log userPositionMarker
-  if not userPositionMarker
-    userPositionMarker = new google.maps.Marker(
-      icon: '/static/img/map/blue-dot.png'
-      position: pos
-      map: map
-    )
-    #console.log 'new', userPositionMarker
-  else
-    userPositionMarker.position = pos
-    userPositionMarker.map = map
-    #console.log 'existing', userPositionMarker
+
+  userPositionMarker = new google.maps.Marker(
+    icon: '/static/img/map/blue-dot.png'
+    position: pos
+    map: map
+  )
+    
+  # if not userPositionMarker
+  #   userPositionMarker = new google.maps.Marker(
+  #     icon: '/static/img/map/blue-dot.png'
+  #     position: pos
+  #     map: map
+  #   )
+  #   #console.log 'new', userPositionMarker
+  # else
+  #   userPositionMarker.position = pos
+  #   userPositionMarker.map = map
+  #   #console.log 'existing', userPositionMarker
 
   map.setCenter(pos)
 
