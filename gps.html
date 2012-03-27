@@ -1,0 +1,54 @@
+<!DOCTYPE html>  
+<html>
+<head>
+<title>Geolocation API Example</title>
+ 
+<script type="text/javascript">
+ 
+function setText(val, e) {
+    document.getElementById(e).value = val;
+}
+ 
+var nav = null;
+var watchID;
+ 
+function listenForPositionUpdates() {
+  if (nav == null) {
+      nav = window.navigator;
+  }
+  if (nav != null) {
+      var geoloc = nav.geolocation;
+      if (geoloc != null) {
+          watchID = geoloc.watchPosition(successCallback);
+      }
+      else {
+          alert("Geolocation API is not supported in your browser");
+      }
+  }
+  else {
+      alert("Navigator is not found");
+  }
+}
+ 
+function clearWatch(watchID) {
+    window.navigator.geolocation.clearWatch(watchID);
+}
+ 
+function successCallback(position)
+{
+   setText(position.coords.latitude, "latitude");
+   setText(position.coords.longitude, "longitude");
+}
+ 
+</script>
+</head>
+ 
+<body>
+<label for="latitude">Latitude: </label><input id="latitude" />
+ 
+<label for="longitude">Longitude: </label><input id="longitude" />
+ 
+<input type="button" value="Watch Latitude and Longitude" onclick="listenForPositionUpdates()" />
+<input type="button" value="Clear watch" onclick="clearWatch()" />
+</body>
+</html>

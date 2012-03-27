@@ -67,7 +67,7 @@
 			"file": "templates/site_base.html",
 			"settings":
 			{
-				"buffer_size": 4143,
+				"buffer_size": 4248,
 				"line_ending": "Unix"
 			}
 		},
@@ -83,15 +83,23 @@
 			"file": "static/coffee/views/place.coffee",
 			"settings":
 			{
-				"buffer_size": 7986,
+				"buffer_size": 8995,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "static/coffee/views/app.coffee",
+			"file": "static/coffee/models/place.coffee",
 			"settings":
 			{
-				"buffer_size": 2626,
+				"buffer_size": 1247,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "static/coffee/views/map.coffee",
+			"settings":
+			{
+				"buffer_size": 3032,
 				"line_ending": "Windows"
 			}
 		},
@@ -99,24 +107,33 @@
 			"file": "static/coffee/views/boundary.coffee",
 			"settings":
 			{
-				"buffer_size": 2352,
+				"buffer_size": 2349,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "static/coffee/models/boundary.coffee",
+			"file": "apps/places/models.py",
 			"settings":
 			{
-				"buffer_size": 955,
+				"buffer_size": 10829,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "static/coffee/collections/boundaries.coffee",
+			"file": "/C/_prm/contacts/views.py",
 			"settings":
 			{
-				"buffer_size": 650,
+				"buffer_size": 16379,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "http://maps.google.com/maps?q=9.984521,-84.169017&hl=en&ie=UTF8&ll=9.984521,-84.169017&spn=0.007914,0.011083&hnear=0x8fa0fbcbfc16e111:0xeb2999a98369755,%2B9%C2%B0+58'+47.41%22,+-84%C2%B0+10'+10.20%22&t=h&z=17\n\nhttp://maps.google.com/maps?q=9.984521,-84.169017&ll=9.984521,-84.169017&z=17",
+			"settings":
+			{
+				"buffer_size": 287,
+				"line_ending": "Windows",
+				"name": "http://maps.google.com/maps?q=9.984521,-84.169017&"
 			}
 		}
 	],
@@ -212,31 +229,40 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Larry/__prjs/contacts/RVEmails.csv",
+		"/C/Users/Larry/__prjs/contacts/RVEmailsFirstNameOnly.csv",
+		"/C/Users/Larry/__prjs/ourfield/static/css/print.css",
+		"/C/Users/Larry/__prjs/ourfield/static/css/list.css",
+		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
+		"/C/_prm/templates/contacts/email.html",
+		"/C/Users/Larry/__prjs/contacts/message.html",
+		"/C/Users/Larry/__prjs/contacts/memorialinvitation2012.html",
+		"/C/Users/Larry/_db/docs/theo/Memorial2011/InvitationMessage.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/info-window-template.html",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/edit-info-window-template.html",
+		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/app.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/coffee/models/boundary.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/coffee/collections/boundaries.coffee",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/admin.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/boundaries/models.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/boundaries/admin.py",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/urls.py",
 		"/C/Users/Larry/__prjs/ourfield/static/coffee/models/place.coffee",
 		"/C/Users/Larry/__prjs/ourfield/apps/boundaries/urls.py",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/info-window-template.html",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/edit-info-window-template.html",
 		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/map.coffee",
 		"/C/Users/Larry/__prjs/ourfield/apps/about/urls.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/markernos.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/views.py",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/collections/boundaries.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/models/boundary.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/boundary.coffee",
-		"/C/Users/Larry/__prjs/contacts/message.html",
 		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/views.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/app.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/js/app.js",
 		"/C/Users/Larry/__prjs/ourfield/templates/site_base.html",
-		"/C/Users/Larry/__prjs/ourfield/apps/boundaries/models.py",
 		"/C/Users/Larry/__prjs/ourfield/static/coffee/app.coffee",
 		"/C/Users/Larry/__prjs/z_others/motomapia/war/motomapia.coffee",
 		"/C/Users/Larry/__prjs/ourfield/static/css/theme.css",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/css/bootstrap.css",
 		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/static/bootstrap/css/bootstrap-responsive.css",
-		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
 		"/C/Users/Larry/__prjs/ourfield/static/coffee/collections/places.coffee",
 		"/C/Users/Larry/__prjs/z_others/motomapia/war/error.png",
 		"/C/Users/Larry/__prjs/z_others/motomapia/war/loading.gif",
@@ -256,13 +282,11 @@
 		"/C/Users/Larry/__prjs/ourfield_2/apps/common/templatetags/common_tags.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/boundaries/api.py",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/subnav.html",
-		"/C/Users/Larry/__prjs/ourfield/static/css/print.css",
 		"/C/Users/Larry/__prjs/ourfield/static/css/docs.css",
 		"/C/Users/Larry/__prjs/ourfield/static/css/ourtheme.css",
 		"/C/Users/Larry/__prjs/ourfield/templates/theme_base.html",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/models.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/admin.py",
 		"/C/Users/Larry/__prjs/ourfield/wc.bat",
 		"/C/Users/Larry/__prjs/ourfield/private/js/maps.forum.nu_gm_main.html.js",
 		"/C/Users/Larry/__prjs/ourfield/static/coffee/coffeescript-concat.coffee",
@@ -275,7 +299,6 @@
 		"/C/Users/Larry/__prjs/ourfield/static/js/views/app.coffee",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/pane-container.html",
 		"/C/Users/Larry/__prjs/ourfield/local_settings.template.py",
-		"/C/Users/Larry/__prjs/ourfield/static/css/list.css",
 		"/C/Users/Larry/__prjs/ourfield/templates/map/list-item-template.html",
 		"/C/Users/Larry/__prjs/ourfield/private/py/lineDist.py",
 		"/C/Users/Larry/__prjs/ourfield/apps/places/commands.py",
@@ -333,13 +356,7 @@
 		"/C/Users/Larry/__prjs/ourfield_2/apps/en/models.py",
 		"/C/Users/Larry/__prjs/ourfield_2/apps/home/views.py",
 		"/C/Users/Larry/__prjs/ourfield/.idea/workspace.xml",
-		"/C/Users/Larry/__prjs/ourfield/fixtures/initial_data.json",
-		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/templates/theme_base.html",
-		"/C/Users/Larry/__prjs/z_others/_b/javascripts/models.coffee",
-		"/C/Users/Larry/__prjs/z_others/Python-Webserver/webserver.py",
-		"/C/Users/Larry/__prjs/z_others/_b/javascripts/app.coffee",
-		"/C/Users/Larry/My Dropbox/OurField Umair/larry_django/ourfield/apps/places/api.py",
-		"/C/Users/Larry/My Dropbox/OurField Umair/larry_django/ourfield/apps/places/models.py"
+		"/C/Users/Larry/__prjs/ourfield/fixtures/initial_data.json"
 	],
 	"find":
 	{
@@ -350,6 +367,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			"C:\\_prm",
 			"C:\\Users\\Larry\\__prjs\\ourfield\\static\\coffee",
 			"C:\\Users\\Larry\\__prjs\\ourfield\\ve\\Lib\\site-packages\\pinax\\projects\\basic_project",
 			"C:\\Users\\Larry\\__prjs\\ourfield",
@@ -370,9 +388,13 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"\\s*$",
+			"\\n",
+			"'",
+			"mail",
 			"placeTypes",
 			"console",
 			"BoundaryView",
@@ -492,9 +514,10 @@
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
+			"",
 			"placeTypes",
 			"@placeTypes",
 			"placeTypes",
@@ -532,12 +555,12 @@
 		"show_context": false,
 		"use_buffer2": true,
 		"whole_word": false,
-		"wrap": true
+		"wrap": false
 	},
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 8,
 			"sheets":
 			[
 				{
@@ -545,15 +568,15 @@
 					"file": "templates/site_base.html",
 					"settings":
 					{
-						"buffer_size": 4143,
+						"buffer_size": 4248,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3062,
-								3062
+								2811,
+								2811
 							]
 						],
 						"settings":
@@ -566,7 +589,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 448.0,
+						"translation.y": 29.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -606,15 +629,15 @@
 					"file": "static/coffee/views/place.coffee",
 					"settings":
 					{
-						"buffer_size": 7986,
+						"buffer_size": 8995,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3924,
-								3924
+								6834,
+								6834
 							]
 						],
 						"settings":
@@ -626,25 +649,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1840.0,
+						"translation.y": 993.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "static/coffee/views/app.coffee",
+					"file": "static/coffee/models/place.coffee",
 					"settings":
 					{
-						"buffer_size": 2626,
+						"buffer_size": 1247,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2362,
-								2362
+								763,
+								763
 							]
 						],
 						"settings":
@@ -656,25 +679,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 532.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "static/coffee/views/boundary.coffee",
+					"file": "static/coffee/views/map.coffee",
 					"settings":
 					{
-						"buffer_size": 2352,
+						"buffer_size": 3032,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								474,
-								474
+								1683,
+								1683
 							]
 						],
 						"settings":
@@ -693,18 +716,18 @@
 				},
 				{
 					"buffer": 5,
-					"file": "static/coffee/models/boundary.coffee",
+					"file": "static/coffee/views/boundary.coffee",
 					"settings":
 					{
-						"buffer_size": 955,
+						"buffer_size": 2349,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								767,
-								767
+								1454,
+								1454
 							]
 						],
 						"settings":
@@ -716,34 +739,91 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 502.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "static/coffee/collections/boundaries.coffee",
+					"file": "apps/places/models.py",
 					"settings":
 					{
-						"buffer_size": 650,
+						"buffer_size": 10829,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								63,
-								63
+								1990,
+								1990
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 14.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/C/_prm/contacts/views.py",
+					"settings":
+					{
+						"buffer_size": 16379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1428,
+								1428
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 551.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"settings":
+					{
+						"buffer_size": 287,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								287,
+								210
+							]
+						],
+						"settings":
+						{
+							"auto_name": "http://maps.google.com/maps?q=9.984521,-84.169017&",
+							"is_xml": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

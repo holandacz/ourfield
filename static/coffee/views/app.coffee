@@ -1,6 +1,23 @@
+
+# # Gets the users current position
+# # navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options)
+# navigator.geolocation.getCurrentPosition()
+
+# # Request repeated updates of position
+# # watchId = navigator.geolocation.watchPosition(successCallback, errorCallback)
+# watchId = navigator.geolocation.watchPosition()
+
+# # Cancel the updates
+# # navigator.geolocation.clearWatch(watchId)
+# navigator.geolocation.clearWatch()
+
 class @AppView extends Backbone.View
+
   initialize: ->
     @preferences = @options.preferences
+
+    # @getGeolocation()
+
     # @placeTypes = @options.placeTypes
     # @boundaries = @options.boundaries
 
@@ -11,6 +28,7 @@ class @AppView extends Backbone.View
     #   @boundaries.fetch()
 
     @render()
+
 
   render : ->
     @mapView = new MapView
@@ -88,6 +106,13 @@ class @AppView extends Backbone.View
       @preferences.set('centerLng', ll[1])
 
 
+
+      # coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+
+      # marker = new google.maps.Marker
+      #   position: coords
+      #   map: @mapView.map
+      #   title:"You are here!"
 
 
 
