@@ -18,6 +18,8 @@ class @BoundariesView extends Backbone.View
       boundaryItemView.hide()
     @boundaryItemViews = []
     @collection.each @addBoundaryItemView
+    #console.log 'render', @territoryno
+    #console.log @boundaryItemViews
     @center() if @territoryno
 
   center: ->
@@ -32,13 +34,10 @@ class @BoundariesView extends Backbone.View
         
       @map.setCenter(bounds.getCenter())
 
-
-
-
   addBoundaryItemView: (boundary) =>
     boundary.bind 'sync', =>
       @collection.fetch()
-    @boundaryItemViews.push(new BoundaryItemView(model: boundary, map: @map))
+    @boundaryItemViews.push(new BoundaryItemView(collection: @collection, model: boundary, territoryno: territoryno, map: @map))
 
 class @BoundaryItemView extends Backbone.View
   roadmapPolyOpts:
@@ -60,6 +59,9 @@ class @BoundaryItemView extends Backbone.View
 
 
   initialize: ->
+    @territoryno = @options.territoryno
+    @collection = @options.collection
+    @editing = @options.editing || false
     @map = @options.map
 
     @model.bind 'sync', @show
@@ -68,25 +70,59 @@ class @BoundaryItemView extends Backbone.View
   render: ->
     @currentPolyOpts = @roadmapPolyOpts
     @placeName = $('#placeName')
-    poly = new google.maps.Polygon(@currentPolyOpts)
-    poly.setPath(@model.get('latlngs'))
-    poly.setMap(@map)
+    @poly = new google.maps.Polygon(@currentPolyOpts)
+    @poly.setPath(@model.get('latlngs'))
+    @poly.setMap(@map)
 
-    google.maps.event.addListener poly, 'mouseover', =>
-      poly.setOptions(@hoverPolyOpts)
-      # @placeName.text(@model.get('id') + ' ' + @model.get('previousnumber') + ' ' + @model.get('name'))
-      # @placeName.show()
+    if window.appData.attributes['userid'] == 1
+      google.maps.event.addListener @poly, "click", @edit
+
+    google.maps.event.addListener @poly, 'mouseover', =>
+      @poly.setOptions(@hoverPolyOpts)
+      @placeName.text(@model.get('id') + ' ' + @model.get('previousnumber') + ' ' + @model.get('name'))
+      @placeName.show()
       
-    google.maps.event.addListener poly, 'mousemove', =>
+    google.maps.event.addListener @poly, 'mousemove', =>
       @placeName.css('left', mouseX)
       @placeName.css('top', mouseY)
 
-    google.maps.event.addListener poly, 'mouseout', =>
-      poly.setOptions(@currentPolyOpts)
+    google.maps.event.addListener @poly, 'mouseout', =>
+      @poly.setOptions(@currentPolyOpts)
       @placeName.hide()
 
 
     @show()
+
+    # if @territoryno == @model.attributes.previousnumber
+    #   # @poly.setEditable(true)
+    #   @poly.runEdit(true)
+
+  edit: =>
+    @editing = true
+    console.log 'edit poly', @poly.latLngs.b[0]
+    google.maps.event.addListener @poly, "rightclick", @stopedit
+    @poly.runEdit(true)
+
+  stopedit: =>
+    @editing = false
+    @poly.stopEdit()
+    if confirm("Are you sure you want to modify this boundary?")
+      #console.log 'oldPoly', @model.get('poly')
+
+      latlngslist = (latlng.lng() + ' ' + latlng.lat() for latlng in @poly.getPath().b)
+      newPoly = 'POLYGON ((' + latlngslist.toString() + '))'
+      #console.log 'newPoly', newPoly
+      @model.set('poly', newPoly)
+      @model.save()
+    # else
+    #   console.log @model
+    #   console.log @poly
+    #   @poly.setMap(null)
+    #   #@poly.setVisible(false)
+    #   @collection.fetch()
+    #   #@model.fetch()
+
+    @render()
 
   show: =>
     # console.log 'BoundaryItemView.show'

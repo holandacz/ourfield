@@ -68,7 +68,7 @@ class @AppView extends Backbone.View
         when "4-1-2" 
           ll = "10.001025,-84.134588"
           pageheader = "4-1-2 Heredia/Heredia/Mercedes"
-          zoom = 17
+          zoom = 15
 
         when "4-7-1" 
           ll = "9.98713594918928,-84.1771144239311"

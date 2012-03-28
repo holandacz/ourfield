@@ -85,7 +85,8 @@ class @MapView extends Backbone.View
       zoom: @preferences.get('zoom')
       center: new google.maps.LatLng(@preferences.get('centerLat'), @preferences.get('centerLng'))
       mapTypeId: @model.get('mapTypeId')
-
+      draggableCursor: 'default'
+      draggingCursor: 'pointer'
       mapTypeControl: true
       
       mapTypeControlOptions: 

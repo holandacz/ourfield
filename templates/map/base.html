@@ -44,6 +44,15 @@
     {% endif %}
       <div id="map">
         <div class="container">
+
+          <!--
+          <div class="alert fade in  alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            Successfully logged in as larry.
+          </div>
+          -->
+
+
           <div id="position">
             <input type="button" value="Track Position" id="listenForPositionUpdates" />
 
@@ -110,6 +119,7 @@
   {% include "map/edit-info-window-template.html" %}
   {% include "map/info-window-template.html" %}
 
+  <script type="text/javascript" src="{% static "js/polygonEdit_packed.js" %}"></script>
   <script type="text/javascript" src="{% static "js/app.js" %}"></script>
 
   <script type="text/javascript">
