@@ -472,9 +472,7 @@
         google.maps.event.addListener(this.poly, "click", this.edit);
       }
       google.maps.event.addListener(this.poly, 'mouseover', function() {
-        _this.poly.setOptions(_this.hoverPolyOpts);
-        _this.placeName.text(_this.model.get('id') + ' ' + _this.model.get('previousnumber') + ' ' + _this.model.get('name'));
-        return _this.placeName.show();
+        return _this.poly.setOptions(_this.hoverPolyOpts);
       });
       google.maps.event.addListener(this.poly, 'mousemove', function() {
         _this.placeName.css('left', mouseX);

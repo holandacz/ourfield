@@ -79,8 +79,8 @@ class @BoundaryItemView extends Backbone.View
 
     google.maps.event.addListener @poly, 'mouseover', =>
       @poly.setOptions(@hoverPolyOpts)
-      @placeName.text(@model.get('id') + ' ' + @model.get('previousnumber') + ' ' + @model.get('name'))
-      @placeName.show()
+      # @placeName.text(@model.get('id') + ' ' + @model.get('previousnumber') + ' ' + @model.get('name'))
+      # @placeName.show()
       
     google.maps.event.addListener @poly, 'mousemove', =>
       @placeName.css('left', mouseX)
