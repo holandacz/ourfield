@@ -7,7 +7,7 @@ successCallback = (position) ->
     $('#userpositionlatlng').show()
 
     $('#userpositionlat').html(position.coords.latitude)
-    $('#userpositionlng').html(position.coords.longitude)
+    $('#userpositionlng').html(position.coords.longitude + ' <b>|</b>')
 
     pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
 
@@ -20,6 +20,7 @@ successCallback = (position) ->
       else
         icon = '/static/img/map/white-dot.png'
 
+    # purpose is to center marker in crosshair
     image = new google.maps.MarkerImage(icon,
       new google.maps.Size(15, 15),
       new google.maps.Point(0, 0),
@@ -51,10 +52,11 @@ geolocationError = (error) ->
 
 class @MapView extends Backbone.View
   events:
+    'click #refresh': '_refresh'
     'click #listenForPositionUpdates': '_listenForPositionUpdates'
     'click #cancelTrack': '_cancelTrack'
     'click #addPlace': 'addPlace'
-    'click #gotoHome': 'gotoHome'
+    'click div#map-crosshair': '_gotoHome'
 
   initialize: ->
     @preferences = @options.preferences
@@ -95,14 +97,30 @@ class @MapView extends Backbone.View
       zoom: @preferences.get('zoom')
       center: new google.maps.LatLng(@preferences.get('centerLat'), @preferences.get('centerLng'))
       mapTypeId: @model.get('mapTypeId')
+
       draggableCursor: 'default'
       draggingCursor: 'pointer'
+
       mapTypeControl: true
-      
       mapTypeControlOptions: 
-        # style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.BOTTOM_CENTER
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
 
+      panControl: false
+      panControlOptions:
+        position: google.maps.ControlPosition.TOP_RIGHT
+
+      streetViewControl: false
+      streetViewControlOptions:
+        position: google.maps.ControlPosition.LEFT_TOP
+    
+      zoomControl: true
+      zoomControlOptions:
+        style: google.maps.ZoomControlStyle.LARGE
+        position: google.maps.ControlPosition.LEFT_CENTER
+
+      
 
     # google.maps.event.addListener @map, 'idle', @onIdle
     google.maps.event.addListener window.map, 'maptypeid_changed', @onMapTypeChange
@@ -150,7 +168,10 @@ class @MapView extends Backbone.View
     $('#crosshairlng').html(lng)
 
 
-  gotoHome: =>
+  _refresh: =>
+    location.reload()
+
+  _gotoHome: =>
     window.location = "#home"
 
   onMapTypeChange: =>

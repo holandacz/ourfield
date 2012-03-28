@@ -57,20 +57,24 @@
             <div id="map-canvas">{% include "map/crosshair.html" %}
 
             </div>
-            <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" /></div>
+            <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" title="Click to go to top of page." /></div>
 
             <div id="position">
-              <input type="button" value="Home" id="gotoHome" />
-              <input type="button" value="Add Place" id="addPlace" />
-              <input type="button" value="Track Position" id="listenForPositionUpdates" />
+              <a href="#" class="btn" id="refresh"><i class="icon-refresh"></i>Refresh</a>
+              
+              {% if user.is_authenticated %}
+                <a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a>
+              {% endif %}
+
+              <a href="#" class="btn" id="listenForPositionUpdates"><i class="icon-road"></i>Track Position</a>
 
               <span id="userposition" style="display: none">
-                <input type="button" value="Cancel Tracking" id="cancelTrack" />
-                <span id="userpositionlatlng" style="display: none"><b>Lat/Lng:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>
+                <a href="#" class="btn" id="cancelTrack"><i class="icon-remove"></i>Cancel Tracking</a>
+                <span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>
               </span>
 
               <span id="crosshairposition">
-                <span id="crosshairpositionlatlng"><b>Crosshair Lat/Lng:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>
+                <span id="crosshairpositionlatlng"><b>Crosshair:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>
               </span>
             </div>
 

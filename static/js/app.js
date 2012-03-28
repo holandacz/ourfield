@@ -532,7 +532,7 @@
     if (position.coords.latitude) {
       $('#userpositionlatlng').show();
       $('#userpositionlat').html(position.coords.latitude);
-      $('#userpositionlng').html(position.coords.longitude);
+      $('#userpositionlng').html(position.coords.longitude + ' <b>|</b>');
       pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       try {
         window.userPositionMarker.setMap(null);
@@ -586,17 +586,20 @@
     function MapView() {
       this.onMapTypeChange = __bind(this.onMapTypeChange, this);
 
-      this.gotoHome = __bind(this.gotoHome, this);
+      this._gotoHome = __bind(this._gotoHome, this);
+
+      this._refresh = __bind(this._refresh, this);
 
       this.onMapCenterChanged = __bind(this.onMapCenterChanged, this);
       return MapView.__super__.constructor.apply(this, arguments);
     }
 
     MapView.prototype.events = {
+      'click #refresh': '_refresh',
       'click #listenForPositionUpdates': '_listenForPositionUpdates',
       'click #cancelTrack': '_cancelTrack',
       'click #addPlace': 'addPlace',
-      'click #gotoHome': 'gotoHome'
+      'click div#map-crosshair': '_gotoHome'
     };
 
     MapView.prototype.initialize = function() {
@@ -654,7 +657,22 @@
         draggingCursor: 'pointer',
         mapTypeControl: true,
         mapTypeControlOptions: {
+          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+          position: google.maps.ControlPosition.BOTTOM_CENTER,
           mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
+        },
+        panControl: false,
+        panControlOptions: {
+          position: google.maps.ControlPosition.TOP_RIGHT
+        },
+        streetViewControl: false,
+        streetViewControlOptions: {
+          position: google.maps.ControlPosition.LEFT_TOP
+        },
+        zoomControl: true,
+        zoomControlOptions: {
+          style: google.maps.ZoomControlStyle.LARGE,
+          position: google.maps.ControlPosition.LEFT_CENTER
         }
       });
       google.maps.event.addListener(window.map, 'maptypeid_changed', this.onMapTypeChange);
@@ -703,7 +721,11 @@
       return $('#crosshairlng').html(lng);
     };
 
-    MapView.prototype.gotoHome = function() {
+    MapView.prototype._refresh = function() {
+      return location.reload();
+    };
+
+    MapView.prototype._gotoHome = function() {
       return window.location = "#home";
     };
 
