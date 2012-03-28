@@ -20,12 +20,20 @@ successCallback = (position) ->
       else
         icon = '/static/img/map/white-dot.png'
 
+    image = new google.maps.MarkerImage(icon,
+      new google.maps.Size(15, 15),
+      new google.maps.Point(0, 0),
+      new google.maps.Point(8, 8))
+
+
     window.userPositionMarker = new google.maps.Marker(
-      icon: icon
+      icon: image
       position: pos
       map: window.map
       title: 'You are here.'
     )
+    # window.userPositionMarker.getIcon().origin = new google.maps.Point(0, 50)
+    # window.userPositionMarker.setIcon(window.userPositionMarker.getIcon())
 
     window.map.setCenter(pos)
 
@@ -119,6 +127,8 @@ class @MapView extends Backbone.View
       @boundaries = new Boundaries()
       new BoundariesView(collection: @boundaries, map: window.map, preferences: @preferences)
       @boundaries.fetch()
+
+  # http://stackoverflow.com/questions/2674392/how-to-access-google-maps-api-v3-markers-div-and-its-pixel-position
 
 
   _togglePlaceType: (e) ->

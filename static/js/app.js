@@ -527,7 +527,7 @@
   window.userPositionMarker = null;
 
   successCallback = function(position) {
-    var icon, pos;
+    var icon, image, pos;
     console.log('position', position.coords.latitude, position.coords.longitude);
     if (position.coords.latitude) {
       $('#userpositionlatlng').show();
@@ -544,8 +544,9 @@
         default:
           icon = '/static/img/map/white-dot.png';
       }
+      image = new google.maps.MarkerImage(icon, new google.maps.Size(15, 15), new google.maps.Point(0, 0), new google.maps.Point(8, 8));
       window.userPositionMarker = new google.maps.Marker({
-        icon: icon,
+        icon: image,
         position: pos,
         map: window.map,
         title: 'You are here.'
