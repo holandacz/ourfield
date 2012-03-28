@@ -469,7 +469,7 @@
       this.poly.setPath(this.model.get('latlngs'));
       this.poly.setMap(this.map);
       if (window.appData.attributes['userid'] === 1) {
-        google.maps.event.addListener(this.poly, "click", this.edit);
+        google.maps.event.addListener(this.poly, "rightclick", this.edit);
       }
       google.maps.event.addListener(this.poly, 'mouseover', function() {
         return _this.poly.setOptions(_this.hoverPolyOpts);
@@ -488,7 +488,7 @@
     BoundaryItemView.prototype.edit = function() {
       this.editing = true;
       console.log('edit poly', this.poly.latLngs.b[0]);
-      google.maps.event.addListener(this.poly, "rightclick", this.stopedit);
+      google.maps.event.addListener(this.poly, "click", this.stopedit);
       return this.poly.runEdit(true);
     };
 
@@ -585,13 +585,17 @@
     function MapView() {
       this.onMapTypeChange = __bind(this.onMapTypeChange, this);
 
+      this.gotoHome = __bind(this.gotoHome, this);
+
       this.onMapCenterChanged = __bind(this.onMapCenterChanged, this);
       return MapView.__super__.constructor.apply(this, arguments);
     }
 
     MapView.prototype.events = {
       'click #listenForPositionUpdates': '_listenForPositionUpdates',
-      'click #cancelTrack': '_cancelTrack'
+      'click #cancelTrack': '_cancelTrack',
+      'click #addPlace': 'addPlace',
+      'click #gotoHome': 'gotoHome'
     };
 
     MapView.prototype.initialize = function() {
@@ -640,8 +644,7 @@
     };
 
     MapView.prototype.render = function() {
-      var controlDiv, controlText, controlUI,
-        _this = this;
+      var _this = this;
       window.map = new google.maps.Map(this.$('#map-canvas').get(0), {
         zoom: this.preferences.get('zoom'),
         center: new google.maps.LatLng(this.preferences.get('centerLat'), this.preferences.get('centerLng')),
@@ -653,28 +656,7 @@
           mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
         }
       });
-      controlDiv = document.createElement('DIV');
-      controlDiv.style.padding = '5px';
-      controlUI = document.createElement('DIV');
-      controlUI.style.backgroundColor = 'white';
-      controlUI.style.borderStyle = 'solid';
-      controlUI.style.borderWidth = '2px';
-      controlUI.style.cursor = 'pointer';
-      controlUI.style.textAlign = 'center';
-      controlUI.title = 'Click to drop a new Place Marker';
-      controlDiv.appendChild(controlUI);
-      controlText = document.createElement('DIV');
-      controlText.style.fontFamily = 'Arial,sans-serif';
-      controlText.style.fontSize = '12px';
-      controlText.style.paddingLeft = '4px';
-      controlText.style.paddingRight = '4px';
-      controlText.innerHTML = 'Add Place';
-      controlUI.appendChild(controlText);
       google.maps.event.addListener(window.map, 'maptypeid_changed', this.onMapTypeChange);
-      google.maps.event.addDomListener(controlUI, 'click', function() {
-        return _this.addPlace();
-      });
-      window.map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv);
       google.maps.event.addListener(window.map, 'zoom_changed', function() {
         return _this.preferences.set('zoom', window.map.getZoom());
       });
@@ -718,6 +700,10 @@
       lng = window.map.getCenter().lng();
       $('#crosshairlat').html(lat);
       return $('#crosshairlng').html(lng);
+    };
+
+    MapView.prototype.gotoHome = function() {
+      return window.location = "#home";
     };
 
     MapView.prototype.onMapTypeChange = function() {

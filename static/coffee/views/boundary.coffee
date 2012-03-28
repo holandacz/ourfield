@@ -75,7 +75,7 @@ class @BoundaryItemView extends Backbone.View
     @poly.setMap(@map)
 
     if window.appData.attributes['userid'] == 1
-      google.maps.event.addListener @poly, "click", @edit
+      google.maps.event.addListener @poly, "rightclick", @edit
 
     google.maps.event.addListener @poly, 'mouseover', =>
       @poly.setOptions(@hoverPolyOpts)
@@ -100,7 +100,8 @@ class @BoundaryItemView extends Backbone.View
   edit: =>
     @editing = true
     console.log 'edit poly', @poly.latLngs.b[0]
-    google.maps.event.addListener @poly, "rightclick", @stopedit
+    google.maps.event.addListener @poly, "click", @stopedit
+    # @bu_poly = @poly
     @poly.runEdit(true)
 
   stopedit: =>
@@ -115,12 +116,13 @@ class @BoundaryItemView extends Backbone.View
       @model.set('poly', newPoly)
       @model.save()
     # else
-    #   console.log @model
-    #   console.log @poly
-    #   @poly.setMap(null)
-    #   #@poly.setVisible(false)
-    #   @collection.fetch()
-    #   #@model.fetch()
+    #   # @poly = @bu_poly
+    #   # console.log @model
+    #   # console.log @poly
+    #   # @poly.setMap(null)
+    #   # #@poly.setVisible(false)
+    #   # @collection.fetch()
+    #   # #@model.fetch()
 
     @render()
 

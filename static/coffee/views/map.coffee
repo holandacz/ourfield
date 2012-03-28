@@ -45,6 +45,8 @@ class @MapView extends Backbone.View
   events:
     'click #listenForPositionUpdates': '_listenForPositionUpdates'
     'click #cancelTrack': '_cancelTrack'
+    'click #addPlace': 'addPlace'
+    'click #gotoHome': 'gotoHome'
 
   initialize: ->
     @preferences = @options.preferences
@@ -93,39 +95,9 @@ class @MapView extends Backbone.View
         # style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
 
-      
-
-
-    # console.log 'MapView.render zoom', @map.getZoom()
-
-    # http://code.google.com/apis/maps/documentation/javascript/controls.html#Adding_Controls_to_the_Map
-    controlDiv = document.createElement('DIV')
-    controlDiv.style.padding = '5px'
-
-    controlUI = document.createElement('DIV')
-    controlUI.style.backgroundColor = 'white'
-    controlUI.style.borderStyle = 'solid'
-    controlUI.style.borderWidth = '2px'
-    controlUI.style.cursor = 'pointer'
-    controlUI.style.textAlign = 'center'
-    controlUI.title = 'Click to drop a new Place Marker'
-    controlDiv.appendChild(controlUI)
-
-    controlText = document.createElement('DIV')
-    controlText.style.fontFamily = 'Arial,sans-serif'
-    controlText.style.fontSize = '12px'
-    controlText.style.paddingLeft = '4px'
-    controlText.style.paddingRight = '4px'
-    controlText.innerHTML = 'Add Place'
-    controlUI.appendChild(controlText)
 
     # google.maps.event.addListener @map, 'idle', @onIdle
     google.maps.event.addListener window.map, 'maptypeid_changed', @onMapTypeChange
-
-    google.maps.event.addDomListener controlUI, 'click', =>
-      @addPlace()
-
-    window.map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv)
 
     google.maps.event.addListener window.map, 'zoom_changed', =>
       @preferences.set('zoom', window.map.getZoom())
@@ -167,6 +139,9 @@ class @MapView extends Backbone.View
     $('#crosshairlat').html(lat)
     $('#crosshairlng').html(lng)
 
+
+  gotoHome: =>
+    window.location = "#home"
 
   onMapTypeChange: =>
     switch window.map.getMapTypeId()

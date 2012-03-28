@@ -50,6 +50,20 @@
   max-width: none;
 }
 
+#position {
+  color:White;
+  z-index: 11;
+  position:absolute;
+  left: 0;
+  top: 0;
+  background-color:Black;
+  /* These three lines are for transparency in all browsers. */
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  opacity:.5;
+
+}
+
 .map10, .map16 {
     /*
     height: 500px;

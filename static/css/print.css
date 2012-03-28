@@ -1,7 +1,7 @@
 body {
   background: white;
 }
-#donate {
+#donate, #position {
   display: none;
 }
 .navbar, .subnav, #map-crosshair {
