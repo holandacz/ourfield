@@ -113,6 +113,7 @@
 
     Place.prototype.toJSON = function() {
       return {
+        deleted: this.get('deleted'),
         googlemapurl: this.get('googlemapurl'),
         point: this.get('point'),
         territoryno: this.get('territoryno'),
@@ -486,7 +487,7 @@
   window.userPositionMarker = null;
 
   successCallback = function(position) {
-    var pos;
+    var icon, pos;
     console.log('position', position.coords.latitude, position.coords.longitude);
     if (position.coords.latitude) {
       $('#userpositionlatlng').show();
@@ -496,10 +497,18 @@
       try {
         window.userPositionMarker.setMap(null);
       } catch (_error) {}
+      switch (window.map.getMapTypeId()) {
+        case google.maps.MapTypeId.ROADMAP:
+          icon = '/static/img/map/blue-dot.png';
+          break;
+        default:
+          icon = '/static/img/map/white-dot.png';
+      }
       window.userPositionMarker = new google.maps.Marker({
-        icon: '/static/img/map/blue-dot.png',
+        icon: icon,
         position: pos,
-        map: window.map
+        map: window.map,
+        title: 'You are here.'
       });
       return window.map.setCenter(pos);
     }
@@ -802,7 +811,9 @@
       }
       this.marker.setTitle(title);
       if (this.model.get('markerno')) {
-        if (this.model.get('interestlevel')) {
+        if (this.model.get('deleted')) {
+          this.marker.setIcon('/static/img/mapicons/25x30/white/deleted.png');
+        } else if (this.model.get('interestlevel')) {
           this.marker.setIcon('/static/img/mapicons/25x30/green/numbers/number_' + this.model.get('markerno') + '.png');
         } else {
           this.marker.setIcon('/static/img/mapicons/25x30/white/numbers/number_' + this.model.get('markerno') + '.png');
@@ -847,6 +858,7 @@
     InfoWindow.prototype.events = {
       'click a.route': '_route',
       'click a.delete': '_delete',
+      'click a.undelete': '_undelete',
       'click a.edit': '_edit',
       'click a.view': '_view',
       'click a.save-continue': '_saveContinue',
@@ -869,7 +881,11 @@
           model: this.model
         }));
       }
-      return this.$el.modal('show');
+      this.$el.modal('show');
+      if (this.model.get('deleted')) {
+        $('.undelete').show();
+        return $('.delete').hide();
+      }
     };
 
     InfoWindow.prototype._edit = function() {
@@ -892,13 +908,23 @@
       });
     };
 
-    InfoWindow.prototype._delete = function() {
-      var _this = this;
-      if (confirm("Are you sure you want to delete this place?")) {
-        this.model.bind('destroy', function() {
-          return _this.$el.modal('hide');
+    InfoWindow.prototype._undelete = function() {
+      if (confirm("Are you sure you want to undelete this place?")) {
+        this.model.set({
+          deleted: 0
         });
-        return this.model.destroy();
+        this.model.save();
+        return this.$el.modal('hide');
+      }
+    };
+
+    InfoWindow.prototype._delete = function() {
+      if (confirm("Are you sure you want to delete this place?")) {
+        this.model.set({
+          deleted: 1
+        });
+        this.model.save();
+        return this.$el.modal('hide');
       }
     };
 
@@ -1004,7 +1030,9 @@
       $('#list').append(this.el);
       html = '';
       html += '<div class="list-item-row" id="list-item-row-' + this.model.get('id') + '">';
-      if (this.model.get('interestlevel')) {
+      if (this.model.get('deleted')) {
+        html += '<img class="list-marker" src="/static/img/mapicons/25x30/white/deleted.png" />';
+      } else if (this.model.get('interestlevel')) {
         html += '<img class="list-marker" src="/static/img/mapicons/25x30/green/numbers/number_' + this.model.get('markerno') + '.png" />';
       } else {
         html += '<img class="list-marker" src="/static/img/mapicons/25x30/white/numbers/number_' + this.model.get('markerno') + '.png" />';

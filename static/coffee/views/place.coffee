@@ -86,10 +86,11 @@ class @PlaceItemView extends Backbone.View
 
     @marker.setTitle(title)
 
-
+    # console.log 'deleted', @model.get('deleted')
     if @model.get('markerno')
-
-      if @model.get('interestlevel')
+      if @model.get('deleted')
+        @marker.setIcon('/static/img/mapicons/25x30/white/deleted.png')
+      else if @model.get('interestlevel')
         @marker.setIcon('/static/img/mapicons/25x30/green/numbers/number_' +  @model.get('markerno') + '.png')
       else
         @marker.setIcon('/static/img/mapicons/25x30/white/numbers/number_' +  @model.get('markerno') + '.png')
@@ -116,6 +117,7 @@ class InfoWindow extends Backbone.View
   events:
     'click a.route': '_route'
     'click a.delete': '_delete'
+    'click a.undelete': '_undelete'
     'click a.edit': '_edit'
     'click a.view': '_view'
     'click a.save-continue': '_saveContinue'
@@ -131,7 +133,14 @@ class InfoWindow extends Backbone.View
       @$el.html(@editTemplate(model: @model))
     else
       @$el.html(@template(model: @model))
+
+
     @$el.modal('show')
+
+    if @model.get('deleted')
+      $('.undelete').show()
+      $('.delete').hide()
+
 
   _edit: ->
     @editing = true
@@ -158,11 +167,25 @@ class InfoWindow extends Backbone.View
     # @render()
 
 
+  _undelete: ->
+    if confirm("Are you sure you want to undelete this place?")
+      # @model.bind 'destroy', =>
+      #   @$el.modal('hide')
+      # @model.destroy()
+      @model.set
+        deleted: 0
+      @model.save()
+      @$el.modal('hide')
+
   _delete: ->
     if confirm("Are you sure you want to delete this place?")
-      @model.bind 'destroy', =>
-        @$el.modal('hide')
-      @model.destroy()
+      # @model.bind 'destroy', =>
+      #   @$el.modal('hide')
+      # @model.destroy()
+      @model.set
+        deleted: 1
+      @model.save()
+      @$el.modal('hide')
 
   _view: ->
     if confirm("Are you sure you want to abandon edit?")
@@ -224,7 +247,9 @@ class @ListItemView extends Backbone.View
     html += '<div class="list-item-row" id="list-item-row-' + @model.get('id') + '">'
 
 
-    if @model.get('interestlevel')
+    if @model.get('deleted')
+      html += '<img class="list-marker" src="/static/img/mapicons/25x30/white/deleted.png" />'
+    else if @model.get('interestlevel')
       html += '<img class="list-marker" src="/static/img/mapicons/25x30/green/numbers/number_' + @model.get('markerno') + '.png" />'
     else
       html += '<img class="list-marker" src="/static/img/mapicons/25x30/white/numbers/number_' + @model.get('markerno') + '.png" />'

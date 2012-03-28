@@ -27,7 +27,7 @@ class ApiKeyPlusWebAuthentication(ApiKeyAuthentication):
 class PlaceResource(ModelResource):
     class Meta:
         #queryset = Place.objects.all()
-        queryset = Place.objects.filter(geocoded=True).exclude(deleted=True).order_by('markerno')
+        queryset = Place.objects.filter(geocoded=True).order_by('markerno')
         resource_name = 'place'        
         allowed_methods = ["get", "post", "put", "delete"]
         excludes = ['isgeocoded', 'geo_name_id']

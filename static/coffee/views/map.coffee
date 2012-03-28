@@ -14,10 +14,17 @@ successCallback = (position) ->
     try
       window.userPositionMarker.setMap(null)
 
+    switch window.map.getMapTypeId()
+      when google.maps.MapTypeId.ROADMAP
+        icon = '/static/img/map/blue-dot.png'
+      else
+        icon = '/static/img/map/white-dot.png'
+
     window.userPositionMarker = new google.maps.Marker(
-      icon: '/static/img/map/blue-dot.png'
+      icon: icon
       position: pos
       map: window.map
+      title: 'You are here.'
     )
 
     window.map.setCenter(pos)
