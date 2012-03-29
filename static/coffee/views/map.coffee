@@ -106,9 +106,10 @@ class @MapView extends Backbone.View
 
 
   addPlace: ->
-    lat = window.map.getCenter().lat()
-    lng = window.map.getCenter().lng()
-    @places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
+    if confirm("Add a new place?")
+      lat = window.map.getCenter().lat()
+      lng = window.map.getCenter().lng()
+      @places.create(territoryno: @preferences.get('territoryno'), point: "POINT (#{lat} #{lng})")
 
   render: ->
     window.map = new google.maps.Map @$('#map-canvas').get(0),

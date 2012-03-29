@@ -21,63 +21,7 @@
         <!--"{% url map_index %}"-->
         <li id="tab_profile"><a href="/map/">{% trans "Map" %}</a></li>
     {% endspaceless %}</ul>
-
-    <ul class="nav">
-        {% if user.is_authenticated %}
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Territories
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="/map/?territoryno=1-2-1#section-map"> 1-2-1 - Mario LaChance </a></li>
-
-                    <li><a href="/map/?territoryno=1-2-2#section-map"> 1-2-2 - Mario LaChance </a></li>
-
-
-                    <li><a href="/map/?territoryno=1-2-3 (A)#section-map"> 1-2-3 (A) - Mario LaChance </a></li>
-
-                    <li><a href="/map/?territoryno=1-2-3 (B)#section-map"> 1-2-3 (B) - Mario LaChance </a></li>
-
-                    <li><a href="/map/?territoryno=1-2-3 (3)#section-map"> 1-2-3 (3) - Mario LaChance </a></li>
-
-
-                    <li><a href="/map/?territoryno=4-1-2#section-map"> 4-1-2 - Larry Eitel </a></li>
-                    <li><a href="/map/?territoryno=4-1-3#section-map"> 4-1-3 </a></li>
-                    <li><a href="/map/?territoryno=4-7-1#section-map"> 4-7-1 - Samira Elhaij </a></li>
-                    <li><a href="/map/?territoryno=4-7-3#section-map"> 4-7-3 - Lincy Vega </a></li>
-                    <li><a href="/map/?territoryno=4-7-3 (A)#section-map"> 4-7-3 - Scott Moore </a></li>
-                    <li><a href="/map/?territoryno=999"> 999 - unassigned </a></li>
-                    <li class="divider"></li>
-                    <li><a href="/admin/places/place/"> Admin </a></li>
-                </ul>
-            </li>
-        {% endif %}
-    </ul>
-    
-    {% if user.id = 1 %}
-        <ul class="nav pull-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Admin
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="/admin"> Admin </a></li>
-                    <li><a href="/places/admin/automarkerno"> Auto Number Place Markernos </a></li>
-                    <li><a href="/places/admin/updatemarkernos"> Update Place Markernos </a></li>
-                    <li><a href="/places/admin/backup"> Backup Places </a></li>
-                    <li><a href="/places/admin/restore"> Restore Places </a></li>
-                    <li class="divider"></li>
-                    <li><a href="/admin/places/place/"> Admin Places </a></li>
-                </ul>
-            </li>    
-        </ul>
-    {% endif %}
-
-    <img id="busy" src="{% static "img/map/loading.gif" %}" alt="loading"/>
-    <!--<img id="error" src="{% static "img/map/error.png" %}" alt="error" title="An error occurred communicating with the server. Move the map to restart."/>-->
-
+    {% block extra_nv %}{% endblock %}
 {% endblock %}
 
 {% block account_bar %}

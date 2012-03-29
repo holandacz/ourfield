@@ -662,12 +662,14 @@
 
     MapView.prototype.addPlace = function() {
       var lat, lng;
-      lat = window.map.getCenter().lat();
-      lng = window.map.getCenter().lng();
-      return this.places.create({
-        territoryno: this.preferences.get('territoryno'),
-        point: "POINT (" + lat + " " + lng + ")"
-      });
+      if (confirm("Add a new place?")) {
+        lat = window.map.getCenter().lat();
+        lng = window.map.getCenter().lng();
+        return this.places.create({
+          territoryno: this.preferences.get('territoryno'),
+          point: "POINT (" + lat + " " + lng + ")"
+        });
+      }
     };
 
     MapView.prototype.render = function() {

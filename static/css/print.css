@@ -7,9 +7,10 @@ body {
 .navbar, .subnav, #map-crosshair {
   display: none;
 }
-.page-header {
+.page-header, #map-canvas, #list {
   display: block;
 }
+
 a:link, a:visited {
   color: black;
   background: transparent;
