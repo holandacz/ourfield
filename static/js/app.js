@@ -683,7 +683,7 @@
         mapTypeControl: true,
         mapTypeControlOptions: {
           style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-          position: google.maps.ControlPosition.BOTTOM_LEFT,
+          position: google.maps.ControlPosition.TOP_RIGHT,
           mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
         },
         panControl: false,
@@ -697,7 +697,7 @@
         zoomControl: true,
         zoomControlOptions: {
           style: google.maps.ZoomControlStyle.LARGE,
-          position: google.maps.ControlPosition.LEFT_CENTER
+          position: google.maps.ControlPosition.LEFT_TOP
         }
       });
       google.maps.event.addListener(window.map, 'maptypeid_changed', this.onMapTypeChange);
