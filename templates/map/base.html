@@ -38,19 +38,8 @@
 
                 <li id="refresh"><a href="#" class="btn"><i class="icon-refresh"></i>Reload</a></li>
 
-                {% if user.is_authenticated %}
-                  <li><a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a></li>
-                {% endif %}
-
-                <li id="listenForPositionUpdates"><a href="#" class="btn"><i class="icon-road"></i>Track Position</a></li>
-
-                <li id="cancelTrack" style="display: none"><a href="#" class="btn"><i class="icon-remove"></i>Cancel Tracking</a></li>
-                
-                <span id="userposition" style="display: none">
-                  <!--<span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>-->
-                </span>
-
                 {% if territoryno %}
+                  <li><a href="#" id="territory-page-toggle" class="btn">List</a></li>
                   <li class="dropdown">
                     <a id="territory-menu" class="btn dropdown-toggle" data-toggle="dropdown" href="#">Territory<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -62,6 +51,19 @@
                     </ul>
                   </li>
                 {% endif %}
+                
+                {% if user.is_authenticated %}
+                  <li><a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a></li>
+                {% endif %}
+
+                <li id="listenForPositionUpdates"><a href="#" class="btn"><i class="icon-road"></i>Track Position</a></li>
+
+                <li id="cancelTrack" style="display: none"><a href="#" class="btn"><i class="icon-remove"></i>Cancel Tracking</a></li>
+
+                <span id="userposition" style="display: none">
+                  <!--<span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>-->
+                </span>
+
               </ul>
 
 
@@ -74,7 +76,7 @@
               <div id="log"></div>
               {% if territoryno %}
                 <span style="page-break-before: always;"> </span>
-                <div id="list"></div>
+                <div id="list" style="display: none"></div>
               {% endif %}
             {% endif %}
           </div>

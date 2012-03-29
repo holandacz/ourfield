@@ -58,9 +58,24 @@ class @MapView extends Backbone.View
     'click #cancelTrack': '_cancelTrack'
     'click #addPlace': 'addPlace'
     'click div#map-crosshair': '_gotoHome'
+    'click a#territory-page-toggle': '_territoryPageToggle'
+
+  _territoryPageToggle: =>
+    if @territoryPageToggle == 'Map'
+      @territoryPageToggle = 'List'
+      $('#map-canvas').show()
+      $('#list').hide()
+    else
+      @territoryPageToggle = 'Map'
+      $('#map-canvas').hide()
+      $('#list').show()
+
+    $('#territory-page-toggle').html(@territoryPageToggle)
+
 
   initialize: ->
     @preferences = @options.preferences
+    @territoryPageToggle = 'List'
     @nav = null
     @render()
 
@@ -169,7 +184,7 @@ class @MapView extends Backbone.View
     lng = window.map.getCenter().lng()
     $('#crosshairlat').html(lat)
     $('#crosshairlng').html(lng)
-    
+
     window.location = "#home"
 
 

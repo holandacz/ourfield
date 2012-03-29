@@ -595,6 +595,8 @@
       this._refresh = __bind(this._refresh, this);
 
       this.onMapCenterChanged = __bind(this.onMapCenterChanged, this);
+
+      this._territoryPageToggle = __bind(this._territoryPageToggle, this);
       return MapView.__super__.constructor.apply(this, arguments);
     }
 
@@ -603,11 +605,26 @@
       'click #listenForPositionUpdates': '_listenForPositionUpdates',
       'click #cancelTrack': '_cancelTrack',
       'click #addPlace': 'addPlace',
-      'click div#map-crosshair': '_gotoHome'
+      'click div#map-crosshair': '_gotoHome',
+      'click a#territory-page-toggle': '_territoryPageToggle'
+    };
+
+    MapView.prototype._territoryPageToggle = function() {
+      if (this.territoryPageToggle === 'Map') {
+        this.territoryPageToggle = 'List';
+        $('#map-canvas').show();
+        $('#list').hide();
+      } else {
+        this.territoryPageToggle = 'Map';
+        $('#map-canvas').hide();
+        $('#list').show();
+      }
+      return $('#territory-page-toggle').html(this.territoryPageToggle);
     };
 
     MapView.prototype.initialize = function() {
       this.preferences = this.options.preferences;
+      this.territoryPageToggle = 'List';
       this.nav = null;
       return this.render();
     };
