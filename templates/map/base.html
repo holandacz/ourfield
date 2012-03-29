@@ -36,34 +36,33 @@
               <ul class="nav nav-pills map-nav-pills">
 
 
-                <li id="refresh"><a href="#" class="btn"><i class="icon-refresh"></i>Reload</a></li>
+                <li id="refresh"><a href="#" class="btn" title="Reload page."><i class="icon-refresh"></i></a></li>
 
                 {% if territoryno %}
                   <li><a href="#" id="territory-page-toggle" class="btn">List</a></li>
                   <li class="dropdown">
                     <a id="territory-menu" class="btn dropdown-toggle" data-toggle="dropdown" href="#">Territory<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                    <li><a href="#">Edit</a></li>
-                    <li><a href="#">Add</a></li>
-                    <li><a href="#">Print</a></li>
+                    <li><a href="#">Edit (Soon)</a></li>
+                    <li><a href="#">Add (Soon)</a></li>
+                    <li><a href="#">Print (Soon)</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">Admin</a></li>
+                    <li><a href="#">Admin (Soon)</a></li>
                     </ul>
                   </li>
                 {% endif %}
 
                 {% if user.is_authenticated %}
-                  <li><a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a></li>
+                  <li><a href="#" class="btn" id="addPlace" title="Add place."><i class="icon-plus"></i></a></li>
                 {% endif %}
 
-                <li id="listenForPositionUpdates"><a href="#" class="btn"><i class="icon-road"></i>Track Position</a></li>
+                <li id="listenForPositionUpdates"><a href="#" class="btn" title="Track your position."><i class="icon-road"></i></a></li>
 
-                <li id="cancelTrack" style="display: none"><a href="#" class="btn"><i class="icon-remove"></i>Cancel Tracking</a></li>
+                <li id="cancelTrack" style="display: none"><a href="#" class="btn" title="Cancel tracking your position."><i class="icon-road"></i><i class="icon-remove"></i></a></li>
 
                 <span id="userposition" style="display: none">
                   <!--<span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>-->
                 </span>
-
               </ul>
 
 
