@@ -91,7 +91,7 @@ class @AppView extends Backbone.View
           pageheader = "999 Unassigned"
 
       $('.page-header').html(pageheader)
-      $('#territory-menu').html(pageheader + '<b class="caret"></b>')
+      $('#territory-menu').html(territoryno + '<b class="caret"></b>')
 
       if territoryno
         @preferences.set('territoryno', territoryno)
