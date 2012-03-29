@@ -25,7 +25,7 @@ successCallback = (position) ->
     image = new google.maps.MarkerImage(icon,
       new google.maps.Size(15, 15),
       new google.maps.Point(0, 0),
-      new google.maps.Point(8, 8))
+      new google.maps.Point(9, 9))
 
 
     window.userPositionMarker = new google.maps.Marker(

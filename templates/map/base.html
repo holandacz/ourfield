@@ -51,7 +51,7 @@
                     </ul>
                   </li>
                 {% endif %}
-                
+
                 {% if user.is_authenticated %}
                   <li><a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a></li>
                 {% endif %}
@@ -143,7 +143,7 @@
       // https://github.com/twitter/bootstrap/issues/2475
       $(window).resize(function () {
         var h = $(window).height(),
-          offsetTop = 40; // Calculate the top offset
+          offsetTop = 82; // Calculate the top offset
 
         $('#map-canvas').css('height', (h - offsetTop));
       }).resize();
