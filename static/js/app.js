@@ -336,7 +336,7 @@
             zoom = 13;
             return pageheader = "999 Unassigned";
         }
-      })(), $('.page-header').html(pageheader), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314"), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
+      })(), $('.page-header').html(pageheader), $('#territory-menu').html(pageheader + '<b class="caret"></b>'), territoryno ? (this.preferences.set('territoryno', territoryno), this.preferences.set('zoom', zoom)) : (this.preferences.set('zoom', 13), ll = "9.981192,-84.185314"), ll = ll.split(','), this.preferences.set('centerLat', ll[0]), this.preferences.set('centerLng', ll[1]));
       return this.searchView = new SearchView({
         el: '#search',
         model: this.model,
@@ -721,7 +721,8 @@
       lat = window.map.getCenter().lat();
       lng = window.map.getCenter().lng();
       $('#crosshairlat').html(lat);
-      return $('#crosshairlng').html(lng);
+      $('#crosshairlng').html(lng);
+      return window.location = "#home";
     };
 
     MapView.prototype._refresh = function() {

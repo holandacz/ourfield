@@ -23,65 +23,48 @@
 {% endblock %}
 
 {% block body %}
-  <div id="app">
-      <div id="map">
-        <div class="container">
-          <div class="map-container">
-            <h1 class="small page-header">Territory Title</h1>
-            <div id="map-canvas">{% include "map/crosshair.html" %}</div>
 
-            <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" title="Click to go to top of page." /></div>
-
-            <div id="position">
-              <ul class="nav nav-pills map-nav-pills">
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span9">
+      <div id="map-canvas">{% include "map/crosshair.html" %}</div>
 
 
-                <li id="refresh"><a href="#" class="btn"><i class="icon-refresh"></i>Reload</a></li>
+      <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" title="Click to go to top of page." /></div>
 
-                {% if user.is_authenticated %}
-                  <li><a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a></li>
-                {% endif %}
+      <div id="position">
+        <a href="#" class="btn" id="refresh"><i class="icon-refresh"></i>Reload</a>
 
-                <li id="listenForPositionUpdates"><a href="#" class="btn"><i class="icon-road"></i>Track Position</a></li>
+        {% if user.is_authenticated %}
+          <a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a>
+        {% endif %}
 
-                <span id="userposition" style="display: none">
-                  <li id="cancelTrack"><a href="#" class="btn"><i class="icon-remove"></i>Cancel Tracking</a></li>
-                  <!--<span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>-->
-                </span>
+        <a href="#" class="btn" id="listenForPositionUpdates"><i class="icon-road"></i>Track Position</a>
 
-                {% if territoryno %}
-                  <li class="dropdown">
-                    <a id="territory-menu" class="btn dropdown-toggle" data-toggle="dropdown" href="#">Territory<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                    <li><a href="#">Edit</a></li>
-                    <li><a href="#">Add</a></li>
-                    <li><a href="#">Print</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Admin</a></li>
-                    </ul>
-                  </li>
-                {% endif %}
-              </ul>
+        <span id="userposition" style="display: none">
+          <a href="#" class="btn" id="cancelTrack"><i class="icon-remove"></i>Cancel Tracking</a>
+          <span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>
+        </span>
 
-
-              <span id="crosshairposition">
-                <!--<span id="crosshairpositionlatlng"><b>Crosshair:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>-->
-              </span>
-            </div>
-
-            {% if user.is_authenticated %}
-              <div id="log"></div>
-              {% if territoryno %}
-                <span style="page-break-before: always;"> </span>
-                <div id="list"></div>
-              {% endif %}
-            {% endif %}
-          </div>
-        </div><!-- container -->
+        <span id="crosshairposition">
+          <span id="crosshairpositionlatlng"><b>Crosshair:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>
+        </span>
       </div>
-      <div id="placeName"></div>
 
+      <div id="placeName"></div>
+    </div>
+    <div class="span3">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          <li class="nav-header">Sidebar</li>
+          <li class="active"><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
+</div>
 
 
 {% endblock %}
@@ -136,15 +119,5 @@
           preferences: preferences
         });
       });
-
-      // https://github.com/twitter/bootstrap/issues/2475
-      $(window).resize(function () {
-        var h = $(window).height(),
-          offsetTop = 40; // Calculate the top offset
-
-        $('#map-canvas').css('height', (h - offsetTop));
-      }).resize();
-
-
   </script>
 {% endblock %}

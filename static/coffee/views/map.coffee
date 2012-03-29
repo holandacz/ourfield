@@ -166,6 +166,8 @@ class @MapView extends Backbone.View
     lng = window.map.getCenter().lng()
     $('#crosshairlat').html(lat)
     $('#crosshairlng').html(lng)
+    
+    window.location = "#home"
 
 
   _refresh: =>

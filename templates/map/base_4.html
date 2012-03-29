@@ -24,62 +24,89 @@
 
 {% block body %}
   <div id="app">
+    
+    {% if user.is_authenticated %}
+      <!--
+      {% if territoryno %}
+        <section id="section-terr-map-overview">
+          <div id="terr-map-overview">
+            {% include "map/subnav.html" %}
+            <img src="{% static "img/territory/652/overview.png" %}" />
+          </div>
+        </section>
+      {% endif %}
+      -->
+
+      <section id="section-map">
+        {% if territoryno %}
+          {% include "map/subnav.html" %}
+        {% endif %}
+    {% endif %}
       <div id="map">
         <div class="container">
-          <div class="map-container">
-            <h1 class="small page-header">Territory Title</h1>
-            <div id="map-canvas">{% include "map/crosshair.html" %}</div>
 
+          <!--
+          <div class="alert fade in  alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            Successfully logged in as larry.
+          </div>
+          -->
+
+
+          <div class="map-container">
+            <div id="map-canvas">{% include "map/crosshair.html" %}
+
+            </div>
             <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" title="Click to go to top of page." /></div>
 
             <div id="position">
-              <ul class="nav nav-pills map-nav-pills">
+              <a href="#" class="btn" id="refresh"><i class="icon-refresh"></i>Reload</a>
 
+              {% if user.is_authenticated %}
+                <a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a>
+              {% endif %}
 
-                <li id="refresh"><a href="#" class="btn"><i class="icon-refresh"></i>Reload</a></li>
+              <a href="#" class="btn" id="listenForPositionUpdates"><i class="icon-road"></i>Track Position</a>
 
-                {% if user.is_authenticated %}
-                  <li><a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a></li>
-                {% endif %}
-
-                <li id="listenForPositionUpdates"><a href="#" class="btn"><i class="icon-road"></i>Track Position</a></li>
-
-                <span id="userposition" style="display: none">
-                  <li id="cancelTrack"><a href="#" class="btn"><i class="icon-remove"></i>Cancel Tracking</a></li>
-                  <!--<span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>-->
-                </span>
-
-                {% if territoryno %}
-                  <li class="dropdown">
-                    <a id="territory-menu" class="btn dropdown-toggle" data-toggle="dropdown" href="#">Territory<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                    <li><a href="#">Edit</a></li>
-                    <li><a href="#">Add</a></li>
-                    <li><a href="#">Print</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Admin</a></li>
-                    </ul>
-                  </li>
-                {% endif %}
-              </ul>
-
+              <span id="userposition" style="display: none">
+                <a href="#" class="btn" id="cancelTrack"><i class="icon-remove"></i>Cancel Tracking</a>
+                <span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>
+              </span>
 
               <span id="crosshairposition">
-                <!--<span id="crosshairpositionlatlng"><b>Crosshair:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>-->
+                <span id="crosshairpositionlatlng"><b>Crosshair:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>
               </span>
             </div>
 
-            {% if user.is_authenticated %}
-              <div id="log"></div>
-              {% if territoryno %}
-                <span style="page-break-before: always;"> </span>
-                <div id="list"></div>
-              {% endif %}
-            {% endif %}
           </div>
         </div><!-- container -->
       </div>
       <div id="placeName"></div>
+    {% if user.is_authenticated %}
+      </section>
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+      <section id="section-log">
+        <div id="log"></div>
+      </section>
+      {% if territoryno %}
+        <span style="page-break-before: always;"> </span>
+        <section id="section-list">
+          {% include "map/subnav.html" %}
+          <div id="list"></div>
+        </section>
+        
+        <span style="page-break-before: always;"> </span>
+        <section id="section-terr-instructions">
+          <div id="terr-instructions">
+            {% include "map/subnav.html" %}
+          </div>
+        </section>
+      {% endif %}
+    {% endif %}
+
+
 
   </div>
 
@@ -137,13 +164,13 @@
         });
       });
 
-      // https://github.com/twitter/bootstrap/issues/2475
       $(window).resize(function () {
         var h = $(window).height(),
-          offsetTop = 40; // Calculate the top offset
+          offsetTop = 60; // Calculate the top offset
 
         $('#map-canvas').css('height', (h - offsetTop));
       }).resize();
+
 
 
   </script>

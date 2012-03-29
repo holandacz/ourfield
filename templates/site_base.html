@@ -12,10 +12,11 @@
     <link href="{% static "css/theme.css" %}" rel="stylesheet">
     <link href="{% static "css/print.css" %}" rel="stylesheet"media="print">
     {% block extra_style %}{% endblock %}
+
+    <a name="home"></a>
 {% endblock %}
 
 {% block nav %}
-    <a name="home"></a>
     <ul class="nav">{% spaceless %}
         <!--"{% url map_index %}"-->
         <li id="tab_profile"><a href="/map/">{% trans "Map" %}</a></li>
@@ -55,7 +56,7 @@
     </ul>
     
     {% if user.id = 1 %}
-        <ul class="nav">
+        <ul class="nav pull-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     Admin
@@ -77,12 +78,21 @@
     <img id="busy" src="{% static "img/map/loading.gif" %}" alt="loading"/>
     <!--<img id="error" src="{% static "img/map/error.png" %}" alt="error" title="An error occurred communicating with the server. Move the map to restart."/>-->
 
+{% endblock %}
+
+{% block account_bar %}
+    <form action="" class="navbar-search pull-right">
+        <input type="text" placeholder="Search" class="search-query span2">
+    </form>
+    {% include "_account_bar.html" %}
     {% if user.is_authenticated %}
-        <ul class="nav">{% spaceless %}
+        <ul class="nav pull-right">{% spaceless %}
             <li id="tab_profile"><a href="{% url profile_detail user.username %}">{% trans "Profile" %}</a></li>
             <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>
         {% endspaceless %}</ul>
     {% endif %}
+
+
 {% endblock %}
 
 {% block footer %}
