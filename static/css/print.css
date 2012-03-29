@@ -7,7 +7,9 @@ body {
 .navbar, .subnav, #map-crosshair {
   display: none;
 }
-
+.page-header {
+  display: block;
+}
 a:link, a:visited {
   color: black;
   background: transparent;
