@@ -534,6 +534,7 @@
     console.log('position', position.coords.latitude, position.coords.longitude);
     if (position.coords.latitude) {
       $('#userpositionlatlng').show();
+      $('#cancelTrack').show();
       $('#userpositionlat').html(position.coords.latitude);
       $('#userpositionlng').html(position.coords.longitude + ' <b>|</b>');
       pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -617,7 +618,8 @@
         window.userPositionMarker.setMap(null);
       } catch (_error) {}
       $('#listenForPositionUpdates').show();
-      return $('#userposition').hide();
+      $('#userposition').hide();
+      return $('#cancelTrack').hide();
     };
 
     MapView.prototype._listenForPositionUpdates = function() {
@@ -637,7 +639,8 @@
         } catch (_error) {}
       }
       $('#listenForPositionUpdates').hide();
-      return $('#userposition').show();
+      $('#userposition').show();
+      return $('#cancelTrack').show();
     };
 
     MapView.prototype.addPlace = function() {

@@ -5,6 +5,7 @@ successCallback = (position) ->
   console.log 'position', position.coords.latitude, position.coords.longitude
   if position.coords.latitude
     $('#userpositionlatlng').show()
+    $('#cancelTrack').show()
 
     $('#userpositionlat').html(position.coords.latitude)
     $('#userpositionlng').html(position.coords.longitude + ' <b>|</b>')
@@ -70,6 +71,7 @@ class @MapView extends Backbone.View
       
     $('#listenForPositionUpdates').show()
     $('#userposition').hide()
+    $('#cancelTrack').hide()
 
   _listenForPositionUpdates: ->
     if not @nav
@@ -85,6 +87,7 @@ class @MapView extends Backbone.View
 
     $('#listenForPositionUpdates').hide()
     $('#userposition').show()
+    $('#cancelTrack').show()
 
 
   addPlace: ->
