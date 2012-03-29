@@ -104,7 +104,7 @@ class @MapView extends Backbone.View
       mapTypeControl: true
       mapTypeControlOptions: 
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.BOTTOM_CENTER
+        position: google.maps.ControlPosition.BOTTOM_LEFT
         mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
 
       panControl: false

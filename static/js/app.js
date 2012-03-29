@@ -469,7 +469,7 @@
       this.poly.setPath(this.model.get('latlngs'));
       this.poly.setMap(this.map);
       if (window.appData.attributes['userid'] === 1) {
-        google.maps.event.addListener(this.poly, "rightclick", this.edit);
+        google.maps.event.addListener(this.poly, "click", this.edit);
       }
       google.maps.event.addListener(this.poly, 'mouseover', function() {
         return _this.poly.setOptions(_this.hoverPolyOpts);
@@ -487,7 +487,7 @@
 
     BoundaryItemView.prototype.edit = function() {
       this.editing = true;
-      console.log('edit poly', this.poly.latLngs.b[0]);
+      google.maps.event.clearListeners(this.poly, 'click');
       google.maps.event.addListener(this.poly, "click", this.stopedit);
       return this.poly.runEdit(true);
     };
@@ -510,8 +510,11 @@
         newPoly = 'POLYGON ((' + latlngslist.toString() + '))';
         this.model.set('poly', newPoly);
         this.model.save();
+        google.maps.event.addListener(this.poly, "click", this.edit);
+        return this.render();
+      } else {
+        return this.location.reload();
       }
-      return this.render();
     };
 
     BoundaryItemView.prototype.show = function() {};
@@ -658,7 +661,7 @@
         mapTypeControl: true,
         mapTypeControlOptions: {
           style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-          position: google.maps.ControlPosition.BOTTOM_CENTER,
+          position: google.maps.ControlPosition.BOTTOM_LEFT,
           mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID]
         },
         panControl: false,
