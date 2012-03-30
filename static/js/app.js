@@ -548,7 +548,7 @@
         default:
           icon = '/static/img/map/white-dot.png';
       }
-      image = new google.maps.MarkerImage(icon, new google.maps.Size(15, 15), new google.maps.Point(0, 0), new google.maps.Point(9, 9));
+      image = new google.maps.MarkerImage(icon, new google.maps.Size(16, 16), new google.maps.Point(0, 0), new google.maps.Point(8, 3));
       window.userPositionMarker = new google.maps.Marker({
         icon: image,
         position: pos,
