@@ -116,17 +116,13 @@ class @BoundaryItemView extends Backbone.View
       #console.log 'newPoly', newPoly
       @model.set('poly', newPoly)
       @model.save()
-      google.maps.event.addListener @poly, "click", @edit
+      # google.maps.event.addListener @poly, "click", @edit
       @render()
     else
-      # @poly = @bu_poly
-      # console.log @model
+      # debugger;
       # console.log @poly
-      # @poly.setMap(null)
-      # @poly.setVisible(false)
-      # @collection.fetch()
-      # #@model.fetch()
-      @location.reload()
+      # console.log @poly.getEditable()
+      # @poly.setPaths(@model.get('latlngs'))
 
   show: =>
     # console.log 'BoundaryItemView.show'

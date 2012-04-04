@@ -510,10 +510,9 @@
         newPoly = 'POLYGON ((' + latlngslist.toString() + '))';
         this.model.set('poly', newPoly);
         this.model.save();
-        google.maps.event.addListener(this.poly, "click", this.edit);
         return this.render();
       } else {
-        return this.location.reload();
+
       }
     };
 

@@ -2,6 +2,12 @@
 	"folders":
 	[
 		{
+			"path": "/C/_w/nb"
+		},
+		{
+			"path": "/C/Users/Larry/__prjs/nb/nbn"
+		},
+		{
 			"path": "/C/Users/Larry/__prjs/ourfield"
 		},
 		{
@@ -33,6 +39,15 @@
 		},
 		{
 			"path": "/C/_prm"
+		},
+		{
+			"path": "/C/xampp/apache/conf"
+		},
+		{
+			"path": "/C/Windows/System32/drivers/etc"
+		},
+		{
+			"path": "/C/xampp/htdocs/nbo"
 		}
 	]
 }
