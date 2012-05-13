@@ -336,8 +336,8 @@
             zoom = 14;
             return pageheader = "Belen Sur";
           case "BSP":
-            ll = "9.83974,-83.867655";
-            zoom = 14;
+            ll = "9.832594,-83.863235";
+            zoom = 15;
             return pageheader = "Belen Sur Paraiso";
           case "BSZ":
             ll = "10.1843,-84.40002";

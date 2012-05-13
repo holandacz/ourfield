@@ -91,8 +91,8 @@ class @AppView extends Backbone.View
           pageheader = "Belen Sur"
 
         when "BSP" 
-          ll = "9.83974,-83.867655"
-          zoom = 14
+          ll = "9.832594,-83.863235"
+          zoom = 15
           pageheader = "Belen Sur Paraiso"
 
         when "BSZ" 
