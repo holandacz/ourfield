@@ -425,10 +425,6 @@
       this.hide = __bind(this.hide, this);
 
       this.show = __bind(this.show, this);
-
-      this.stopedit = __bind(this.stopedit, this);
-
-      this.edit = __bind(this.edit, this);
       return BoundaryItemView.__super__.constructor.apply(this, arguments);
     }
 
@@ -468,9 +464,6 @@
       this.poly = new google.maps.Polygon(this.currentPolyOpts);
       this.poly.setPath(this.model.get('latlngs'));
       this.poly.setMap(this.map);
-      if (window.appData.attributes['userid'] === 1) {
-        google.maps.event.addListener(this.poly, "click", this.edit);
-      }
       google.maps.event.addListener(this.poly, 'mouseover', function() {
         return _this.poly.setOptions(_this.hoverPolyOpts);
       });
@@ -483,37 +476,6 @@
         return _this.placeName.hide();
       });
       return this.show();
-    };
-
-    BoundaryItemView.prototype.edit = function() {
-      this.editing = true;
-      google.maps.event.clearListeners(this.poly, 'click');
-      google.maps.event.addListener(this.poly, "click", this.stopedit);
-      return this.poly.runEdit(true);
-    };
-
-    BoundaryItemView.prototype.stopedit = function() {
-      var latlng, latlngslist, newPoly;
-      this.editing = false;
-      this.poly.stopEdit();
-      if (confirm("Are you sure you want to modify this boundary?")) {
-        latlngslist = (function() {
-          var _i, _len, _ref, _results;
-          _ref = this.poly.getPath().b;
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            latlng = _ref[_i];
-            _results.push(latlng.lng() + ' ' + latlng.lat());
-          }
-          return _results;
-        }).call(this);
-        newPoly = 'POLYGON ((' + latlngslist.toString() + '))';
-        this.model.set('poly', newPoly);
-        this.model.save();
-        return this.render();
-      } else {
-
-      }
     };
 
     BoundaryItemView.prototype.show = function() {};
@@ -548,13 +510,12 @@
           icon = '/static/img/map/white-dot.png';
       }
       image = new google.maps.MarkerImage(icon, new google.maps.Size(16, 16), new google.maps.Point(0, 0), new google.maps.Point(8, 3));
-      window.userPositionMarker = new google.maps.Marker({
+      return window.userPositionMarker = new google.maps.Marker({
         icon: image,
         position: pos,
         map: window.map,
         title: 'You are here.'
       });
-      return window.map.setCenter(pos);
     }
   };
 

@@ -37,7 +37,7 @@ successCallback = (position) ->
     # window.userPositionMarker.getIcon().origin = new google.maps.Point(0, 50)
     # window.userPositionMarker.setIcon(window.userPositionMarker.getIcon())
 
-    window.map.setCenter(pos)
+    # window.map.setCenter(pos)
 
 geolocationError = (error) ->
   msg = 'Unable to locate position. '

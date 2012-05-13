@@ -74,8 +74,8 @@ class @BoundaryItemView extends Backbone.View
     @poly.setPath(@model.get('latlngs'))
     @poly.setMap(@map)
 
-    if window.appData.attributes['userid'] == 1
-      google.maps.event.addListener @poly, "click", @edit
+    # if window.appData.attributes['userid'] == 1
+    #   google.maps.event.addListener @poly, "click", @edit
 
     google.maps.event.addListener @poly, 'mouseover', =>
       @poly.setOptions(@hoverPolyOpts)
@@ -97,32 +97,32 @@ class @BoundaryItemView extends Backbone.View
     #   # @poly.setEditable(true)
     #   @poly.runEdit(true)
 
-  edit: =>
-    @editing = true
-    # console.log 'edit poly', @poly.latLngs.b[0]
-    google.maps.event.clearListeners(@poly, 'click')
-    google.maps.event.addListener @poly, "click", @stopedit
-    # @bu_poly = @poly
-    @poly.runEdit(true)
+  # edit: =>
+  #   @editing = true
+  #   # console.log 'edit poly', @poly.latLngs.b[0]
+  #   google.maps.event.clearListeners(@poly, 'click')
+  #   google.maps.event.addListener @poly, "click", @stopedit
+  #   # @bu_poly = @poly
+  #   @poly.runEdit(true)
 
-  stopedit: =>
-    @editing = false
-    @poly.stopEdit()
-    if confirm("Are you sure you want to modify this boundary?")
-      #console.log 'oldPoly', @model.get('poly')
+  # stopedit: =>
+  #   @editing = false
+  #   @poly.stopEdit()
+  #   if confirm("Are you sure you want to modify this boundary?")
+  #     #console.log 'oldPoly', @model.get('poly')
 
-      latlngslist = (latlng.lng() + ' ' + latlng.lat() for latlng in @poly.getPath().b)
-      newPoly = 'POLYGON ((' + latlngslist.toString() + '))'
-      #console.log 'newPoly', newPoly
-      @model.set('poly', newPoly)
-      @model.save()
-      # google.maps.event.addListener @poly, "click", @edit
-      @render()
-    else
-      # debugger;
-      # console.log @poly
-      # console.log @poly.getEditable()
-      # @poly.setPaths(@model.get('latlngs'))
+  #     latlngslist = (latlng.lng() + ' ' + latlng.lat() for latlng in @poly.getPath().b)
+  #     newPoly = 'POLYGON ((' + latlngslist.toString() + '))'
+  #     #console.log 'newPoly', newPoly
+  #     @model.set('poly', newPoly)
+  #     @model.save()
+  #     # google.maps.event.addListener @poly, "click", @edit
+  #     @render()
+  #   else
+  #     # debugger;
+  #     # console.log @poly
+  #     # console.log @poly.getEditable()
+  #     # @poly.setPaths(@model.get('latlngs'))
 
   show: =>
     # console.log 'BoundaryItemView.show'
