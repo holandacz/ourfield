@@ -331,6 +331,18 @@
             ll = "9.970288,-84.156647";
             zoom = 17;
             return pageheader = "4-7-3 Heredia/Asuncion/Cariari/Ciudad Cariari";
+          case "BS":
+            ll = "9.984336,-84.168733";
+            zoom = 14;
+            return pageheader = "Belen Sur";
+          case "BSP":
+            ll = "9.83974,-83.867655";
+            zoom = 14;
+            return pageheader = "Belen Sur Paraiso";
+          case "BSZ":
+            ll = "10.1843,-84.40002";
+            zoom = 14;
+            return pageheader = "Belen Sur Zarcero";
           case "999":
             ll = "9.98713594918928,-84.1771144239311";
             zoom = 13;
