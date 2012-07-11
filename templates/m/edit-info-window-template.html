@@ -1,0 +1,126 @@
+<script type="text/template" id="edit-info-window-template">
+  <div class="modal-header">
+    <h3>Edit P<%= model.get('id') %> - M<%= model.get('marker') %>
+      <a href="#" class="route btn">Route</a>
+      <a href="#" class="view btn">View</a>
+      <a href="#" class="save-continue btn">Save &amp; Continue</a>
+      <a href="#" class="save btn btn-primary">Save</a>
+      <a href="#" class="btn" data-dismiss="modal" >Close</a>
+
+    </h3>
+  </div>
+
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label">Territory#</label>
+          <div class="controls">
+            <input id="ed-territoryno" type="text" class="input-small" value="<%= model.get('territoryno') %>">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Route Marker# After</label>
+          <div class="controls">
+            <input id="ed-routemarkernoafter" type="text" class="input-small" value="<%= model.get('routemarkernoafter') %>">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Marker#</label>
+          <div class="controls">
+            <input id="ed-markerno" type="text" class="input-small" value="<%= model.get('markerno') %>">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Name</label>
+          <div class="controls">
+            <input id="ed-name" type="text" class="input-small" value="<%= model.get('name') %>">
+            <p class="help-block">Name of this place.</p>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">House#</label>
+          <div class="controls">
+            <input id="ed-houseno" type="text" class="input-small" value="<%= model.get('houseno') %>">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Description</label>
+          <div class="controls">
+            <textarea id="ed-description" class="input-xlarge"><%= model.get('description') %></textarea>
+            <p class="help-block">Describe the physical features of this place.</p>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Persons</label>
+          <div class="controls">
+            <textarea id="ed-persons" class="input-xlarge"><%= model.get('persons') %></textarea>
+            <p class="help-block">Persons contacted at this place.</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Phone Numbers</label>
+          <div class="controls">
+            <textarea id="ed-phonenos" class="input-xlarge"><%= model.get('phonenos') %></textarea>
+            <p class="help-block">Phone numbers, one per line.</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Emails</label>
+          <div class="controls">
+            <textarea id="ed-emails" class="input-xlarge"><%= model.get('emails') %></textarea>
+            <p class="help-block">Email addresses, one per line.</p>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Notes</label>
+          <div class="controls">
+            <textarea id="ed-notes" class="input-xlarge"><%= model.get('notes') %></textarea>
+            <p class="help-block">General notes regarding this place.</p>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Interest Level</label>
+          <div class="controls">
+            <input id="ed-interestlevel" type="text" class="input-small" value="<%= model.get('interestlevel') %>">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Actions</label>
+          <div class="controls">
+            <textarea id="ed-actions" class="input-xlarge"><%= model.get('actions') %></textarea>
+            <p class="help-block">Actions taken involving this place.</p>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Directions to Next Place</label>
+          <div class="controls">
+            <textarea id="ed-tonext" class="input-xlarge"><%= model.get('tonext') %></textarea>
+            <p class="help-block">From here, describe how to get to the next place.</p>
+          </div>
+        </div>
+        <!--<div class="control-group">
+          <label class="control-label">GoogleMapURL</label>
+          <div class="controls">
+            <textarea id="ed-googlemapurl" class="input-xlarge"><%= model.get('googlemapurl') %></textarea>
+            <p class="help-block">Google Map URL override.</p>
+          </div>
+        </div>
+        -->
+      </fieldset>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" >Close</a>
+    <a href="#" class="save btn btn-primary">Save</a>
+    <a href="#" class="save-continue btn">Save &amp; Continue</a>
+    <a href="#" class="view btn">View</a>
+    <a href="#" class="route btn">Route</a>
+  </div>
+</script>

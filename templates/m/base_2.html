@@ -1,0 +1,133 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load map_tags %}
+
+{% block head_title %}{% trans "Map" %}{% endblock %}
+
+{% block extra_style %}
+<link href="{% static "css/map.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" />
+{% endblock %}
+
+{% block body %}
+    <div class="map_container">
+        <div id="map" class="map16"></div>
+	<b>Marker status: </b><span id="markerStatus"><i>Click and drag the marker.</i></span> | 
+	<b>Current position: </b><span id="info"></span> |
+	<b>Closest matching address: </b><span id="address"></span>
+
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+<script src="{% static "js/backbone.js" %}"></script>
+<script src="{% static "js/map.js" %}"></script>
+
+<script type="text/javascript">
+
+var geocoder = new google.maps.Geocoder();
+
+function geocodePosition(pos) {
+  geocoder.geocode({
+    latLng: pos
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
+
+
+function updateMarkerStatus(str) {
+  document.getElementById('markerStatus').innerHTML = str;
+}
+
+function updateMarkerPosition(latLng) {
+  document.getElementById('info').innerHTML = [
+    latLng.lat(),
+    latLng.lng()
+  ].join(', ');
+}
+
+function updateMarkerAddress(str) {
+  document.getElementById('address').innerHTML = str;
+}
+
+$(document).ready(function(){
+
+
+    // media url
+    ofmap.static_url = '{{ STATIC_URL }}';
+
+    // basemap
+    ofmap.createBasemap('map');
+
+    // zoom and center
+    ofmap.map.setOptions({
+	zoom: 18,
+	//center: new google.maps.LatLng(9.980516,-84.163063)
+	center: new google.maps.LatLng(10.001025,-84.134588)
+    });
+    
+    // Update current position info.
+    //updateMarkerPosition(latLng);
+    //geocodePosition(latLng);
+    
+    // add boundaries
+    
+    {% if polys %}
+	{% if polys and user.is_authenticated %}
+	    {% for poly in polys.congregations %}
+	    ofmap.createPoly({
+		'points': '{{ poly.encoded.points|fixbackslash }}',
+		'levels': '{{ poly.encoded.levels }}',
+		'zoomFactor': {{ poly.encoded.zoomFactor }},
+		'numLevels': {{ poly.encoded.numLevels }}
+	    })
+	    {% endfor %}
+	{% endif %}
+	
+	{% for poly in polys.territories %}
+	    ofmap.createPoly({
+		'points': '{{ poly.encoded.points|fixbackslash }}',
+		'levels': '{{ poly.encoded.levels }}',
+		'zoomFactor': {{ poly.encoded.zoomFactor }},
+		'numLevels': {{ poly.encoded.numLevels }}
+	    })
+	{% endfor %}
+    {% endif %}
+    
+    
+    // add en markers
+    {% for enpt in enpts %}
+	ofmap.createEnMarker({
+		'title': '{{ enpt.title }}',
+		'lat': {{ enpt.point.x }},
+		'lon': {{ enpt.point.y }},
+	});
+    {% endfor %}
+    
+    // add place markers
+    {% for placept in placepts %}
+	ofmap.createPlaceMarker({
+		'id': '{{ placept.id }}',
+		'title': '{{ placept }}',
+		'lat': {{ placept.point.x }},
+		'lon': {{ placept.point.y }},
+	});
+    {% endfor %}
+		
+});
+
+
+</script>    
+{% endblock %}

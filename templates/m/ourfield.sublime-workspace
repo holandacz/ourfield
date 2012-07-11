@@ -1,0 +1,442 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"js",
+				"jsapp"
+			],
+			[
+				"get",
+				"get_point"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "_.templateSettings =\n    interpolate: /\\{\\{(.+?)\\}\\}/g\n\n# MODELS\n\n# A place has a location\nclass Place extends Backbone.Model\n    idAttribute: \"id\"\n\n    # Fear the XSS.\n    escapedJson: ->\n        return json =\n            place: @escape \"place\"\n            id: @get \"id\"\n\n\nclass PlaceList extends Backbone.Collection\n    url: \"/places/place\"\n    model: Place\n\n\n# VIEWS\n\n# A MarkerView represents a single marker on the map.\nclass MarkerView extends Backbone.View\n    template: _.template \"\"\"\n        <div class='marker-content'>\n            <div>\n                {{ id }}\n            </div>\n            <div class='marker-place'><emphasis>{{ place }}</emphasis></div>\n        </div>\n        \"\"\"\n\n    # Actions that URLs are allowed to trigger.\n    validActions: ['open', 'close', 'save', 'edit', 'cancel', 'toggle']\n\n    initialize: ->\n        @map = @options.map\n        @maxWidth = 350\n        @zoomLevel = 12\n\n        # Bind 'this' to the view in all methods.\n        _.bindAll @, \"render\", \"edit\", \"open\", \"close\", \"save\", \"toggle\",\n                  \"remove\", \"openInfoWindow\", \"handleAction\"\n\n        # Respond to 'change' events from the model by re-rendering the view.\n        @model.bind 'change', @render\n\n        position = new google.maps.LatLng(parseFloat @model.get(\"lat\"),\n                                          parseFloat @model.get(\"lon\"))\n        \n        #Create a new Google Maps marker for this place.\n        @marker = new google.maps.Marker\n            position: position\n            map: @map\n\n        return this\n\n\n# A view representing a Place as a single item in a list.\nclass NavigationItemView extends Backbone.View\n    template: _.template \"\"\"\n        <li>\n            <h3><a href='#markers/marker/open/{{ id }}'>{{ id }}</a></h4>\n        </li>\n        \"\"\"\n\n    initialize: ->\n        _.bindAll @, 'render'\n        @model.bind 'change', @render\n\n    # Add item to list of markers in sidebar\n    render: ->\n        maxDescLength = 150\n        sliceEnd = maxDescLength\n        navigation = ($ \"#navigation-items\")j\n        description = @model.getSafe \"description\"\n        shortDescription = \"\"\n\n        # First remove it if it already exists\n        if @item?\n            @remove()\n\n        # Portion of the description to show in the navigation item.\n        if description.length <= maxDescLength\n            shortDescription = description\n        else\n            shortDescription = description.slice(0, maxDescLength) + \" ...\"\n\n        @item = @template\n            \"id\": @model.get \"_id\"\n        @item = $(@item).appendTo navigation\n\n    remove: ->\n        $(@item).remove()\n\n# Main view for the app, a composite of other views.\nclass AppView extends Backbone.View\n    initialize: ->\n        @map = null\n        @markerViews = []\n\n        defaults =\n            mapId: \"map\"\n            infoWindowMaxWidth: 350\n            center: new google.maps.LatLng 45.52, -122.68\n            mapTypeId: google.maps.MapTypeId.TERRAIN\n            defaultZoomLevel: 10\n\n        @options = $.extend defaults, @options\n\n        # Bind 'this' to this object in event callbacks.\n        _.bindAll @, \"addAll\", \"addOne\", \"render\", \"remove\"\n\n        @map = @initMap()\n        @infoWindow = @initInfoWindow()\n\n    sendActionToMarker: (action, id) ->\n        markers = _.select @markerViews, (view) -> view.model.get(\"id\") is id\n        if markers[0]\n            markers[0].handleAction action\n\n    initMap: ->\n        mapOptions =\n            zoom: @options.defaultZoomLevel\n            center: @options.center\n            mapTypeId: @options.mapTypeId\n            panControlOptions:\n                position: google.maps.ControlPosition.RIGHT_TOP\n            zoomControlOptions:\n                position: google.maps.ControlPosition.RIGHT_TOP\n\n        # TODO: Add map events, if any\n        mapEl = document.getElementById @options.mapId\n        return new google.maps.Map mapEl, mapOptions\n\n    initInfoWindow: ->\n        infoWindow = new google.maps.InfoWindow\n            maxWidth: @options.infoWindowMaxWidth\n\n        # TODO: Add infoWindow events, if any\n        return infoWindow\n\nwindow.PlaceList = PlaceList\n",
+			"file": "/C/Users/Larry/__prjs/ourfield/scripts/coffee/map.coffee",
+			"file_size": 6196,
+			"file_write_time": 129738234611459199,
+			"settings":
+			{
+				"buffer_size": 4135,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/static/js/app.coffee",
+			"settings":
+			{
+				"buffer_size": 3554,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/CoffeeScript/Commands/CoffeeScript.sublime-build",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"java",
+				"Format: Javascript"
+			],
+			[
+				"Snippet: bd",
+				"Snippet: <bdo>"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"HTML: Encode Special Characters"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"prev",
+				"Markdown Preview: current file in browser"
+			],
+			[
+				"mark",
+				"Markdown Preview: current file in browser"
+			],
+			[
+				"previ",
+				"Markdown Preview: current file in Sublime Text"
+			],
+			[
+				"fetch",
+				"Fetch: Manage remote files"
+			],
+			[
+				"fet",
+				"Fetch: Manage remote files"
+			],
+			[
+				"package",
+				"Package Control: Add Repository"
+			],
+			[
+				"mar",
+				"Set Syntax: Markdown"
+			]
+		],
+		"width": 528.0
+	},
+	"console":
+	{
+		"height": 107.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Larry/__prjs/ourfield/wc.bat",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/wc.bat",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/static/js/a.coffee",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/a.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/js/a.js",
+		"/C/Users/Larry/__prjs/ourfield/cake.bat",
+		"/C/Users/Larry/__prjs/ourfield/utils/coffee-script/examples/web_server.coffee",
+		"/C/Users/Larry/__prjs/z_others/cham/src/vows/npm-debug.log",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/settings.py",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/local_settings.py",
+		"/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/rs.bat",
+		"/C/Users/Larry/__prjs/z_others/cham/src/public/js/script.coffee",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
+		"/C/Users/Larry/__prjs/ourfield/static/js/app.js",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/routes.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/js/routes.js",
+		"/C/Users/Larry/__prjs/z_others/memento/public/js/map.coffee",
+		"/C/Users/Larry/autostart_console.bat",
+		"/C/Users/Larry/__prjs/ourfield/activate.bat",
+		"/C/Users/Larry/__prjs/ourfield/apps/map/views.py",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/base_2.html",
+		"/C/Users/Larry/__prjs/z_others/mapx/coffee/app.coffee",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/app_save.coffee",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/views.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/models.py",
+		"/C/Users/Larry/__prjs/ourfield/static/js/map_.js",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/map.coffee",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/map_2.coffee",
+		"/C/Users/Larry/__prjs/ourfield/apps/places/urls.py",
+		"/C/Users/Larry/__prjs/ourfield/requirements/project.txt",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/mapnew.coffee",
+		"/C/Users/Larry/__prjs/ourfield/apps/current_user/models.py",
+		"/C/Users/Larry/__prjs/ourfield/urls.py",
+		"/C/Users/Larry/__prjs/ourfield/settings.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/map/api.py",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/app.coffee",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Terminal.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Terminal/Terminal.sublime-settings",
+		"/C/Users/Larry/__prjs/z_others/memento/views.coffee",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Side Bar.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Terminal/Terminal.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/about/views.py",
+		"/C/Users/Larry/__prjs/ourfield/apps/common/static/ext/backbone.js",
+		"/C/Users/Larry/__prjs/ourfield/apps/common/static/ext/jquery-1.6.1.js",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Backbone.js/README",
+		"/C/Sublime/subl.bat",
+		"/C/masters/Console2/console.xml",
+		"/C/Users/Larry/AppData/Roaming/Console/console.xml",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Base File.sublime-settings",
+		"/C/Users/Larry/__prjs/ourfield/README.md",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/PythonTidy/README.rst",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Fetch.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Package Control.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Global.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/JSON.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/node.sublime-build",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/.sublime-build",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2__/Installed Packages/Package Control.sublime-package",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2__/Packages/Package Control/messages/1.3.0.txt",
+		"/C/Users/Larry/__prjs/z_others/memento/routes.coffee",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2__/Packages/User/Global.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Delete Line.sublime-macro",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Global.sublime-settings",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Program Files/Sublime Text 2/Pristine Packages/HTML.sublime-package",
+		"/C/Users/Larry/__prjs/z_others/memento/README.txt",
+		"/C/Users/Larry/__prjs/z_others/memento/georss.coffee",
+		"/C/Users/Larry/__prjs/z_others/memento/models.coffee",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/README.md",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/CarreteraDetailView.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/CarreteraView.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/templates/carreteras/base_carreteras.html",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/templates/carreteras/index.html",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/TramoView.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/views/AppView.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/app.js",
+		"/C/Users/Larry/__prjs/z_others/mapx/index.html",
+		"/C/Users/Larry/__prjs/z_others/memento/app.coffee",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/src/highway-maps/carreteras/fixtures/users.json",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/src/highway-maps/carreteras/fixtures/test.json",
+		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/controllers/SearchController.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/Carretera.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/CarreteraList.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/CarreteraDetail.js",
+		"/C/Users/Larry/__prjs/z_others/highway-maps/project/media/js/models/Tramo.js",
+		"/C/Users/Larry/__prjs/ourfield/static/js/backbone.js",
+		"/C/Users/Larry/__prjs/ourfield/static/js/underscore-min.js",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/map.js.coffee",
+		"/C/Users/Larry/__prjs/z_others/mapx/js/app.js",
+		"/C/Users/Larry/__prjs/z_others/mapx/css/style.css",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/bootstrap.coffee",
+		"/C/node/w.js",
+		"/C/Users/Larry/__prjs/z_others/NodeJS-Server/lib/server.js",
+		"/C/Users/Larry/__prjs/z_others/NodeJS-Server/lib/logs/index.js",
+		"/C/Users/Larry/__prjs/ourfield/static/js/map.js",
+		"/C/Users/Larry/__prjs/z_others/mapx/wc.bat",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Python/Python.sublime-build",
+		"/C/Program Files/Sublime Text 2/PackageSetup.py",
+		"/C/Users/Larry/__prjs/z_others/mapx/js/app_2.js",
+		"/C/Program Files/Sublime Text 2/sublime_plugin.py",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/bootstrap.js.coffee",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/views/application/index.html.erb",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/zone.js.coffee",
+		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/test.coffee",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/CoffeeScript/Commands/CoffeeScript.sublime-build",
+		"/C/Users/Larry/__prjs/ourfield/static/js/debug_controls.js",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/controllers/application_controller.rb",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/scale_controls.js.coffee",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/date_slider.js.coffee",
+		"/C/Users/Larry/__prjs/z_others/chicago_crimes/app/assets/javascripts/controller.js.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/js/bootstrap.js",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/Default/Base File.sublime-settings",
+		"/C/Users/Larry/__prjs/ourfield/ourfield.sublime-project",
+		"/C/Users/Larry/__prjs/ourfield/coffee.bat",
+		"/C/Users/Larry/.config/sublime-text-2/Packages/User/CoffeeScript.sublime-build",
+		"/C/_Python27/Lib/site-packages/easy_install.py"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"C:\\Users\\Larry\\__prjs\\z_others\\memento",
+			"C:\\Users\\Larry\\__prjs\\ourfield\\apps",
+			"C:\\Users\\Larry\\AppData\\Roaming\\Sublime Text 2\\Packages\\Terminal",
+			"C:\\Users\\Larry\\AppData\\Roaming\\Sublime Text 2\\Packages\\SideBarEnhancements",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"jsapp",
+			"MapView",
+			"sendActionToMarker",
+			"options",
+			"getDiv",
+			"memories",
+			"memory",
+			"Memory",
+			"vi?w",
+			"this",
+			"view",
+			"power",
+			"terminal",
+			"powershell",
+			"delete",
+			"\")",
+			"map",
+			"NewYorkLocation",
+			"is_ajax",
+			"id",
+			"PaneView",
+			"radius",
+			"mapx-app",
+			"map-container",
+			"mapx-app",
+			"updateZones",
+			"var",
+			"cmd",
+			"path"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"AppView",
+			"places",
+			"place",
+			"Place",
+			"CR"
+		],
+		"reverse": false,
+		"show_context": false,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Larry/__prjs/ourfield/scripts/coffee/map.coffee",
+					"settings":
+					{
+						"buffer_size": 4135,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3933,
+								3933
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 102.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Larry/__prjs/z_others/django-backbone-example/backbone_example/static/js/app.coffee",
+					"settings":
+					{
+						"buffer_size": 3554,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								463,
+								463
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CoffeeScript/Syntaxes/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 551.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 37.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"replace":
+	{
+		"height": 68.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/Users/Larry/__prjs/ourfield/templates/map/ourfield.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 296.0,
+	"status_bar_visible": true
+}

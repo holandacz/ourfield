@@ -68,83 +68,42 @@
 	"buffers":
 	[
 		{
-			"file": "/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-theme-base.php",
+			"file": "fabfile.py",
 			"settings":
 			{
-				"buffer_size": 51145,
+				"buffer_size": 4465,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-theme.php",
+			"contents": "Package Control Messages\n========================\n\nSFTP:\n----\n\n  Thanks for installing Sublime SFTP! Below are some quick notes to get you\n  started with the plugin. Please see http://wbond.net/sublime_packages/sftp for\n  the full documentation.\n  \n  \n  There are two major modes of operation:\n  1. Mapping a local folder to a remote folder\n  2. Working off of a server\n  \n  \n  Mapping a Local Folder to a Remote Folder\n  ----\n  \n  To map a local folder to a remote folder, right-click on it in the side bar\n  and select the SFTP/SFTP > Map to Remote... You will enter your connection\n  parameters and a new file will be created named sftp-config.json.\n  \n  Once this file has been saved, all files in that folder and all subfolders\n  will have various operations available via the side bar context menu, editor\n  context menu and command palette.\n  \n  \n  Working off of a Server\n  ----\n  \n  To work off of a server, use the File menu and select SFTP/FTP > Setup Server...\n  You will enter your connection parameters and options then save the file with\n  the name you want to give the connection.\n  \n  Once the server config is saved, you will be automatically connected to the\n  server and you can browse and perform actions via the quick panel.\n  \n  Unfortunely due to limitations of the Sublime Text 2 API, it is not possible\n  to present the remote filesystem in the side bar. There are, however, key\n  bindings for connecting to servers to help reduce the amount of time remote\n  file operations take.\n  \n  \n  Support\n  ----\n  \n  To learn more about the features and settings, please visit\n  http://wbond.net/sublime_packages/sftp.\n  \n  If you are having trouble, please contact me at support@wbond.net. The Support\n  page, http://wbond.net/sublime_packages/sftp/support, includes instructions\n  for capturing a debug log that will be useful if you believe you are\n  experiencing a bug.\n  \n",
 			"settings":
 			{
-				"buffer_size": 12944,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Larry/__prjs/nb/curr/db/emailbounces/mailchimp.csv",
-			"settings":
-			{
-				"buffer_size": 26695,
+				"buffer_size": 1895,
 				"line_ending": "Windows",
-				"name": "userid	username	Email Address"
+				"name": "Package Control Messages",
+				"scratch": true
 			}
 		},
 		{
-			"file": "/C/Users/Larry/__prjs/nb/curr/db/unsubscribes/vr.csv",
+			"contents": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"utf-8\" />\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n        <title>\n        </title>\n        <link rel=\"stylesheet\" href=\"http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css\" />\n        <link rel=\"stylesheet\" href=\"my.css\" />\n        <style>\n            /* App custom styles */\n        </style>\n        <script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js\">\n        </script>\n        <script src=\"http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js\">\n        </script>\n    </head>\n    <body>\n        <div data-role=\"page\" id=\"page1\">\n            <div data-role=\"content\">\n                <img src=\"https://maps.googleapis.com/maps/api/staticmap?center=Madison,%20WI&amp;zoom=14&amp;size=288x200&amp;markers=Madison,%20WI&amp;sensor=false\" height=\"200\" width=\"288\" />\n            </div>\n        </div>\n        <script>\n            //App custom javascript\n        </script>\n    </body>\n</html>",
+			"file": "/C/Users/Larry/AppData/Local/Temp/wzc842/mobile_website/app.html",
+			"file_size": 1032,
+			"file_write_time": 129827016680000000,
 			"settings":
 			{
-				"buffer_size": 467,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Larry/__prjs/nb/curr/db/emailbounces/vr.csv",
-			"settings":
-			{
-				"buffer_size": 5926,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Larry/__prjs/nb/curr/db/neverposted_userid_lessthan_11500.txt",
-			"settings":
-			{
-				"buffer_size": 293319,
+				"buffer_size": 1032,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/C/Users/Larry/__prjs/nb/curr/db/neverposted_userid_greaterthan_11500.txt",
+			"contents": "Evented I/O for V8 javascript. [![Build Status](https://secure.travis-ci.org/joyent/node.png)](http://travis-ci.org/joyent/node)\n===\n\n### To build:\n\nUnix/Macintosh (requires python 2.6 or 2.7):\n\n    ./configure\n    make\n    make install\n\nWindows:\n\n    vcbuild.bat\n\n### To run the tests:\n\nUnix/Macintosh:\n\n    make test\n\nWindows:\n\n    vcbuild.bat test\n\n### To build the documentation:\n\n    make doc\n\n### To read the documentation:\n\n    man doc/node.1\n\nResources for Newcomers\n---\n  - [The Wiki](https://github.com/joyent/node/wiki)\n  - [nodejs.org](http://nodejs.org/)\n  - [how to install node.js and npm (node package manager)](http://joyeur.com/2010/12/10/installing-node-and-npm/)\n  - [list of modules](https://github.com/joyent/node/wiki/modules)\n  - [searching the npm registry](http://search.npmjs.org/)\n  - [list of companies and projects using node](https://github.com/joyent/node/wiki/Projects,-Applications,-and-Companies-Using-Node)\n  - [node.js mailing list](http://groups.google.com/group/nodejs)\n  - irc chatroom, [#node.js on freenode.net](http://webchat.freenode.net?channels=node.js&uio=d4)\n  - [community](https://github.com/joyent/node/wiki/Community)\n  - [contributing](https://github.com/joyent/node/wiki/Contributing)\n  - [big list of all the helpful wiki pages](https://github.com/joyent/node/wiki/_pages)\n",
+			"file": "/C/_node/node-v0.7.9/README.md",
+			"file_size": 1374,
+			"file_write_time": 129825706960000000,
 			"settings":
 			{
-				"buffer_size": 199746,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/Larry/My Dropbox/docs/Spanish/vocabulary.txt",
-			"settings":
-			{
-				"buffer_size": 8254,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Larry/__prjs/nb/curr/db/postedonce.txt",
-			"settings":
-			{
-				"buffer_size": 44249,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-styles.css",
-			"settings":
-			{
-				"buffer_size": 29597,
+				"buffer_size": 1328,
 				"line_ending": "Windows"
 			}
 		}
@@ -155,6 +114,10 @@
 		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"Package Control: re",
+				"Package Control: Remove Package"
+			],
 			[
 				":w",
 				":w - Save"
@@ -241,54 +204,120 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Larry/__prjs/z_others/memento/sftp-config.json",
+		"/C/Users/Larry/AppData/Local/Temp/wz4608/mobile_website/my.css",
+		"/C/Users/Larry/_db/_bu/nb_useremails/2012-05-26-total.csv",
 		"/C/Users/Larry/__prjs/nb/curr/db/neverposted_userid_greaterthan_11500.txt",
+		"/C/Users/Larry/__prjs/nb/curr/db/MoreThan11500.txt",
+		"/C/Users/Larry/_db/_bu/nb_useremails/bounced_unsubscribes.csv",
+		"/C/Users/Larry/Downloads/939d742979_Master_List_download.csv",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-070-full-stack-nodejs-ii-code/1-HotPie-from-Screencast/test/models/pie-test.coffee",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-070-full-stack-nodejs-ii-code/1-HotPie-from-Screencast/server.js",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-070-full-stack-nodejs-ii-code/9-HotPie-final/views/layout.jade",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-070-full-stack-nodejs-ii-code/1-HotPie-from-Screencast/models/pie.coffee",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/9-HotPie-final/server.js",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/1-HotPie-from-Screencast/server.js",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/9-HotPie-final/views/layout.jade",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/9-HotPie-final/apps/authentication/routes.coffee",
+		"/C/Users/Larry/__prjs/node/ofm/sftp-config.json",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/SFTP.errors.log",
+		"/C/users/larry/appdata/local/temp/sublime-sftp-browse-1337637643/ofm/srv/x/ofm/HotPie/server.js",
+		"/C/Users/Larry/_db/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/0-HotPie-start/server.js",
+		"/C/Users/Larry/__prjs/node/ofm/HotPie/package.json",
+		"/C/Users/Larry/__prjs/node/ofm/HotPie/server.js",
+		"/C/Users/Larry/__prjs/node/HotPie/server.js",
+		"/C/Users/Larry/__prjs/node/HotPie/apps/authentication/routes.coffee",
+		"/C/Users/Larry/__prjs/node/HotPie/package.json",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/9-HotPie-final/package.json",
+		"/C/masters/libxml2/libxml2-2.7.8.win32/readme.txt",
+		"/C/Users/Larry/__prjs/node/HotPie/test/_helper.js",
+		"/C/Users/Larry/AppData/Roaming/Sublime Text 2/Packages/User/sftp_servers/ofm",
+		"/C/Users/Larry/__prjs/node/ofm/index.html",
+		"/C/Users/Larry/__prjs/node/HotPie/sftp-config.json",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/HotPie/apps/authentication/routes.coffee",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/HotPie/rs.bat",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/HotPie/server.js",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/HotPie/node-js-development-mode.js",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/HotPie/package.json",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/9-HotPie-final/views/layout.jade",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/1-HotPie-from-Screencast/views/layout.jade",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/HotPie/views/layout.jade",
+		"/C/Users/Larry/My Dropbox/_dev/node/masters/peepcode-069-full-stack-nodjs-i-code/9-HotPie-final/apps/authentication/routes.coffee",
+		"/C/xampp/htdocs/nbn/answers/qa-plugin/email-notifications/qa-plugin.php",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-theme-base.php",
+		"/C/xampp/htdocs/nbn/answers/qa-plugin/email-notifications/email-notifications-event.php",
+		"/C/xampp/htdocs/nbn/answers/qa-external/qa-external-emailer.php",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-theme.php",
+		"/C/xampp/htdocs/nbn/qa/qa-plugin/sawtoothsoftware-Q2A-Email-Notifications-c221405/qa-external/qa-external-emailer.php",
+		"/C/xampp/htdocs/nbn/qa/qa-plugin/sawtoothsoftware-Q2A-Email-Notifications-c221405/ReadMe.txt",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-content/qa-question.js",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-page-question-view.php",
+		"/C/Users/Larry/__prjs/nb/nbn/_lib/xchg_reload.php",
+		"/C/Users/Larry/__prjs/nb/nbn/includes/config.php",
+		"/C/Users/Larry/__prjs/nb/nbn/_lib/xchg_reload_ads.php",
+		"/C/Users/Larry/__prjs/nb/nbn/_lib/xchg_reload_hospitals.php",
+		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/map.coffee",
+		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/boundary.coffee",
+		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
+		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/app.coffee",
+		"/C/Users/Larry/__prjs/trigger/forge-tools/go.bat",
+		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
+		"/C/Users/Larry/__prjs/nb/nbn/_lib/error_log",
+		"/C/Users/Larry/__prjs/trigger/of/src/index.html",
+		"/C/Users/Larry/__prjs/trigger/src/index.html",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-styles.css",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-widget-ask-box.php",
+		"/C/Users/Larry/My Dropbox/docs/Spanish/vocabulary.txt",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-event-notify.php",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-app-posts.php",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-app-post-create.php",
+		"/C/Users/Larry/__prjs/nb/nbn/qa/qa-config.php",
+		"/C/Users/Larry/__prjs/nb/nbn/.gitignore",
+		"/C/Users/Larry/__prjs/nb/nbn/answers/.htaccess",
+		"/C/Users/Larry/__prjs/nb/nbn/robots.txt",
+		"/C/Users/Larry/__prjs/nb/nbn/qa/qa-config-example.php",
+		"/C/xampp/htdocs/nbn/qa/.htaccess",
+		"/C/Users/Larry/__prjs/nb/curr/mods/mention-notifier/qa-plugin.php",
+		"/C/Users/Larry/__prjs/nb/curr/db/emailbounces/mailchimp.csv",
+		"/C/Users/Larry/__prjs/nb/curr/db/unsubscribes/vr.csv",
+		"/C/Users/Larry/__prjs/nb/curr/db/postedonce.txt",
+		"/C/Users/Larry/__prjs/nb/curr/db/emailbounces/vr.csv",
+		"/C/Users/Larry/__prjs/nb/curr/db/neverposted_userid_lessthan_11500.txt",
 		"/C/Users/Larry/__prjs/nb/curr/db/emailbounces/cda89e25d3_Top_100_Posters_download.csv",
 		"/C/Users/Larry/__prjs/nb/curr/db/posters_top100.txt",
 		"/C/Users/Larry/__prjs/nb/curr/db/posters_morethentwice.txt",
 		"/C/Users/Larry/__prjs/nb/curr/db/emailopened/5mvFA3TPcd_responses_0f06709083.csv",
 		"/C/Users/Larry/__prjs/nb/curr/db/posters.txt",
-		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-widget-ask-box.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-plugin/tags-sidebar/qa-tags-sidebar.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-page-tags.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-lang/en-GB/qa-lang-admin.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-db-selects.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-plugin/tags-sidebar/qa-plugin.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-plugin/tags-sidebar/qa-tag-cloud.php",
-		"/C/Users/Larry/My Dropbox/docs/Spanish/vocabulary.txt",
-		"/C/Users/Larry/__prjs/nb/nbn/_lib/xchg_reload.php",
-		"/C/Users/Larry/__prjs/ourfield/fabfile.py",
 		"/C/Users/Larry/__prjs/nb/nbn/install/install_.php",
-		"/C/Users/Larry/__prjs/nb/nbn/_lib/xchg_reload_ads.php",
 		"/C/Users/Larry/__prjs/nb/nbn/_updtfromlive.bat",
 		"/C/Users/Larry/__prjs/nb/nbn/map.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-external/qa-external-users.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-base.php",
-		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-theme-base.php",
 		"/C/Users/Larry/__prjs/nb/curr/mods/More Share Options GOLD by BOP5/Install and Info for More Share Options by BOP5 GOLD.txt",
-		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-theme.php",
-		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-styles.css",
 		"/C/Users/Larry/__prjs/nb/nbn/.htaccess",
 		"/C/Users/Larry/__prjs/nb/curr/mods/More Share Options GOLD by BOP5/Manual Template Edits.txt",
 		"/C/Users/Larry/__prjs/nb/curr/mods/SpamOMatic/product-glowhostspamomatic.xml",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/3 Doors Down - Here Without You",
 		"/C/Users/Larry/__prjs/nb/curr/mods/easy-mod-tools/readme.txt",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/_facebook_scratch.html",
-		"/C/Users/Larry/__prjs/nb/nbn/.gitignore",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-page.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-external-example/qa-external-users.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-config.php",
-		"/C/Users/Larry/__prjs/nb/nbn/answers/.htaccess",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-app-emails.php",
 		"/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-app-mailing.php",
 		"/C/Users/Larry/__prjs/nb/nbn/.htaccess_",
 		"/C/Users/Larry/__prjs/nb/nbn/updtfromlive.bat",
 		"/C/Users/Larry/__prjs/nb/nbn/qa/qa-external/qa-external-users.php",
-		"/C/Users/Larry/__prjs/nb/nbn/qa/qa-config.php",
 		"/C/Users/Larry/__prjs/nb/nbn/qa/qa-include/qa-page.php",
 		"/C/Users/Larry/__prjs/nb/nbn/qa/qa-include/qa-app-format.php",
 		"/C/Users/Larry/__prjs/nb/nbn/qa/qa-include/qa-index.php",
 		"/C/Users/Larry/__prjs/nb/nbn/qa/index.php",
-		"/C/Users/Larry/__prjs/nb/nbn/includes/config.php",
 		"/C/Users/Larry/__prjs/nb/nbn/qa/.htaccess",
 		"/C/xampp/apache/conf/extra/httpd-vhosts.conf",
 		"/C/Users/Larry/AppData/Local/Temp/wz5586/sstab_advanced_205/upload/admincp/evbs_sstabs.php",
@@ -302,73 +331,7 @@
 		"/C/Users/Larry/__prjs/nb/vbseo/htaccess/lighttpd_rewrite.txt",
 		"/C/Users/Larry/__prjs/nb/vbseo/htaccess/cherokee.txt",
 		"/C/Users/Larry/__prjs/nb/curr/mods/sstab_advanced_205/upload/includes/xml/cpnav_evbs_sstab.xml",
-		"/C/Users/Larry/__prjs/nb/nbn/includes/xml/cpnav_evbs_sstab.xml",
-		"/C/Users/Larry/__prjs/nb/nbn/content_.php",
-		"/C/Users/Larry/__prjs/nb/nbn/content.php",
-		"/C/Users/Larry/__prjs/nb/nbn/vbseo/resources/xml/config.xml",
-		"/C/Users/Larry/__prjs/nb/nbn/.htaccess_live",
-		"/C/Users/Larry/__prjs/nb/curr/mods/SpamOMatic/readme.txt",
-		"/C/Users/Larry/__prjs/nb/nbn/404.php",
-		"/C/Users/Larry/__prjs/nb/vb/upload/install/install.php",
-		"/C/Users/Larry/__prjs/nb/nbn/_qa/qa-config.php",
-		"/C/Users/Larry/__prjs/nb/nbn/_qa/qa-external/qa-external-users.php",
-		"/C/Users/Larry/__prjs/nb/nbn/index.html",
-		"/C/Users/Larry/__prjs/nb/nbn/.htaccess_live_bu",
-		"/C/Users/Larry/__prjs/nb/nbn/includes/class_xmlrpc.php",
-		"/C/Users/Larry/__prjs/nb/nbn/_qa/.htaccess",
-		"/C/Users/Larry/__prjs/nb/vbseo/htaccess/web.config",
-		"/C/Users/Larry/__prjs/nb/vbseo_sitegenerator/htaccess/.htaccess",
-		"/C/Users/Larry/__prjs/nb/vbseo_sitegenerator/htaccess/htaccess.txt",
-		"/C/Users/Larry/__prjs/nb/nbn/nbqa/qa-config.php",
-		"/C/Users/Larry/__prjs/nb/nbn/.htaccess.php",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/models/boundary.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/collections/boundaries.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/boundary.coffee",
-		"/C/xampp/apache/logs/nb-error.log",
-		"/C/Users/Larry/.ssh/id_rsa.pub",
-		"/C/xampp/htdocs/nbo/.htaccess",
-		"/C/xampp/htdocs/nbo/'",
-		"/C/Users/Larry/__prjs/nb/nbo/www/includes/config.php",
-		"/C/Users/Larry/__prjs/nb/nbo/www/_files/map/map_points.json",
-		"/C/xampp/apache/conf/httpd.conf",
-		"/C/Windows/System32/drivers/etc/hosts",
-		"/C/Users/Larry/__prjs/ourfield/templates/site_base.html",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/base.html",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/map.coffee",
-		"/C/_w/nb/web/includes/config.php",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/app.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/css/map.css",
-		"/C/Users/Larry/__prjs/ourfield/static/css/print.css",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/views/place.coffee",
-		"/C/xampp/apache/logs/error.log",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/base_4.html",
-		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/templates/theme_base.html",
-		"/C/Users/Larry/__prjs/ourfield/ve/Lib/site-packages/pinax_theme_bootstrap/templates/_account_bar.html",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/trynav.html",
-		"/C/Users/Larry/__prjs/ourfield/scripts/coffee/app.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/models/place.coffee",
-		"/C/Users/Larry/__prjs/ourfield/static/js/polygonEdit.js",
-		"/C/Users/Larry/__prjs/ourfield/static/js/polygonEdit_packed.js",
-		"/C/Users/Larry/__prjs/z_others/polygonEdit/src/polygonEdit.js",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/info-window-template.html",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/api.py",
-		"/C/Users/Larry/__prjs/ourfield/static/coffee/collections/places.coffee",
-		"/C/_prm/contacts/views.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/models.py",
-		"/C/Users/Larry/__prjs/ourfield/docs/dev_on_windows.md",
-		"/C/Users/Larry/autostart_console.bat",
-		"/C/Users/Larry/__prjs/ourfield/gps.html",
-		"/C/Users/Larry/__prjs/contacts/RVEmails.csv",
-		"/C/Users/Larry/__prjs/contacts/RVEmailsFirstNameOnly.csv",
-		"/C/Users/Larry/__prjs/ourfield/static/css/list.css",
-		"/C/_prm/templates/contacts/email.html",
-		"/C/Users/Larry/__prjs/contacts/message.html",
-		"/C/Users/Larry/__prjs/contacts/memorialinvitation2012.html",
-		"/C/Users/Larry/_db/docs/theo/Memorial2011/InvitationMessage.html",
-		"/C/Users/Larry/__prjs/ourfield/templates/map/edit-info-window-template.html",
-		"/C/Users/Larry/__prjs/ourfield/apps/places/admin.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/boundaries/models.py",
-		"/C/Users/Larry/__prjs/ourfield/apps/boundaries/admin.py"
+		"/C/Users/Larry/__prjs/nb/nbn/includes/xml/cpnav_evbs_sstab.xml"
 	],
 	"find":
 	{
@@ -376,9 +339,14 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"C:\\Users\\Larry\\__prjs\\nb\\nbn\\answers",
+			"C:\\Users\\Larry\\__prjs\\nb\\nbn\\answers,*.js",
+			"C:\\Users\\Larry\\__prjs\\nb\\nbn,*.php",
+			"C:\\Users\\Larry\\__prjs\\nb\\nbn",
+			"C:\\Users\\Larry\\__prjs\\nb\\nbn\\answers\\qa-include",
 			"C:\\Users\\Larry\\__prjs\\nb\\nbn\\answers",
 			"C:\\Users\\Larry\\__prjs\\nb\\nbn\\_lib",
 			"C:\\Users\\Larry\\__prjs\\nb\\nbn\\answers",
@@ -408,6 +376,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\\",
+			"categor",
+			"categories",
+			"privacy",
+			"qa_answer_click",
+			"list_no_decoration widget_list",
+			"cw_cms_save_sponsors_widget",
+			"forumhome_lastest_news",
+			"Transfusion Alternatives",
+			"new feature",
+			"Home",
+			"contact",
+			"home",
+			"senttoemail",
+			"qa_answer_create",
+			"qa_question_create",
+			"email",
 			",",
 			"ybunch",
 			"qa_lang_html",
@@ -518,24 +503,7 @@
 			"'",
 			"mail",
 			"placeTypes",
-			"console",
-			"BoundaryView",
-			"placetypes",
-			"@placetypes",
-			"@collection",
-			"collection",
-			"mapicons",
-			"fix",
-			"console",
-			"mouseover",
-			"placen",
-			"busy",
-			"what_next_url",
-			"next",
-			"flat",
-			"analytics",
-			"google_analytics_js",
-			"GOOGLE_ANALYTICS_CODE"
+			"console"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -543,6 +511,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"/",
 			"",
 			"tags_sidebar",
 			":",
@@ -605,157 +574,15 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/Larry/__prjs/nb/nbn/answers/qa-include/qa-theme-base.php",
+					"file": "fabfile.py",
 					"settings":
 					{
-						"buffer_size": 51145,
-						"regions":
-						{
-							"TagLint":
-							{
-								"flags": 52,
-								"icon": "dot",
-								"regions":
-								[
-									[
-										2191,
-										2196
-									]
-								],
-								"scope": "variable.parameter"
-							}
-						},
-						"selection":
-						[
-							[
-								36006,
-								33320
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 24795.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-theme.php",
-					"settings":
-					{
-						"buffer_size": 12944,
-						"regions":
-						{
-							"TagLint":
-							{
-								"flags": 52,
-								"icon": "dot",
-								"regions":
-								[
-									[
-										586,
-										610
-									]
-								],
-								"scope": "variable.parameter"
-							}
-						},
-						"selection":
-						[
-							[
-								10996,
-								10996
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/HTML5/Syntaxes/HTML 5.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/C/Users/Larry/__prjs/nb/curr/db/emailbounces/mailchimp.csv",
-					"settings":
-					{
-						"buffer_size": 26695,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13359,
-								13359
-							]
-						],
-						"settings":
-						{
-							"auto_name": "userid	username	Email Address",
-							"is_xml": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 4997.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/C/Users/Larry/__prjs/nb/curr/db/unsubscribes/vr.csv",
-					"settings":
-					{
-						"buffer_size": 467,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								467,
-								467
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/C/Users/Larry/__prjs/nb/curr/db/emailbounces/vr.csv",
-					"settings":
-					{
-						"buffer_size": 5926,
+						"buffer_size": 4465,
 						"regions":
 						{
 						},
@@ -770,7 +597,9 @@
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -779,69 +608,37 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "/C/Users/Larry/__prjs/nb/curr/db/neverposted_userid_lessthan_11500.txt",
+					"buffer": 1,
 					"settings":
 					{
-						"buffer_size": 293319,
+						"buffer_size": 1895,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								575,
-								542
+								853,
+								853
 							]
 						],
 						"settings":
 						{
-							"is_xml": false,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 57933.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "/C/Users/Larry/__prjs/nb/curr/db/neverposted_userid_greaterthan_11500.txt",
+					"buffer": 2,
+					"file": "/C/Users/Larry/AppData/Local/Temp/wzc842/mobile_website/app.html",
 					"settings":
 					{
-						"buffer_size": 199746,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								199746,
-								199746
-							]
-						],
-						"settings":
-						{
-							"is_xml": false,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 77516.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/C/Users/Larry/My Dropbox/docs/Spanish/vocabulary.txt",
-					"settings":
-					{
-						"buffer_size": 8254,
+						"buffer_size": 1032,
 						"regions":
 						{
 						},
@@ -849,7 +646,7 @@
 						[
 							[
 								0,
-								8254
+								0
 							]
 						],
 						"settings":
@@ -857,7 +654,9 @@
 							"is_xml": false,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -866,60 +665,30 @@
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "/C/Users/Larry/__prjs/nb/curr/db/postedonce.txt",
+					"buffer": 3,
+					"file": "/C/_node/node-v0.7.9/README.md",
 					"settings":
 					{
-						"buffer_size": 44249,
+						"buffer_size": 1328,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								932,
-								932
+								252,
+								263
 							]
 						],
 						"settings":
 						{
 							"is_xml": false,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/C/Users/Larry/__prjs/nb/nbn/answers/qa-theme/nb/qa-styles.css",
-					"settings":
-					{
-						"buffer_size": 29597,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								29395,
-								29395
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 17100.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -960,7 +729,7 @@
 	"menu_visible": true,
 	"output.sftp":
 	{
-		"height": 0.0
+		"height": 25.0
 	},
 	"replace":
 	{
@@ -991,6 +760,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 225.0,
+	"side_bar_width": 239.0,
 	"status_bar_visible": true
 }

@@ -1,0 +1,45 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load map_tags %}
+
+{% block head_title %}{% trans "Map" %}{% endblock %}
+
+{% block extra_style %}
+	<link href="{% static "css/map.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block extra_script %}
+	<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false" />
+    <script>
+      API = "{% url api_dispatch_list api_name="v1" resource_name="place" %}";
+      {% if data %}
+      	app = {loaded: true};
+      {% endif %}
+    </script>
+{% endblock %}
+
+{% block body %}
+	<div class="map-container map16"><div id="map-canvas" /></div>
+{% endblock %}
+
+{% block extra_body %}
+
+<script src="{% static "js/underscore-min.js" %}" /></script>
+<script src="{% static "js/backbone-min.js" %}" /></script>
+<script src="{% static "js/backbone-tastypie.js" %}" /></script>
+
+<script type="text/javascript" src="{% static "js/models.js" %}" /></script>
+
+<script type="text/javascript" src="{% static "js/app.js" %}" /></script>
+
+<script type="text/javascript">
+	zoom = {{zoom}};
+	center = "{{center}}";
+	app = new MapView(center, zoom);
+	x = 0;
+</script>
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "m_base.html" %}
+{% load staticfiles %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load map_tags %}
+
+{% block head_title %}{% trans "Map" %}{% endblock %}
+
+{% block extra_style %}
+  <link href="{% static "css/map.css" %}" rel="stylesheet" />
+  <link href="{% static "css/list.css" %}" rel="stylesheet" />
+{% endblock %}
+
+
+{% block extra_script %}
+  <script>
+    API = "{% url api_dispatch_list api_name="v1" resource_name="place" %}";
+    {% if data %}
+      app = {loaded: true};
+    {% endif %}
+  </script>
+{% endblock %}
+
+{% block extra_nv %}
+  <img id="busy" src="{% static "img/map/loading.gif" %}" alt="loading"/>
+  <!--<img id="error" src="{% static "img/map/error.png" %}" alt="error" title="An error occurred communicating with the server. Move the map to restart."/>-->
+{% endblock %}
+
+{% block body %}
+  <div id="app">
+      <div id="map">
+        <div class="container">
+          <div class="map-container">
+
+            <div id="position">
+              <span id="crosshairposition">
+                <!--<span id="crosshairpositionlatlng"><b>Crosshair:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>-->
+              </span>
+            </div>
+            <div id="map-canvas">{% include "m/crosshair.html" %}</div>
+
+            <div id="map-crosshair"><img src="{% static "img/m/crosshair.png" %}" title="Click to go to top of page." /></div>
+
+
+            {% if user.is_authenticated %}
+              {% if territoryno %}
+                <span style="page-break-before: always;"> </span>
+                <div id="list" style="display: none"></div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div><!-- container -->
+      </div>
+      <div id="placeName"></div>
+
+  </div>
+
+
+{% endblock %}
+
+
+{% block extra_body %}
+  <script type="text/javascript" src="{% static "bootstrap/js/bootstrap-modal.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/underscore.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/json2.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/backbone.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/jquery.cookie.js" %}"></script>
+  <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+  {% include "map/edit-info-window-template.html" %}
+  {% include "map/info-window-template.html" %}
+
+  <script type="text/javascript" src="{% static "js/polygonEdit_packed.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/app.js" %}"></script>
+
+  <script type="text/javascript">
+      var territoryno = "{{ territoryno|default_if_none:"0" }}";
+      var zoom = 16; //{{zoom}}
+      var center = "10.001025,-84.134588"; //"{{center}}"
+
+      var preferences = new Preferences();
+      preferences.set('territoryno', territoryno);
+
+      preferences.setDefault('zoom', zoom);
+      preferences.setDefault('center', center);
+      preferences.setDefault('territoryno', territoryno);
+
+      var appData = new AppData({
+        userid: {{ user.id|default_if_none:0 }},
+        username: "{{ user.username|default_if_none:"" }}",
+        zoom: 16,
+        center: "10.001025,-84.134588"
+      });
+
+      DefaultParams.userid = {{ user.id|default_if_none:0 }}
+      DefaultParams.username = "{{ user.username|default_if_none:"" }}"
+      DefaultParams.usergroups = "{{ user.usergroups }}"
+      DefaultParams.userisstaff = {{ userisstaff }}
+      DefaultParams.userissuperuser = {{ userissuperuser }}
+      DefaultParams.api_key = "{{ api_key }}"
+      DefaultParams.territoryno = "{{ territoryno|default_if_none:"" }}"
+
+      $(function() {
+        new AppView({
+          el: '#app',
+          model: appData,
+          preferences: preferences
+        });
+      });
+
+      https://github.com/twitter/bootstrap/issues/2475
+      $(window).resize(function () {
+        var h = $(window).height(),
+          offsetTop = 45; // Calculate the top offset
+
+        $('#map-canvas').css('height', (h - offsetTop));
+        //$('#map-canvas').css('height', h);
+      }).resize();
+
+
+  </script>
+{% endblock %}

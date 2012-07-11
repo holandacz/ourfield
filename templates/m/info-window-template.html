@@ -1,0 +1,79 @@
+<script type="text/template" id="info-window-template">
+  <div class="modal-header">
+    <h3><%= model.get('markerno') %>&nbsp;&nbsp;p<%= model.get('id') %>
+
+      <a href="#" class="route btn">Route</a>
+      <a href="#" class="delete btn">Delete</a>
+      <a href="#" class="undelete btn" style="display: none">UnDelete</a>
+      <a href="#" class="edit btn btn-primary">Edit</a>
+      <a href="#" class="btn" data-dismiss="modal" >Close</a>
+
+    </h3>
+  </div>
+
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <fieldset>
+        <div class="control-group">
+          Territory:&nbsp;
+          <%= model.get('territoryno') %>
+
+          &nbsp;&nbsp;RouteAfterMarker#:&nbsp;
+          <%= model.get('routemarkernoafter') %>
+
+          &nbsp;&nbsp;Marker#:&nbsp;
+          <%= model.get('markerno') %>
+
+            &nbsp;&nbsp;Interest Level:&nbsp;
+            <%= model.get('interestlevel') %>
+
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Address</label>
+          <div class="controls"><%= model.get('name') %> <%= model.get('houseno') %> <%= model.get('directions') %> <%= model.get('description') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Persons</label>
+          <div class="controls"><%= model.get('persons') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Phone Numbers</label>
+          <div class="controls"><%= model.get('phonenos') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">EMails</label>
+          <div class="controls"><%= model.get('emails') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Notes</label>
+          <div class="controls"><%= model.get('notes') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Actions</label>
+          <div class="controls"><%= model.get('actions') %></div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">To Next</label>
+          <div class="controls"><%= model.get('tonext') %></div>
+        </div>
+
+
+      </fieldset>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" >Close</a>
+    <a href="#" class="edit btn btn-primary">Edit</a>
+    <a href="#" class="delete btn">Delete</a>
+    <a href="#" class="undelete btn" style="display: none">UnDelete</a>
+    <a href="#" class="route btn">Route</a>
+  </div>
+</script>

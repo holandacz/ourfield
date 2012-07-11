@@ -1,0 +1,177 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load map_tags %}
+
+{% block head_title %}{% trans "Map" %}{% endblock %}
+
+{% block extra_style %}
+  <link href="{% static "css/map.css" %}" rel="stylesheet" />
+  <link href="{% static "css/list.css" %}" rel="stylesheet" />
+{% endblock %}
+
+
+{% block extra_script %}
+  <script>
+    API = "{% url api_dispatch_list api_name="v1" resource_name="place" %}";
+    {% if data %}
+      app = {loaded: true};
+    {% endif %}
+  </script>
+{% endblock %}
+
+{% block body %}
+  <div id="app">
+    
+    {% if user.is_authenticated %}
+      <!--
+      {% if territoryno %}
+        <section id="section-terr-map-overview">
+          <div id="terr-map-overview">
+            {% include "map/subnav.html" %}
+            <img src="{% static "img/territory/652/overview.png" %}" />
+          </div>
+        </section>
+      {% endif %}
+      -->
+
+      <section id="section-map">
+        {% if territoryno %}
+          {% include "map/subnav.html" %}
+        {% endif %}
+    {% endif %}
+      <div id="map">
+        <div class="container">
+
+          <!--
+          <div class="alert fade in  alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+            Successfully logged in as larry.
+          </div>
+          -->
+
+
+          <div class="map-container">
+            <div id="map-canvas">{% include "map/crosshair.html" %}
+
+            </div>
+            <div id="map-crosshair"><img src="{% static "img/map/crosshair.png" %}" title="Click to go to top of page." /></div>
+
+            <div id="position">
+              <a href="#" class="btn" id="refresh"><i class="icon-refresh"></i>Reload</a>
+
+              {% if user.is_authenticated %}
+                <a href="#" class="btn" id="addPlace"><i class="icon-plus"></i>Add Place</a>
+              {% endif %}
+
+              <a href="#" class="btn" id="listenForPositionUpdates"><i class="icon-road"></i>Track Position</a>
+
+              <span id="userposition" style="display: none">
+                <a href="#" class="btn" id="cancelTrack"><i class="icon-remove"></i>Cancel Tracking</a>
+                <span id="userpositionlatlng" style="display: none"><b>You:</b> <span id="userpositionlat"></span>,<span id="userpositionlng"></span></span>
+              </span>
+
+              <span id="crosshairposition">
+                <span id="crosshairpositionlatlng"><b>Crosshair:</b> <span id="crosshairlat"></span>,<span id="crosshairlng"></span></span>
+              </span>
+            </div>
+
+          </div>
+        </div><!-- container -->
+      </div>
+      <div id="placeName"></div>
+    {% if user.is_authenticated %}
+      </section>
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+      <section id="section-log">
+        <div id="log"></div>
+      </section>
+      {% if territoryno %}
+        <span style="page-break-before: always;"> </span>
+        <section id="section-list">
+          {% include "map/subnav.html" %}
+          <div id="list"></div>
+        </section>
+        
+        <span style="page-break-before: always;"> </span>
+        <section id="section-terr-instructions">
+          <div id="terr-instructions">
+            {% include "map/subnav.html" %}
+          </div>
+        </section>
+      {% endif %}
+    {% endif %}
+
+
+
+  </div>
+
+
+{% endblock %}
+
+
+{% block extra_body %}
+  <script type="text/javascript" src="{% static "bootstrap/js/bootstrap-modal.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/underscore.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/json2.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/backbone.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/backbone-tastypie.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/jquery.cookie.js" %}"></script>
+  <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+  {% include "map/edit-info-window-template.html" %}
+  {% include "map/info-window-template.html" %}
+
+  <script type="text/javascript" src="{% static "js/polygonEdit_packed.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/app.js" %}"></script>
+
+  <script type="text/javascript">
+      var territoryno = "{{ territoryno|default_if_none:"0" }}";
+      var zoom = 16; //{{zoom}}
+      var center = "10.001025,-84.134588"; //"{{center}}"
+
+      var preferences = new Preferences();
+      preferences.set('territoryno', territoryno);
+
+      preferences.setDefault('zoom', zoom);
+      preferences.setDefault('center', center);
+      preferences.setDefault('territoryno', territoryno);
+
+      var appData = new AppData({
+        userid: {{ user.id|default_if_none:0 }},
+        username: "{{ user.username|default_if_none:"" }}",
+        zoom: 16,
+        center: "10.001025,-84.134588"
+      });
+
+      DefaultParams.userid = {{ user.id|default_if_none:0 }}
+      DefaultParams.username = "{{ user.username|default_if_none:"" }}"
+      DefaultParams.usergroups = "{{ user.usergroups }}"
+      DefaultParams.userisstaff = {{ userisstaff }}
+      DefaultParams.userissuperuser = {{ userissuperuser }}
+      DefaultParams.api_key = "{{ api_key }}"
+      DefaultParams.territoryno = "{{ territoryno|default_if_none:"" }}"
+
+      $(function() {
+        new AppView({
+          el: '#app',
+          model: appData,
+          preferences: preferences
+        });
+      });
+
+      $(window).resize(function () {
+        var h = $(window).height(),
+          offsetTop = 60; // Calculate the top offset
+
+        $('#map-canvas').css('height', (h - offsetTop));
+      }).resize();
+
+
+
+  </script>
+{% endblock %}
